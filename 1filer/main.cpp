@@ -92,8 +92,7 @@ void loadBranches();
 void displayBranches();
 
  int main() {
- 	loadBranches();
- 	displayBranches();
+ 	addDepartment();
  	// int option = 0;
  	// cout << "\n=============================================" << endl;
  	// cout << "BANKAS INFORMĀCIJAS SISTĒMA" << endl;
@@ -160,16 +159,14 @@ void addDepartment() {
  		return;
  	}
 
-	 ofstream file(departmentsDB, ios::app);
+ 	ofstream file(departmentsDB, ios::app);
  	if (!file) {
  		cout << "Could not open file" << endl;
  		return;
  	}
 
  	Department department;
- 	//int id;
- 	//string name;
- 	//int branch_id;
+
  	cout << "\nIevadi nodaļas identifikatoru: ";
  	cin >> department.id;
  	cin.ignore();
@@ -193,8 +190,9 @@ void addDepartment() {
  	}
  	cin.ignore();
 
-
-
+ 	file << department.id << "|" << department.name << "|" << department.branch_id << endl;
+	file.close();
+	cout << "Nodaļas dati pievienoti veiksmīgi!" << endl;
 }
 
 //ielādē filiāles sarakstā
