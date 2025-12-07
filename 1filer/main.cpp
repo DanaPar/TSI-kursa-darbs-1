@@ -4,7 +4,7 @@
 #include <fstream>
 #include <sstream>
 using namespace std;
-const int MAX_BRANCHES = 100;
+const int MAX_COUNT = 100;
 //tiek definēti visi faili
 const string branchesDB = "branchesDB.txt";
 const string departmentsDB = "departmentsDB.txt";
@@ -82,17 +82,23 @@ struct Payment {
 
 //GLOBĀLIE DATU GLABĀTĀJI (MASĪVI)
 //globāls masīvs filiāļu glabāšanai
-Branch branchArray[MAX_BRANCHES];
+Branch branchArray[MAX_COUNT];
 int branchCount = 0;
+//Globāls masīvs nodaļu glabāšanai
+Department departmentArray[MAX_COUNT];
+int departmentCount = 0;
 
 //FUNKCIJU DEKLARĀCIJAS
 void addBranch();
 void addDepartment();
+void addEmployee();
 void loadBranches();
 void displayBranches();
+void loadDepartments();
+void displayDepartments();
 
  int main() {
- 	addDepartment();
+ 	addEmployee();
  	// int option = 0;
  	// cout << "\n=============================================" << endl;
  	// cout << "BANKAS INFORMĀCIJAS SISTĒMA" << endl;
@@ -195,6 +201,77 @@ void addDepartment() {
 	cout << "Nodaļas dati pievienoti veiksmīgi!" << endl;
 }
 
+void addEmployee() {
+	loadDepartments();
+
+ 	if(departmentCount == 0) {
+ 		cout << "Nav pievienota neviena nodaļa! Vispirms pievienojiet nodaļu!";
+ 		return;
+ 	}
+
+ 	ofstream file(employeesDB, ios::app);
+ 	if (!file) {
+ 		cout << "Could not open file" << endl;
+ 		return;
+ 	}
+
+ 	Employee employee;
+
+ 	cout << "\nIevadi darbinieka identifikatoru: ";
+ 	cin >> employee.id;
+ 	cin.ignore();
+ 	cout << "Ievadi darbinieka vārdu: ";
+ 	getline(cin, employee.name);
+ 	cout << "Ievadi darbinieka uzvārdu: ";
+ 	getline(cin, employee.surname);
+ 	cout << "Ievadi darbinieka amatu: ";
+ 	getline(cin, employee.position);
+
+	//nodaļas izvēle
+ 	displayDepartments();
+ 	int option;
+ 	bool valid_choice = false;
+ 	while(!valid_choice) {
+ 		cout << "Izvēlies kurai nodaļai pieder šis darbinieks (izvēlies atbilstošo numuru 1 - " << departmentCount << "): ";
+ 		cin >> option;
+
+ 		if (option >= 1 && option <= departmentCount) {
+ 			employee.department_id = departmentArray[option - 1].id;
+ 			valid_choice = true;
+ 		}
+ 		else {
+ 			cout << "Nederīga izvēle, ievadi numuru no 1 līdz " << departmentCount << endl;
+ 		}
+ 	}
+ 	cin.ignore();
+
+	//access level piešķiršana
+ 	int access_option;
+ 	valid_choice = false;
+ 	while(!valid_choice) {
+ 		cout << "Izvēlies piekļuves līmeni:" << endl
+		<< "0: GUEST," << endl
+		<< "1: BASIC_USER" << endl
+		<< "2: ADMIN" << endl
+		<< "3: SUPER_ADMIN" << endl;
+ 		cin >> access_option;
+ 		if(access_option >= 0 && access_option <=3) {
+ 			employee.access_level = static_cast<AccessLevel>(access_option);
+ 			valid_choice = true;
+ 		}
+ 		else {
+ 			cout << "Nederīga izvēle, ievadi numuru no 0 līdz 3" << endl;
+ 		}
+ 	}
+	cin.ignore();
+
+ 	file << employee.id << "|" << employee.name << "|" << employee.surname << "|" << employee.department_id << "|" << employee.position << "|" << employee.access_level << endl;
+	file.close();
+ 	cout << "Darbinieka dati veiksmīgi pievienoti!";
+
+}
+
+
 //ielādē filiāles sarakstā
 void loadBranches() {
 	ifstream file(branchesDB);
@@ -203,7 +280,7 @@ void loadBranches() {
  		return;
  	}
  	string line;
- 	while(getline(file,line) && branchCount < MAX_BRANCHES) {
+ 	while(getline(file,line) && branchCount < MAX_COUNT) {
  		stringstream ss(line);
 
  		int temp_id;
@@ -238,8 +315,6 @@ void loadBranches() {
  	file.close();
 }
 
-
-
 //parāda filiāles kā numurētu sarakstu
 void displayBranches() {
  	cout << "\n --- Pieejamās filiāles: " << branchCount << endl;
@@ -255,8 +330,74 @@ void displayBranches() {
  	cout << "--------------------------------" << endl;
  }
 
+void loadDepartments() {
+	ifstream file(departmentsDB);
+ 	departmentCount = 0;
+ 	if(!file) {
+ 		return;
+ 	}
 
+ 	string line;
+ 	while(getline(file,line) && departmentCount < MAX_COUNT) {
+ 		stringstream ss(line);
 
+ 		int temp_id;
+ 		string temp_name;
+ 		int temp_branch_id;
+ 		char seperator;
+
+ 		if (!(ss >> temp_id)) {
+ 			//ja neizdodas nolasīšana, pāriet uz nākamo līniju
+ 			continue;
+ 		}
+
+ 		if (!(ss >> seperator) || seperator != '|') {
+ 			continue;
+ 		}
+
+ 		if (!getline(ss, temp_name, '|')) {
+ 			continue;
+ 		}
+
+ 		if(!(ss >> temp_branch_id)) {
+ 			continue;
+ 		}
+
+ 		//ja visas daļas veiksmīgi nolasītas:
+ 		departmentArray[departmentCount].id = temp_id;
+ 		departmentArray[departmentCount].name = temp_name;
+ 		departmentArray[departmentCount].branch_id = temp_branch_id;
+
+ 		departmentCount++;
+ 	}
+ 	file.close();
+}
+
+void displayDepartments() {
+ 	loadDepartments(); //ieladē nodaļas
+ 	loadBranches(); //ielādē filiāles, aizpildot branchArray (nepieciešams nosaukumiem
+ 	cout << "\n --- Pieejamās nodaļas: " << departmentCount << endl;
+ 	if (departmentCount == 0) {
+ 		cout << "Nav nevienas ielādētas nodaļas" << endl;
+ 		return;
+ 	}
+
+ 	for (int i = 0; i < departmentCount; i++) {
+ 		//(i + 1) lietotāja izvēles numurs
+ 		cout << (i + 1) << ". " << departmentArray[i].name << " (ID: " << departmentArray[i].id << ")";
+
+ 		//papildus parāda kurai filiālei pieder
+ 		string branchName = "Nav atrasts";
+ 		for (int j = 0; j < branchCount; j++) {
+ 			if (branchArray[j].id == departmentArray[i].branch_id) {
+ 				branchName = branchArray[j].name;
+ 				break;
+ 			}
+ 		}
+ 		cout << ", Filiāle: " << branchName << ")" << endl;
+ 	}
+ 	cout << "--------------------------------" << endl;
+}
 
 
 
