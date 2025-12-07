@@ -57,8 +57,9 @@ struct Employee {
 
 struct Client {
 	int id;
-	char name[20];
-	char surname[20];
+	string name;
+	string surname;
+	int branch_id;
 	enum ClientType type;;
 };
 
@@ -92,13 +93,16 @@ int departmentCount = 0;
 void addBranch();
 void addDepartment();
 void addEmployee();
+void addClient();
+void addAccount();
+void addPayment();
 void loadBranches();
 void displayBranches();
 void loadDepartments();
 void displayDepartments();
 
- int main() {
- 	addEmployee();
+int main() {
+ 	addClient();
  	// int option = 0;
  	// cout << "\n=============================================" << endl;
  	// cout << "BANKAS INFORMĀCIJAS SISTĒMA" << endl;
@@ -271,7 +275,69 @@ void addEmployee() {
 
 }
 
+void addClient() {
+	loadBranches();
+	//nodaļas nevar pastāvēt bez filiāles
+	if(branchCount == 0) {
+		cout << "Nav pievienota neviena filiāle! Vispirms pievienojiet filiāli!";
+		return;
+	}
 
+	ofstream file(clientsDB, ios::app);
+	if (!file) {
+		cout << "Could not open file" << endl;
+		return;
+	}
+
+	Client client;
+
+	cout << "\nIevadi klienta identifikatoru: ";
+	cin >> client.id;
+	cin.ignore();
+	cout << "Ievadi klienta vārdu: ";
+	getline(cin, client.name);
+	cout << "Ievadi klienta uzvārdu: ";
+	getline(cin, client.surname);
+
+	displayBranches();
+	int option;
+	bool valid_choice = false;
+	while (!valid_choice) {
+		cout << "Izvēlies kurai filiālei pieder šis klients (izvēlies atbilstošo numuru 1 - " << branchCount << "): ";
+		cin >> option;
+
+		if (option >= 1 && option <= branchCount) {
+			client.branch_id = branchArray[option - 1].id;
+			valid_choice = true;
+		}
+		else {
+			cout << "Nederīga izvēle, ievadi numuru no 1 līdz " << branchCount << endl;
+		}
+	}
+	cin.ignore();
+
+	int client_type_option;
+	valid_choice = false;
+	while(!valid_choice) {
+		cout << "Izvēlies klienta tipu:" << endl
+	   << "0: PRIVATE (Privātpersona)" << endl
+	   << "1: CORPORATE (Uzņēmums)" << endl;
+		cin >> client_type_option;
+		if(client_type_option == 0 || client_type_option == 1) {
+			client.type = static_cast<ClientType>(client_type_option);
+			valid_choice = true;
+		}
+		else {
+			cout << "Nederīga izvēle, ievadi numuru 0 vai 1" << endl;
+		}
+	}
+	cin.ignore();
+
+	file << client.id << "|" << client.name << "|" << client.surname << "|" << client.branch_id << "|" << client.type << endl;
+	file.close();
+	cout << "Klienta dati pievienoti veiksmīgi!" << endl;
+
+}
 //ielādē filiāles sarakstā
 void loadBranches() {
 	ifstream file(branchesDB);
