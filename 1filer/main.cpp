@@ -64,19 +64,16 @@ struct Client {
 };
 
 struct Account {
-	char account_number[20]; //pēc tam noteiksim vajadzīgo skaitu
+	string account_number;
 	int owner_id;
 	double balance;
-	char currency[3];
-	char type; //ToDO aizvietot ar enumu vai ko tādu
-	//account type
 };
 
 struct Payment {
 	long id;
 	float amount;
-	char payerAccNr[20];
-	char receiverAccNr[20];
+	string payerAccNr;
+	string receiverAccNr;
 	string detailsOfPayment;
 	struct Date date;
 };
@@ -88,6 +85,9 @@ int branchCount = 0;
 //Globāls masīvs nodaļu glabāšanai
 Department departmentArray[MAX_COUNT];
 int departmentCount = 0;
+//gobāls masīvs klientu glabāšanai
+Client clientArray[MAX_COUNT];
+int clientCount = 0;
 
 //FUNKCIJU DEKLARĀCIJAS
 void addBranch();
@@ -100,9 +100,11 @@ void loadBranches();
 void displayBranches();
 void loadDepartments();
 void displayDepartments();
+void loadClients();
+void displayClients();
 
 int main() {
- 	addClient();
+ 	addAccount();
  	// int option = 0;
  	// cout << "\n=============================================" << endl;
  	// cout << "BANKAS INFORMĀCIJAS SISTĒMA" << endl;
@@ -338,6 +340,50 @@ void addClient() {
 	cout << "Klienta dati pievienoti veiksmīgi!" << endl;
 
 }
+
+void addAccount() {
+	loadClients();
+	if(clientCount == 0) {
+		cout << "Nav pievienots neviens klients! Vispirms pievienojiet klientu!";
+		return;
+	}
+
+	ofstream file(accountsDB, ios::app);
+	if (!file) {
+		cout << "Could not open file" << endl;
+		return;
+	}
+
+	Account account;
+
+	cout << "\nIevadiet konta numuru: ";
+	getline(cin, account.account_number);
+
+	displayClients();
+	int option;
+	bool valid_choice = false;
+	while (!valid_choice) {
+		cout << "Izvēlies kuram klientam pieder šis konts (izvēlies atbilstošo numuru 1 - " << clientCount << "): ";
+		cin >> option;
+
+		if (option >= 1 && option <= clientCount) {
+			account.owner_id = clientArray[option - 1].id;
+			valid_choice = true;
+		}
+		else {
+			cout << "Nederīga izvēle, ievadi numuru no 1 līdz " << branchCount << endl;
+		}
+	}
+	cin.ignore();
+
+	cout << "Ievadi starta balansu: ";
+	cin >> account.balance;
+	cin.ignore();
+
+	file << account.account_number << "|" << account.owner_id << "|" << account.balance << endl;
+	file.close();
+	cout << "Konta informācija veiksmīgi pievienota!";
+}
 //ielādē filiāles sarakstā
 void loadBranches() {
 	ifstream file(branchesDB);
@@ -465,84 +511,66 @@ void displayDepartments() {
  	cout << "--------------------------------" << endl;
 }
 
+void loadClients() {
+	ifstream file(clientsDB);
+	clientCount = 0;
+	if(!file) {
+		return;
+	}
+	string line;
+	while(getline(file,line) && clientCount < MAX_COUNT) {
+		stringstream ss(line);
 
+		int temp_id;
+		string temp_name;
+		string temp_surname;
+		int temp_branch_id;
+		int temp_type;
+		char seperator;
 
+		if (!(ss >> temp_id) || !(ss >> seperator) || seperator != '|') {
+			continue;
+		}
 
+		if (!getline(ss, temp_name, '|')) {
+			continue;
+		}
 
+		if (!getline(ss, temp_surname, '|')) {
+			continue;
+		}
 
+		if (!(ss >> temp_branch_id) || !(ss >> seperator) || seperator != '|') {
+			continue;
+		}
 
+		if(!(ss >> temp_type)) {
+			continue;
+		}
 
+		clientArray[clientCount].id = temp_id;
+		clientArray[clientCount].name = temp_name;
+		clientArray[clientCount].surname = temp_surname;
+		clientArray[clientCount].branch_id = temp_branch_id;
+		clientArray[clientCount].type = static_cast<ClientType>(temp_type);
 
+		clientCount++;
+	}
+	file.close();
+}
 
+void displayClients() {
+	loadClients();
+	cout << "\n --- Pieejamie klienti: " << clientCount << endl;
+	if (clientCount == 0) {
+		cout << "Nav neviena klienta" << endl;
+		return;
+	}
 
-// void view() {
-// 	ifstream file(FILENAME);
-// 	if (!file) {
-// 		cout << "Could not open file" << endl;
-// 		return;
-// 	}
-//
-// 	cout << endl;
-// 	cout << left << setw(6) << setfill(' ') << "NR";
-// 	cout << left << setw(17) << setfill(' ') << "DEPARTMENT NAME";
-// 	cout << left << setw(17) << setfill(' ') << "PATIENTS" << endl;
-// 	string line;
-// 	while (getline(file, line)) {
-// 		stringstream ss(line);
-// 		string token;
-// 		Department department;
-//
-// 		if (getline(ss, token, ',')) {
-// 			department.depNum = stoi(token);
-// 		}
-// 		if (getline(ss, token, ',')) {
-// 			department.depName = token;
-// 		}
-// 		if (getline(ss, token)) {
-// 			department.patients = stoi(token);
-// 		}
-//
-// 		cout << left << setw(6) << setfill(' ') << department.depNum;
-// 		cout << left << setw(17) << setfill(' ') << department.depName;
-// 		cout << left << setw(17) << setfill(' ') << department.patients << endl;
-// 	}
-// 	file.close();
-// }
-
-// void search() {
-// 	ifstream file(FILENAME);
-// 	if (!file) {
-// 		cout << "Could not open file" << endl;
-// 		return;
-// 	}
-//
-// 	string searchName;
-// 	cout << "\nEnter department name to find: ";
-// 	cin >> searchName;
-// 	cin.ignore();
-//
-// 	string line;
-// 	while (getline(file, line)) {
-// 		stringstream ss(line);
-// 		string token;
-// 		Department department;
-//
-// 		if (getline(ss, token, ',')) {
-// 			department.depNum = stoi(token);
-// 		}
-// 		if (getline(ss, token, ',')) {
-// 			department.depName = token;
-// 		}
-// 		if (getline(ss, token)) {
-// 			department.patients = stoi(token);
-// 		}
-//
-// 		if (department.depName == searchName) {
-// 			cout << "Department " << searchName << " has " << department.patients << " patients" << endl;
-// 			file.close();
-// 			return;
-// 		}
-// 	}
-// 	file.close();
-// 	cout << "Department with name " << searchName << " doesnt exist!" << endl;
-// }
+	for (int i = 0; i < clientCount; i++) {
+		string clientTypeStr = (clientArray[i].type == PRIVATE) ? "Privātpersona" : "Uzņēmums";
+		//(i + 1) lietotāja izvēles numurs
+		cout << (i + 1) << ". " << clientArray[i].name << " " << clientArray[i].surname << " (ID: " << clientArray[i].id << ", Tips: " << clientTypeStr << ")" << endl;
+	}
+	cout << "--------------------------------" << endl;
+}
