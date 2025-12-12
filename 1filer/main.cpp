@@ -110,13 +110,12 @@ void displayDepartments();
 void displayClients();
 
 string generateAccountNumber();
-bool isNumberUnique();
+bool isAccountNumberUnique(const string& accountNumber);
 
 int main() {
 	while(true) {
 		addAccount();
 	}
-
  }
 
 void addBranch() {
@@ -566,7 +565,7 @@ string generateAccountNumber() {
 	string newAccountNumber;
 
 	//sākas cikls, kas turpinas līdz numurs ir unikāls
-	//do {
+	do {
 		//ģenerē kontroles skaitli
 		int controlDigitsInt = (rand() % 90) + 10;
 		string controlDigits = to_string(controlDigitsInt);
@@ -577,10 +576,32 @@ string generateAccountNumber() {
 		}
 		string localAccountNumber = localAcc.str();
 		newAccountNumber = countryCode + controlDigits + bankCode + localAccountNumber;
-	// }
-	// while (!isAccountNumberUnique(newAccountNumber));
+	 }
+	while (!isAccountNumberUnique(newAccountNumber));
 
 	return newAccountNumber;
 }
 
+bool isAccountNumberUnique(const string& accountNumber) {
+	ifstream file(accountsDB);
+	//ja failu nevar atvērt pieņemam ka tas ir tukšs un pievienojam pirmo kontu
+	if (!file) {
+		return true;
+	}
 
+	string line;
+	while (getline(file, line)) {
+		stringstream ss(line);
+		string fileAccountNumber;
+
+		// Mēģinām nolasīt konta numuru līdz pirmajam atdalītājam '|'
+		if (getline(ss, fileAccountNumber, '|')) {
+			if (fileAccountNumber == accountNumber) {
+				file.close();
+				return false; // Konta numurs NAV unikāls (atrasts failā)
+			}
+		}
+	}
+	file.close();
+	return true;
+}
