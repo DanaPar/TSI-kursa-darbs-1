@@ -122,10 +122,10 @@ void displayClients();
 void displayAccounts();
 void displayPayments(); //ToDo
 
-void editBranch(); //ToDo
-void editDepartment(); //ToDo
-void editEmployee(); //ToDo
-void editClient(); //ToDo
+void editBranch();
+void editDepartment();
+void editEmployee();
+void editClient();
 void editAccount(); //ToDo
 void editPayment(); //ToDo
 
@@ -136,7 +136,7 @@ int main() {
 	// while(true) {
 	// 	addAccount();
 	// }
-	editDepartment();
+	editClient();
  }
 
 void addBranch() {
@@ -805,6 +805,221 @@ void editDepartment() {
 	cout << "Nodaļas dati veiksmīgi atjaunināti!" << endl;
 }
 
+void editEmployee() {
+	loadEmployees();
+	loadDepartments();
+	if (employeeCount == 0) {
+		cout << "Nav neviena darbinieka, ko labot!" << endl;
+		return;
+	}
+	displayEmployees();
+
+	int option;
+	cout << "Ievadiet darbinieka numuru, kuru vēlaties labot (1 - " << employeeCount << "): ";
+	if (!(cin >> option) || option < 1 || option > employeeCount) {
+		cout << "Nederīga izvēle." << endl;
+		cin.clear();
+		cin.ignore(numeric_limits<streamsize>::max(), '\n');
+		return;
+	}
+	cin.ignore();
+
+	Employee& employee = employeeArray[option - 1];
+	string newName, newSurname, newPosition;
+
+	cout << "\nLabot Darbinieku: " << employee.name << " " << employee.surname << " (ID: " << employee.id << ")" << endl;
+	cout << "Ievadiet jauno vārdu (pašreizējais: " << employee.name << "): ";
+	getline(cin, newName);
+	if(!newName.empty()) {
+		employee.name = newName;
+	}
+	cout << "Ievadiet jauno uzvārdu (pašreizējais: " << employee.surname << "): ";
+	getline(cin, newSurname);
+	if(!newSurname.empty()) {
+		employee.surname = newSurname;
+	}
+	cout << "Ievadiet jauno amatu (pašreizējais: " << employee.position << "): ";
+	getline(cin, newPosition);
+	if(!newPosition.empty()) {
+		employee.position = newPosition;
+	}
+
+	// Nodaļas izvēles atjaunošana
+	if (departmentCount > 0) {
+		displayDepartments();
+		string newDepartment;
+		cout << "Izvēlies jauno nodaļu (1 - " << departmentCount << "), vai atstāj tukšu lai paturētu esošo:";
+		getline(cin, newDepartment);
+
+
+		if (!newDepartment.empty()) {
+			int department_option;
+
+			stringstream ss(newDepartment);
+
+			if (ss >> department_option && ss.eof()) {
+
+				if (department_option >= 1 && department_option <= branchCount) {
+					employee.department_id = departmentArray[department_option - 1].id;
+					cout << "Nodaļa veiksmīgi atjaunināta." << endl;
+				} else {
+					cout << "Nederīga izvēle (skaitlis ārpus diapazona). Pašreizējā nodaļa saglabāta." << endl;
+				}
+			} else {
+				cout << "Nederīga ievade. Pašreizējā nodaļa saglabāta." << endl;
+			}
+		} else {
+			// Tukša ievade
+			cout << "Pašreizējā nodaļa saglabāta." << endl;
+		}
+	}
+
+	// Piekļuves līmeņa atjaunošana
+	string newAccessLevel;
+	cout << "Izvēlies jauno piekļuves līmeni (pašreizējais: " << employee.access_level << "). Atstāj tukšu, lai paturētu esošo:" << endl
+		 << "0: GUEST, 1: BASIC_USER, 2: ADMIN, 3: SUPER_ADMIN" << endl;
+
+	getline(cin, newAccessLevel);
+
+	if (!newAccessLevel.empty()) {
+		int access_option;
+		stringstream ss(newAccessLevel);
+
+		if (ss >> access_option && ss.eof()) {
+
+			if (access_option >= 0 && access_option <= 3) {
+				employee.access_level = static_cast<AccessLevel>(access_option);
+				cout << "Piekļuves līmenis veiksmīgi atjaunināts uz: " << access_option << endl;
+			} else {
+				cout << "Nederīga izvēle (skaitlis ārpus diapazona [0-3]). Pašreizējais līmenis saglabāts." << endl;
+			}
+		} else {
+			cout << "Nederīga ievade. Pašreizējais līmenis saglabāts." << endl;
+		}
+	} else {
+		// Tukša ievade
+		cout << "Pašreizējais piekļuves līmenis saglabāts." << endl;
+	}
+
+	// Pārraksta visu failu
+	ofstream file(employeesDB, ios::trunc);
+	if (!file) {
+		cout << "Kļūda atverot failu rakstīšanai!" << endl;
+		return;
+	}
+
+	for (int i = 0; i < employeeCount; i++) {
+		file << employeeArray[i].id << "|" << employeeArray[i].name << "|" << employeeArray[i].surname
+			 << "|" << employeeArray[i].department_id << "|" << employeeArray[i].position
+			 << "|" << employeeArray[i].access_level << endl;
+	}
+	file.close();
+	cout << "Darbinieka dati veiksmīgi atjaunināti!" << endl;
+}
+
+void editClient() {
+	loadClients();
+	loadBranches();
+	if (clientCount == 0) {
+		cout << "Nav neviena klienta, ko labot!" << endl;
+		return;
+	}
+	displayClients();
+
+	int option;
+	cout << "Ievadiet klienta numuru, kuru vēlaties labot (1 - " << clientCount << "): ";
+	if (!(cin >> option) || option < 1 || option > clientCount) {
+		cout << "Nederīga izvēle." << endl;
+		cin.clear();
+		cin.ignore(numeric_limits<streamsize>::max(), '\n');
+		return;
+	}
+	cin.ignore();
+
+	Client& client = clientArray[option - 1];
+	string newName, newSurname;
+
+	cout << "\nLabot Klientu: " << client.name << " " << client.surname << " (ID: " << client.id << ")" << endl;
+	cout << "Ievadiet jauno vārdu (pašreizējais: " << client.name << "): ";
+	getline(cin, newName);
+	if(!newName.empty()) {
+		client.name = newName;
+	}
+	cout << "Ievadiet jauno uzvārdu (pašreizējais: " << client.surname << "): ";
+	getline(cin, newSurname);
+	if(!newSurname.empty()) {
+		client.surname = newSurname;
+	}
+
+	// Filiāles izvēles atjaunošana
+	if (branchCount > 0) {
+		displayBranches();
+		string newBranch;
+		cout << "Izvēlies jauno filiāli (1 - " << branchCount << "), vai atstāj tukšu lai paturētu esošo:";
+		getline(cin, newBranch);
+
+
+		if (!newBranch.empty()) {
+			int branch_option;
+
+			stringstream ss(newBranch);
+
+			if (ss >> branch_option && ss.eof()) {
+
+				if (branch_option >= 1 && branch_option <= branchCount) {
+					client.branch_id = branchArray[branch_option - 1].id;
+					cout << "Filiāle veiksmīgi atjaunināta." << endl;
+				} else {
+					cout << "Nederīga izvēle (skaitlis ārpus diapazona). Pašreizējā filiāle saglabāta." << endl;
+				}
+			} else {
+				// Konvertēšana neizdevās (ievade nebija skaitlis)
+				cout << "Nederīga ievade. Pašreizējā filiāle saglabāta." << endl;
+			}
+		} else {
+			// Tukša ievade
+			cout << "Pašreizējā filiāle saglabāta." << endl;
+		}
+	}
+
+	// Klienta tipa atjaunošana
+	string newClientType;
+	cout << "Izvēlies jauno klienta tipu (pašreizējais: " << client.type << "):" << endl << "0: PRIVATE (Privātpersona), 1: CORPORATE (Uzņēmums)" << endl;
+	getline(cin, newClientType);
+	if (!newClientType.empty()) {
+		int type_option;
+		stringstream ss(newClientType);
+
+		if (ss >> type_option && ss.eof()) {
+
+			if (type_option >= 0 && type_option <= 3) {
+				client.type = static_cast<ClientType>(type_option);
+				cout << "Klienta veiksmīgi atjaunināts uz: " << type_option << endl;
+			} else {
+				cout << "Nederīga izvēle (skaitlis ārpus diapazona [0-1]). Pašreizējais veids saglabāts." << endl;
+			}
+		} else {
+			cout << "Nederīga ievade. Pašreizējais veids saglabāts." << endl;
+		}
+	} else {
+		// Tukša ievade
+		cout << "Pašreizējais veids saglabāts." << endl;
+	}
+
+	// Pārraksta visu failu
+	ofstream file(clientsDB, ios::trunc);
+	if (!file) {
+		cout << "Kļūda atverot failu rakstīšanai!" << endl;
+		return;
+	}
+
+	for (int i = 0; i < clientCount; i++) {
+		file << clientArray[i].id << "|" << clientArray[i].name << "|" << clientArray[i].surname
+			 << "|" << clientArray[i].branch_id << "|" << clientArray[i].type << endl;
+	}
+	file.close();
+	cout << "Klienta dati veiksmīgi atjaunināti!" << endl;
+}
 
 string generateAccountNumber() {
 	static bool seeded = false;
