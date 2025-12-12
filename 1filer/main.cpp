@@ -129,7 +129,6 @@ void editClient(); //ToDo
 void editAccount(); //ToDo
 void editPayment(); //ToDo
 
-
 string generateAccountNumber();
 bool isAccountNumberUnique(const string& accountNumber);
 
@@ -137,7 +136,7 @@ int main() {
 	// while(true) {
 	// 	addAccount();
 	// }
-	displayAccounts();
+	editDepartment();
  }
 
 void addBranch() {
@@ -682,6 +681,130 @@ void displayAccounts() {
 	}
 	cout << "--------------------------------" << endl;
 }
+
+void editBranch() {
+	loadBranches();
+	if (branchCount == 0) {
+		cout << "Nav nevienas filiāles, ko labot!" << endl;
+		return;
+	}
+	displayBranches();
+
+	int option;
+	cout << "Ievadiet filiāles numuru, kuru vēlaties labot (1 - " << branchCount << "): ";
+	if (!(cin >> option) || option < 1 || option > branchCount) {
+		cout << "Nederīga izvēle." << endl;
+		cin.clear();
+		cin.ignore(numeric_limits<streamsize>::max(), '\n');
+		return;
+	}
+	cin.ignore();
+
+	Branch& branch = branchArray[option - 1]; // Atsauce uz elementu
+	string newName, newAddress;
+
+	cout << "\nLabot Filiāli: " << branch.name << " (ID: " << branch.id << ")" << endl;
+	cout << "Ievadiet jauno filiāles nosaukumu (pašreizējais: " << branch.name << "): ";
+	getline(cin, newName);
+	if(!newName.empty()) {
+		branch.name = newName;
+	}
+	cout << "Ievadiet jauno filiāles adresi (pašreizējā: " << branch.address << "): ";
+	getline(cin, newAddress);
+	if(!newAddress.empty()) {
+		branch.address = newAddress;
+	}
+	// Pārraksta visu failu
+	ofstream file(branchesDB, ios::trunc);
+	if (!file) {
+		cout << "Kļūda atverot failu rakstīšanai!" << endl;
+		return;
+	}
+
+	for (int i = 0; i < branchCount; i++) {
+		file << branchArray[i].id << "|" << branchArray[i].name << "|" << branchArray[i].address << endl;
+	}
+	file.close();
+	cout << "Filiāles dati veiksmīgi atjaunināti!" << endl;
+}
+
+void editDepartment() {
+	loadDepartments();
+	loadBranches();
+	if (departmentCount == 0) {
+		cout << "Nav nevienas nodaļas, ko labot!" << endl;
+		return;
+	}
+	displayDepartments();
+
+	int option;
+	cout << "Ievadiet nodaļas numuru, kuru vēlaties labot (1 - " << departmentCount << "): ";
+	if (!(cin >> option) || option < 1 || option > departmentCount) {
+		cout << "Nederīga izvēle." << endl;
+		cin.clear();
+		cin.ignore(numeric_limits<streamsize>::max(), '\n');
+		return;
+	}
+	cin.ignore();
+
+	Department& department = departmentArray[option - 1];
+	string newName;
+
+	cout << "\nLabot Nodaļu: " << department.name << " (ID: " << department.id << ")" << endl;
+	cout << "Ievadiet jauno nodaļas nosaukumu (pašreizējais: " << department.name << "): ";
+	getline(cin, newName);
+	if(!newName.empty()) {
+		department.name = newName;
+	}
+
+	// Filiāles izvēles atjaunošana (ja nepieciešams)
+	if (branchCount > 0) {
+		displayBranches();
+		string newBranch;
+		cout << "Izvēlies jauno filiāli (1 - " << branchCount << "), vai atstāj tukšu lai paturētu esošo:";
+		getline(cin, newBranch);
+
+
+		if (!newBranch.empty()) {
+			int branch_option;
+
+			// Izmantojam stringstream, lai mēģinātu nolasīt int no virknes
+			stringstream ss(newBranch);
+
+			// Pārbaude: Vai ss var pilnībā nolasīt skaitli 'branch_option'?
+			// Un vai pēc skaitļa nav palikušas vēl kādas rakstzīmes (kas norādītu uz nederīgu ievadi, piemēram, "12a")?
+			if (ss >> branch_option && ss.eof()) {
+
+				if (branch_option >= 1 && branch_option <= branchCount) {
+					department.branch_id = branchArray[branch_option - 1].id;
+					cout << "Filiāle veiksmīgi atjaunināta." << endl;
+				} else {
+					cout << "Nederīga izvēle (skaitlis ārpus diapazona). Pašreizējā filiāle saglabāta." << endl;
+				}
+			} else {
+				// Konvertēšana neizdevās (ievade nebija skaitlis)
+				cout << "Nederīga ievade. Pašreizējā filiāle saglabāta." << endl;
+			}
+		} else {
+			// Tukša ievade
+			cout << "Pašreizējā filiāle saglabāta." << endl;
+		}
+	}
+
+	// Pārraksta visu failu
+	ofstream file(departmentsDB, ios::trunc);
+	if (!file) {
+		cout << "Kļūda atverot failu rakstīšanai!" << endl;
+		return;
+	}
+
+	for (int i = 0; i < departmentCount; i++) {
+		file << departmentArray[i].id << "|" << departmentArray[i].name << "|" << departmentArray[i].branch_id << endl;
+	}
+	file.close();
+	cout << "Nodaļas dati veiksmīgi atjaunināti!" << endl;
+}
+
 
 string generateAccountNumber() {
 	static bool seeded = false;
