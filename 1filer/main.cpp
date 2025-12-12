@@ -81,41 +81,63 @@ struct Payment {
 };
 
 //GLOBĀLIE DATU GLABĀTĀJI (MASĪVI)
-//globāls masīvs filiāļu glabāšanai
+
 Branch branchArray[MAX_COUNT];
 int branchCount = 0;
-//Globāls masīvs nodaļu glabāšanai
+
 Department departmentArray[MAX_COUNT];
 int departmentCount = 0;
-//gobāls masīvs klientu glabāšanai
+
+Employee employeeArray[MAX_COUNT];
+int employeeCount = 0;
+
 Client clientArray[MAX_COUNT];
 int clientCount = 0;
-//globāls masīvs priekš kontiem
+
 Account accountArray[MAX_COUNT];
 int accountCount = 0;
+
+Payment paymentArray[MAX_COUNT];
+int paymentCount = 0;
+
 //FUNKCIJU DEKLARĀCIJAS
 void addBranch();
 void addDepartment();
 void addEmployee();
 void addClient();
 void addAccount();
+void addPayment(); //ToDo create function
 
 void loadBranches();
 void loadDepartments();
+void loadEmployees();
 void loadClients();
 void loadAccounts();
+void loadPayments(); //ToDo create
 
 void displayBranches();
 void displayDepartments();
+void displayEmployees();
 void displayClients();
+void displayAccounts();
+void displayPayments(); //ToDo
+
+void editBranch(); //ToDo
+void editDepartment(); //ToDo
+void editEmployee(); //ToDo
+void editClient(); //ToDo
+void editAccount(); //ToDo
+void editPayment(); //ToDo
+
 
 string generateAccountNumber();
 bool isAccountNumberUnique(const string& accountNumber);
 
 int main() {
-	while(true) {
-		addAccount();
-	}
+	// while(true) {
+	// 	addAccount();
+	// }
+	displayAccounts();
  }
 
 void addBranch() {
@@ -449,6 +471,43 @@ void loadDepartments() {
 	file.close();
 }
 
+void loadEmployees() {
+	ifstream file(employeesDB);
+	employeeCount = 0;
+	if(!file) {
+		return;
+	}
+	string line;
+	while(getline(file,line) && employeeCount < MAX_COUNT) {
+		stringstream ss(line);
+		int temp_id;
+		string temp_name;
+		string temp_surname;
+		int temp_department_id;
+		string temp_position;
+		int temp_access_level;
+		char seperator;
+
+		// Ielādes loģika no faila, pārbaudot atdalītājus '|'
+		if (!(ss >> temp_id) || !(ss >> seperator) || seperator != '|') continue;
+		if (!getline(ss, temp_name, '|')) continue;
+		if (!getline(ss, temp_surname, '|')) continue;
+		if (!(ss >> temp_department_id) || !(ss >> seperator) || seperator != '|') continue;
+		if (!getline(ss, temp_position, '|')) continue;
+		if (!(ss >> temp_access_level)) continue;
+
+		employeeArray[employeeCount].id = temp_id;
+		employeeArray[employeeCount].name = temp_name;
+		employeeArray[employeeCount].surname = temp_surname;
+		employeeArray[employeeCount].department_id = temp_department_id;
+		employeeArray[employeeCount].position = temp_position;
+		employeeArray[employeeCount].access_level = static_cast<AccessLevel>(temp_access_level);
+
+		employeeCount++;
+	}
+	file.close();
+}
+
 void loadClients() {
 	ifstream file(clientsDB);
 	clientCount = 0;
@@ -497,8 +556,36 @@ void loadClients() {
 	file.close();
 }
 
+void loadAccounts() {
+	ifstream file(accountsDB);
+	accountCount = 0;
+	if(!file) {
+		return;
+	}
+	string line;
+	while(getline(file,line) && accountCount < MAX_COUNT) {
+		stringstream ss(line);
+		string temp_acc_nr;
+		int temp_owner_id;
+		double temp_balance;
+		char seperator;
+
+		// Ielādes loģika no faila, pārbaudot atdalītājus '|'
+		if (!getline(ss, temp_acc_nr, '|')) continue;
+		if (!(ss >> temp_owner_id) || !(ss >> seperator) || seperator != '|') continue;
+		if (!(ss >> temp_balance)) continue;
+
+		accountArray[accountCount].account_number = temp_acc_nr;
+		accountArray[accountCount].owner_id = temp_owner_id;
+		accountArray[accountCount].balance = temp_balance;
+
+		accountCount++;
+	}
+	file.close();
+}
 //parāda filiāles kā numurētu sarakstu
 void displayBranches() {
+	loadBranches();
  	cout << "\n --- Pieejamās filiāles: " << branchCount << endl;
  	if (branchCount == 0) {
  		cout << "Nav nevienas ielādētas filiāles" << endl;
@@ -538,6 +625,32 @@ void displayDepartments() {
  	cout << "--------------------------------" << endl;
 }
 
+void displayEmployees() {
+	loadEmployees();
+	cout << "\n --- Pieejamie darbinieki: " << employeeCount << endl;
+	if (employeeCount == 0) {
+		cout << "Nav neviena darbinieka" << endl;
+		return;
+	}
+
+	for (int i = 0; i < employeeCount; i++) {
+		// Konvertē enum uz lasāmu tekstu
+		string accessLevelStr;
+		switch(employeeArray[i].access_level) {
+			case GUEST: accessLevelStr = "GUEST"; break;
+			case BASIC_USER: accessLevelStr = "BASIC_USER"; break;
+			case ADMIN: accessLevelStr = "ADMIN"; break;
+			case SUPER_ADMIN: accessLevelStr = "SUPER_ADMIN"; break;
+			default: accessLevelStr = "Nezināms"; break;
+		}
+
+		cout << (i + 1) << ". " << employeeArray[i].name << " " << employeeArray[i].surname
+			 << " (ID: " << employeeArray[i].id << ", Amats: " << employeeArray[i].position
+			 << ", Piekļuves līmenis: " << accessLevelStr << ")" << endl;
+	}
+	cout << "--------------------------------" << endl;
+}
+
 void displayClients() {
 	loadClients();
 	cout << "\n --- Pieejamie klienti: " << clientCount << endl;
@@ -550,6 +663,22 @@ void displayClients() {
 		string clientTypeStr = (clientArray[i].type == PRIVATE) ? "Privātpersona" : "Uzņēmums";
 		//(i + 1) lietotāja izvēles numurs
 		cout << (i + 1) << ". " << clientArray[i].name << " " << clientArray[i].surname << " (ID: " << clientArray[i].id << ", Tips: " << clientTypeStr << ")" << endl;
+	}
+	cout << "--------------------------------" << endl;
+}
+
+void displayAccounts() {
+	loadAccounts();
+	cout << "\n --- Pieejamie konti: " << accountCount << endl;
+	if (accountCount == 0) {
+		cout << "Nav neviena konta" << endl;
+		return;
+	}
+
+	for (int i = 0; i < accountCount; i++) {
+		cout << (i + 1) << ". Konts Nr: " << accountArray[i].account_number
+			 << " (Klienta ID: " << accountArray[i].owner_id
+			 << ", Atlikums: " << fixed << setprecision(2) << accountArray[i].balance << " EUR)" << endl;
 	}
 	cout << "--------------------------------" << endl;
 }
