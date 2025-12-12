@@ -3,6 +3,8 @@
 #include <string>
 #include <fstream>
 #include <sstream>
+#include <cstdlib> //priekš rand() un srand()
+#include <ctime>
 using namespace std;
 const int MAX_COUNT = 100;
 //tiek definēti visi faili
@@ -88,54 +90,33 @@ int departmentCount = 0;
 //gobāls masīvs klientu glabāšanai
 Client clientArray[MAX_COUNT];
 int clientCount = 0;
-
+//globāls masīvs priekš kontiem
+Account accountArray[MAX_COUNT];
+int accountCount = 0;
 //FUNKCIJU DEKLARĀCIJAS
 void addBranch();
 void addDepartment();
 void addEmployee();
 void addClient();
 void addAccount();
-void addPayment();
+
 void loadBranches();
-void displayBranches();
 void loadDepartments();
-void displayDepartments();
 void loadClients();
+void loadAccounts();
+
+void displayBranches();
+void displayDepartments();
 void displayClients();
 
+string generateAccountNumber();
+bool isNumberUnique();
+
 int main() {
- 	addAccount();
- 	// int option = 0;
- 	// cout << "\n=============================================" << endl;
- 	// cout << "BANKAS INFORMĀCIJAS SISTĒMA" << endl;
- 	// cout << "=============================================" << endl;
- 	// while (true) {
- 	// 	cout << "1. Filiāļu un Nodaļu Pārvaldība" << endl;
- 	// 	cout << "2. Darbinieku Pārvaldība" << endl;
- 	// 	cout << "3. Klientu Pārvaldība" << endl;
- 	// 	cout << "4. Kontu Pārvaldība" << endl;
- 	// 	cout << "5. Maksājumu Pārvaldība" << endl;
- 	// 	cout << "6. Saglabāt Datus un Iziet" << endl;
- 	// 	cout << "Ievadiet izvēli: ";
- 	// 	cin >> option;
-	 //
- 	// 	if (option == 1) {
- 	// 		//add();
- 	// 	}
- 	// 	else if (option == 2) {
- 	// 		//view();
- 	// 	}
- 	// 	else if (option == 3) {
- 	// 		//search();
- 	// 	}
- 	// 	else if (option == 6) {
- 	// 		exit(0);
- 	// 	}
- 	// 	else {
- 	// 		cout << "Nepareiza izvēle. Izvēlies variantu no 1 līdz 6\n";
- 	// 	}
- 	// }
- 	return 0;
+	while(true) {
+		addAccount();
+	}
+
  }
 
 void addBranch() {
@@ -356,8 +337,7 @@ void addAccount() {
 
 	Account account;
 
-	cout << "\nIevadiet konta numuru: ";
-	getline(cin, account.account_number);
+	account.account_number = generateAccountNumber();
 
 	displayClients();
 	int option;
@@ -371,7 +351,7 @@ void addAccount() {
 			valid_choice = true;
 		}
 		else {
-			cout << "Nederīga izvēle, ievadi numuru no 1 līdz " << branchCount << endl;
+			cout << "Nederīga izvēle, ievadi numuru no 1 līdz " << clientCount << endl;
 		}
 	}
 	cin.ignore();
@@ -427,88 +407,47 @@ void loadBranches() {
  	file.close();
 }
 
-//parāda filiāles kā numurētu sarakstu
-void displayBranches() {
- 	cout << "\n --- Pieejamās filiāles: " << branchCount << endl;
- 	if (branchCount == 0) {
- 		cout << "Nav nevienas ielādētas filiāles" << endl;
- 		return;
- 	}
-
- 	for (int i = 0; i < branchCount; i++) {
- 		//(i + 1) lietotāja izvēles numurs
- 		cout << (i + 1) << ". " << branchArray[i].name << " (ID: " << branchArray[i].id << ")" << endl;
- 	}
- 	cout << "--------------------------------" << endl;
- }
-
 void loadDepartments() {
 	ifstream file(departmentsDB);
- 	departmentCount = 0;
- 	if(!file) {
- 		return;
- 	}
+	departmentCount = 0;
+	if(!file) {
+		return;
+	}
 
- 	string line;
- 	while(getline(file,line) && departmentCount < MAX_COUNT) {
- 		stringstream ss(line);
+	string line;
+	while(getline(file,line) && departmentCount < MAX_COUNT) {
+		stringstream ss(line);
 
- 		int temp_id;
- 		string temp_name;
- 		int temp_branch_id;
- 		char seperator;
+		int temp_id;
+		string temp_name;
+		int temp_branch_id;
+		char seperator;
 
- 		if (!(ss >> temp_id)) {
- 			//ja neizdodas nolasīšana, pāriet uz nākamo līniju
- 			continue;
- 		}
+		if (!(ss >> temp_id)) {
+			//ja neizdodas nolasīšana, pāriet uz nākamo līniju
+			continue;
+		}
 
- 		if (!(ss >> seperator) || seperator != '|') {
- 			continue;
- 		}
+		if (!(ss >> seperator) || seperator != '|') {
+			continue;
+		}
 
- 		if (!getline(ss, temp_name, '|')) {
- 			continue;
- 		}
+		if (!getline(ss, temp_name, '|')) {
+			continue;
+		}
 
- 		if(!(ss >> temp_branch_id)) {
- 			continue;
- 		}
+		if(!(ss >> temp_branch_id)) {
+			continue;
+		}
 
- 		//ja visas daļas veiksmīgi nolasītas:
- 		departmentArray[departmentCount].id = temp_id;
- 		departmentArray[departmentCount].name = temp_name;
- 		departmentArray[departmentCount].branch_id = temp_branch_id;
+		//ja visas daļas veiksmīgi nolasītas:
+		departmentArray[departmentCount].id = temp_id;
+		departmentArray[departmentCount].name = temp_name;
+		departmentArray[departmentCount].branch_id = temp_branch_id;
 
- 		departmentCount++;
- 	}
- 	file.close();
-}
-
-void displayDepartments() {
- 	loadDepartments(); //ieladē nodaļas
- 	loadBranches(); //ielādē filiāles, aizpildot branchArray (nepieciešams nosaukumiem
- 	cout << "\n --- Pieejamās nodaļas: " << departmentCount << endl;
- 	if (departmentCount == 0) {
- 		cout << "Nav nevienas ielādētas nodaļas" << endl;
- 		return;
- 	}
-
- 	for (int i = 0; i < departmentCount; i++) {
- 		//(i + 1) lietotāja izvēles numurs
- 		cout << (i + 1) << ". " << departmentArray[i].name << " (ID: " << departmentArray[i].id << ")";
-
- 		//papildus parāda kurai filiālei pieder
- 		string branchName = "Nav atrasts";
- 		for (int j = 0; j < branchCount; j++) {
- 			if (branchArray[j].id == departmentArray[i].branch_id) {
- 				branchName = branchArray[j].name;
- 				break;
- 			}
- 		}
- 		cout << ", Filiāle: " << branchName << ")" << endl;
- 	}
- 	cout << "--------------------------------" << endl;
+		departmentCount++;
+	}
+	file.close();
 }
 
 void loadClients() {
@@ -559,6 +498,47 @@ void loadClients() {
 	file.close();
 }
 
+//parāda filiāles kā numurētu sarakstu
+void displayBranches() {
+ 	cout << "\n --- Pieejamās filiāles: " << branchCount << endl;
+ 	if (branchCount == 0) {
+ 		cout << "Nav nevienas ielādētas filiāles" << endl;
+ 		return;
+ 	}
+
+ 	for (int i = 0; i < branchCount; i++) {
+ 		//(i + 1) lietotāja izvēles numurs
+ 		cout << (i + 1) << ". " << branchArray[i].name << " (ID: " << branchArray[i].id << ")" << endl;
+ 	}
+ 	cout << "--------------------------------" << endl;
+ }
+
+void displayDepartments() {
+ 	loadDepartments(); //ieladē nodaļas
+ 	loadBranches(); //ielādē filiāles, aizpildot branchArray (nepieciešams nosaukumiem
+ 	cout << "\n --- Pieejamās nodaļas: " << departmentCount << endl;
+ 	if (departmentCount == 0) {
+ 		cout << "Nav nevienas ielādētas nodaļas" << endl;
+ 		return;
+ 	}
+
+ 	for (int i = 0; i < departmentCount; i++) {
+ 		//(i + 1) lietotāja izvēles numurs
+ 		cout << (i + 1) << ". " << departmentArray[i].name << " (ID: " << departmentArray[i].id << ")";
+
+ 		//papildus parāda kurai filiālei pieder
+ 		string branchName = "Nav atrasts";
+ 		for (int j = 0; j < branchCount; j++) {
+ 			if (branchArray[j].id == departmentArray[i].branch_id) {
+ 				branchName = branchArray[j].name;
+ 				break;
+ 			}
+ 		}
+ 		cout << ", Filiāle: " << branchName << ")" << endl;
+ 	}
+ 	cout << "--------------------------------" << endl;
+}
+
 void displayClients() {
 	loadClients();
 	cout << "\n --- Pieejamie klienti: " << clientCount << endl;
@@ -574,3 +554,33 @@ void displayClients() {
 	}
 	cout << "--------------------------------" << endl;
 }
+
+string generateAccountNumber() {
+	static bool seeded = false;
+	if(!seeded) {
+		srand(time(0));
+		seeded = true;
+	}
+	const string countryCode = "LV";
+	const string bankCode = "TSI";
+	string newAccountNumber;
+
+	//sākas cikls, kas turpinas līdz numurs ir unikāls
+	//do {
+		//ģenerē kontroles skaitli
+		int controlDigitsInt = (rand() % 90) + 10;
+		string controlDigits = to_string(controlDigitsInt);
+
+		stringstream localAcc;
+		for (int i = 0; i < 12; i++) {
+			localAcc << (rand() % 10);
+		}
+		string localAccountNumber = localAcc.str();
+		newAccountNumber = countryCode + controlDigits + bankCode + localAccountNumber;
+	// }
+	// while (!isAccountNumberUnique(newAccountNumber));
+
+	return newAccountNumber;
+}
+
+
