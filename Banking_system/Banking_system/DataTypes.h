@@ -94,7 +94,6 @@ extern int accountCount;
 //menu stavoklu enumeracija
 enum MenuState {
 	STATE_MAIN_MENU,
-	STATE_BRANCH_DEPT_MGMT,
 	STATE_BRANCH_MGMT,
 	STATE_DEPT_MGMT,
 	STATE_EMPLOYEE_MGMT,

@@ -43,8 +43,14 @@ void runProgram() {
             currentState = displayDepartmentManagement();
             break;
         case STATE_EMPLOYEE_MGMT:
+            currentState = displayEmployeeManagement();
+            break;
         case STATE_CLIENT_MGMT:
+            currentState = displayClientManagement();
+            break;
         case STATE_ACCOUNT_MGMT:
+            currentState = displayAccountManagement();
+            break;
         case STATE_PAYMENT_MGMT:
             // Neimplementetas izvelnes atgriezas uz sakumu
             currentState = STATE_MAIN_MENU;
@@ -82,16 +88,13 @@ MenuState displayMainMenu() {
     switch (option) {
     case 1: return STATE_BRANCH_MGMT;
     case 2: return STATE_DEPT_MGMT;
-    case 3:
-        cout << "Pagaidam neimplementeta: Klientu parvaldiba. Atgriesanas uz Galveno izvelni.\n";
-        return STATE_MAIN_MENU;
-    case 4:
-        cout << "Pagaidam neimplementeta: Kontu parvaldiba. Atgriesanas uz Galveno izvelni.\n";
-        return STATE_MAIN_MENU;
-    case 5:
+    case 3: return STATE_EMPLOYEE_MGMT;
+    case 4: return STATE_CLIENT_MGMT;
+    case 5: return STATE_ACCOUNT_MGMT;
+    case 6: 
         cout << "Pagaidam neimplementeta: Maksajumu parvaldiba. Atgriesanas uz Galveno izvelni.\n";
         return STATE_MAIN_MENU;
-    case 6: return STATE_EXIT;
+    case 7: return STATE_EXIT;
     }
     return STATE_MAIN_MENU;
 }
@@ -156,7 +159,7 @@ MenuState displayDepartmentManagement() {
     int option;
 
     cout << "\n=======================================================\n";
-    cout << "                  MENU -> Department\n";
+    cout << "                  MENU -> Departments\n";
     cout << "=======================================================\n";
     cout << "1. Add\n";
     cout << "2. Edit\n";
@@ -171,23 +174,210 @@ MenuState displayDepartmentManagement() {
 
     switch (option) {
     case 1:
-        cout << "Pagaidam neimplementeta: Apskatit visas nodalas (ar filiales nosaukumu nevis ID)\n";
+        cout << "\n=======================================================\n";
+        cout << "                  MENU -> Departments -> Add\n";
+        cout << "=======================================================\n";
+        addDepartment();
+        clearScreenWithDelay(1);
         return STATE_DEPT_MGMT;
     case 2:
-        cout << "Pagaidam neimplementeta: Apskatit nodalas pa filialem\n";
+        cout << "\n=======================================================\n";
+        cout << "                  MENU -> Departments -> Edit\n";
+        cout << "=======================================================\n";
+        editDepartment();
+        clearScreenWithDelay(1);
         return STATE_DEPT_MGMT;
     case 3:
-        cout << "Pagaidam neimplementeta: Pievienot Nodalu\n";
+        cout << "\n=======================================================\n";
+        cout << "                  MENU -> Departments -> Search\n";
+        cout << "=======================================================\n";
+        cout << "Pagaidam neimplementeta: meklet Nodalu\n";
         return STATE_DEPT_MGMT;
     case 4:
-        cout << "Pagaidam neimplementeta: Labot datus\n";
+        cout << "\n=======================================================\n";
+        cout << "                  MENU -> Departments -> Delete\n";
+        cout << "=======================================================\n";
+        cout << "Pagaidam neimplementeta: dzest nodalu\n";
         return STATE_DEPT_MGMT;
     case 5:
-        cout << "Pagaidam neimplementeta: Dzest datus\n";
+        cout << "\n=======================================================\n";
+        cout << "                  MENU -> Departments -> View\n";
+        cout << "=======================================================\n";
+        displayDepartments();
         return STATE_DEPT_MGMT;
     case 6:
 
         return STATE_MAIN_MENU;
     }
     return STATE_DEPT_MGMT;
+}
+
+MenuState displayEmployeeManagement() {
+    int option;
+
+    cout << "\n=======================================================\n";
+    cout << "                  MENU -> Employees\n";
+    cout << "=======================================================\n";
+    cout << "1. Add\n";
+    cout << "2. Edit\n";
+    cout << "3. Search\n";
+    cout << "4. Delete\n";
+    cout << "5. View\n";
+    cout << "6. Back to Main Menu\n";
+    cout << "Your choice: ";
+
+    inputManager(option, 1, 6);
+    system("cls");
+
+    switch (option) {
+    case 1:
+        cout << "\n=======================================================\n";
+        cout << "                  MENU -> Employees -> Add\n";
+        cout << "=======================================================\n";
+        addEmployee();
+        clearScreenWithDelay(2);
+        return STATE_EMPLOYEE_MGMT;
+    case 2:
+        cout << "\n=======================================================\n";
+        cout << "                  MENU -> Employees -> Edit\n";
+        cout << "=======================================================\n";
+        editEmployee();
+        clearScreenWithDelay(1);
+        return STATE_EMPLOYEE_MGMT;
+    case 3:
+        cout << "\n=======================================================\n";
+        cout << "                  MENU -> Employees -> Search\n";
+        cout << "=======================================================\n";
+        cout << "Pagaidam neimplementeta: meklet darbinieku\n";
+        return STATE_EMPLOYEE_MGMT;
+    case 4:
+        cout << "\n=======================================================\n";
+        cout << "                  MENU -> Employees -> Delete\n";
+        cout << "=======================================================\n";
+        cout << "Pagaidam neimplementeta: dzest darbinieku\n";
+        return STATE_EMPLOYEE_MGMT;
+    case 5:
+        cout << "\n=======================================================\n";
+        cout << "                  MENU -> Employees -> View\n";
+        cout << "=======================================================\n";
+        displayEmployees();
+        return STATE_EMPLOYEE_MGMT;
+    case 6:
+
+        return STATE_MAIN_MENU;
+    }
+    return STATE_EMPLOYEE_MGMT;
+}
+
+MenuState displayClientManagement() {
+    int option;
+
+    cout << "\n=======================================================\n";
+    cout << "                  MENU -> Clients\n";
+    cout << "=======================================================\n";
+    cout << "1. Add\n";
+    cout << "2. Edit\n";
+    cout << "3. Search\n";
+    cout << "4. Delete\n";
+    cout << "5. View\n";
+    cout << "6. Back to Main Menu\n";
+    cout << "Your choice: ";
+
+    inputManager(option, 1, 6);
+    system("cls");
+
+    switch (option) {
+    case 1:
+        cout << "\n=======================================================\n";
+        cout << "                  MENU -> Clients -> Add\n";
+        cout << "=======================================================\n";
+        addClient();
+        clearScreenWithDelay(1);
+        return STATE_CLIENT_MGMT;
+    case 2:
+        cout << "\n=======================================================\n";
+        cout << "                  MENU -> Clients -> Edit\n";
+        cout << "=======================================================\n";
+        editClient();
+        clearScreenWithDelay(1);
+        return STATE_CLIENT_MGMT;
+    case 3:
+        cout << "\n=======================================================\n";
+        cout << "                  MENU -> Clients -> Search\n";
+        cout << "=======================================================\n";
+        cout << "Pagaidam neimplementeta: meklet klientu\n";
+        return STATE_CLIENT_MGMT;
+    case 4:
+        cout << "\n=======================================================\n";
+        cout << "                  MENU -> Clients -> Delete\n";
+        cout << "=======================================================\n";
+        cout << "Pagaidam neimplementeta: dzest klientu\n";
+        return STATE_CLIENT_MGMT;
+    case 5:
+        cout << "\n=======================================================\n";
+        cout << "                  MENU -> Clients -> View\n";
+        cout << "=======================================================\n";
+        displayClients();
+        return STATE_CLIENT_MGMT;
+    case 6:
+
+        return STATE_MAIN_MENU;
+    }
+    return STATE_CLIENT_MGMT;
+}
+
+MenuState displayAccountManagement() {
+    int option;
+
+    cout << "\n=======================================================\n";
+    cout << "                  MENU -> Accounts\n";
+    cout << "=======================================================\n";
+    cout << "1. Add\n";
+    cout << "2. Edit\n";
+    cout << "3. Search\n";
+    cout << "4. Delete\n";
+    cout << "5. View\n";
+    cout << "6. Back to Main Menu\n";
+    cout << "Your choice: ";
+
+    inputManager(option, 1, 6);
+    system("cls");
+
+    switch (option) {
+    case 1:
+        cout << "\n=======================================================\n";
+        cout << "                  MENU -> Accounts -> Add\n";
+        cout << "=======================================================\n";
+        addAccount();
+        clearScreenWithDelay(1);
+        return STATE_ACCOUNT_MGMT;
+    case 2:
+        cout << "\n=======================================================\n";
+        cout << "                  MENU -> Accounts -> Edit\n";
+        cout << "=======================================================\n";
+        cout << "Pagaidam neimplementeta: Labot kontu\n";
+        return STATE_ACCOUNT_MGMT;
+    case 3:
+        cout << "\n=======================================================\n";
+        cout << "                  MENU -> Accounts -> Search\n";
+        cout << "=======================================================\n";
+        cout << "Pagaidam neimplementeta: Meklet kontu\n";
+        return STATE_ACCOUNT_MGMT;
+    case 4:
+        cout << "\n=======================================================\n";
+        cout << "                  MENU -> Accounts -> Delete\n";
+        cout << "=======================================================\n";
+        cout << "Pagaidam neimplementeta: dzest kontu\n";
+        return STATE_ACCOUNT_MGMT;
+    case 5:
+        cout << "\n=======================================================\n";
+        cout << "                  MENU -> Accounts -> View\n";
+        cout << "=======================================================\n";
+        displayAccounts();
+        return STATE_ACCOUNT_MGMT;
+    case 6:
+
+        return STATE_MAIN_MENU;
+    }
+    return STATE_ACCOUNT_MGMT;
 }

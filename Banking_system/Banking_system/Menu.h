@@ -9,9 +9,9 @@ void runProgram();
 MenuState displayMainMenu();
 MenuState displayBranchManagement();
 MenuState displayDepartmentManagement();
-//MenuState displayEmployeeManagement();
-//MenuState displayClientManagement();
-//MenuState displayAccountManagement();
+MenuState displayEmployeeManagement();
+MenuState displayClientManagement();
+MenuState displayAccountManagement();
 //MenuState displayPaymentManagement();
 
 #endif
