@@ -5,12 +5,25 @@
 #include <limits>
 #include <cstdlib>
 
+#ifdef _WIN32
+#define NOMINMAX
+#include<windows.h>//for sleep()
+#endif
+
+
+
 void inputManager(int& option, int min, int max) {
     while (!(cin >> option) || option < min || option > max) {
         cout << "Wrong input! Enter number from " << min << " to " << max << ": ";
         cin.clear();
         cin.ignore(numeric_limits<streamsize>::max(), '\n');
     }
+}
+
+void clearScreenWithDelay(int sec) {
+    int miliseconds = sec * 1000;
+    Sleep(miliseconds);
+    system("cls");
 }
 
 // ------ GALVENA PROGRAMMAS CILPA ------
@@ -102,23 +115,39 @@ MenuState displayBranchManagement() {
 
     switch (option) {
     case 1:
-        cout << "Neimplementeta apskates funkcija\n";
-        return STATE_BRANCH_MGMT; // Paliek pasreizeja stavokli
+        cout << "\n=======================================================\n";
+        cout << "                  MENU -> Branches -> Add\n";
+        cout << "=======================================================\n";
+        addBranch();
+        clearScreenWithDelay(1);
+        return STATE_BRANCH_MGMT;
     case 2:
-        cout << "Pagaidam neimplementeta: Pievienot filiales\n";
+        cout << "\n=======================================================\n";
+        cout << "                  MENU -> Branches -> Edit\n";
+        cout << "=======================================================\n";
+        editBranch();
+        clearScreenWithDelay(1);
         return STATE_BRANCH_MGMT;
     case 3:
-        cout << "Neimplementeta labosanas funkcija\n";
+        cout << "\n=======================================================\n";
+        cout << "                  MENU -> Branches -> Search\n";
+        cout << "=======================================================\n";
+        searchBranches();
         return STATE_BRANCH_MGMT;
     case 4:
+        cout << "\n=======================================================\n";
+        cout << "                  MENU -> Branches -> Delete\n";
+        cout << "=======================================================\n";
         cout << "Neimplementeta dzesanas funkcija\n";
         return STATE_BRANCH_MGMT;
     case 5:
-        cout << "Neimplementeta statistikas funkcija\n";
+        cout << "\n=======================================================\n";
+        cout << "                  MENU -> Branches -> View\n";
+        cout << "=======================================================\n";
+        displayBranches();
         return STATE_BRANCH_MGMT;
     case 6:
-        cout << "Atgriesanas uz Galveno izvelni.\n";
-        return STATE_MAIN_MENU; // Iet uz sakumu
+        return STATE_MAIN_MENU;
     }
     return STATE_BRANCH_MGMT;
 }

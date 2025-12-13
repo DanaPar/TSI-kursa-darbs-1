@@ -4,6 +4,7 @@
 #include "DataTypes.h"
 
 void inputManager(int& option, int min, int max);
+void clearScreenWithDelay(int sec);
 void runProgram();
 MenuState displayMainMenu();
 MenuState displayBranchManagement();
