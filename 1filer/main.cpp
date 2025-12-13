@@ -992,9 +992,10 @@ void editClient() {
 
 		if (ss >> type_option && ss.eof()) {
 
-			if (type_option >= 0 && type_option <= 3) {
+			if (type_option == 0 || type_option == 1) {
 				client.type = static_cast<ClientType>(type_option);
-				cout << "Klienta veiksmīgi atjaunināts uz: " << type_option << endl;
+				string typeStr = (type_option == 0) ? "PRIVATE (Privātpersona" : "CORPORATE (Uzņēmums)";
+				cout << "Klienta tips veiksmīgi atjaunināts uz: " << typeStr << endl;
 			} else {
 				cout << "Nederīga izvēle (skaitlis ārpus diapazona [0-1]). Pašreizējais veids saglabāts." << endl;
 			}
