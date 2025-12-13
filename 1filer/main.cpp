@@ -7,7 +7,7 @@
 #include <ctime>
 using namespace std;
 const int MAX_COUNT = 100;
-//tiek definēti visi faili
+//tiek defineti visi faili
 const string branchesDB = "branchesDB.txt";
 const string departmentsDB = "departmentsDB.txt";
 const string employeesDB = "employeesDB.txt";
@@ -15,7 +15,7 @@ const string clientsDB = "clientsDB.txt";
 const string accountsDB = "accountsDB.txt";
 const string paymentsDB = "paymentsDB.txt";
 
-//ieliktās datu struktūras
+//ieliktas datu strukturas
 struct Date {
 	int day = 0;
 	int month = 0;
@@ -34,7 +34,7 @@ enum ClientType {
 	CORPORATE = 1
   };
 
-//-----objektu struktūras -----//
+//-----objektu strukturas -----//
 
 struct Branch {
 	int id;
@@ -80,7 +80,7 @@ struct Payment {
 	struct Date date;
 };
 
-//GLOBĀLIE DATU GLABĀTĀJI (MASĪVI)
+//GLOBALIE DATU GLABATAJI (MASIVI)
 
 Branch branchArray[MAX_COUNT];
 int branchCount = 0;
@@ -100,7 +100,7 @@ int accountCount = 0;
 Payment paymentArray[MAX_COUNT];
 int paymentCount = 0;
 
-//FUNKCIJU DEKLARĀCIJAS
+//FUNKCIJU DEKLARACIJAS
 void addBranch();
 void addDepartment();
 void addEmployee();
@@ -129,6 +129,10 @@ void editClient();
 void editAccount(); //ToDo
 void editPayment(); //ToDo
 
+void searchBranches();
+
+void deleteBranches();
+
 string generateAccountNumber();
 bool isAccountNumberUnique(const string& accountNumber);
 
@@ -151,24 +155,24 @@ void addBranch() {
 	cout << "\nIevadi filiāles identifikatoru: ";
 	cin >> branch.id;
 	cin.ignore();
-	cout << "Ievadi filiāles nosaukumu: ";
+	cout << "Enter Branch name: ";
 	getline(cin, branch.name);
- 	cout << "Ievadi filiāles adresi: ";
+ 	cout << "Enter Branch address: ";
  	getline(cin, branch.address);
 
 	file << branch.id << "|" << branch.name << "|" << branch.address << endl;
 	file.close();
-	cout << "Filiāles dati pievienoti veiksmīgi!" << endl;
+	cout << "Branch data added successfully!" << endl;
 
- 	//pēc filiāles pievienošanas ielādējam datus atkal, lai atjauninātu masīvu
+ 	//pec filiales pievienosanas ieladejam datus atkal, lai atjauninatu masivu
  	loadBranches();
 }
 
 void addDepartment() {
  	loadBranches();
- 	//nodaļas nevar pastāvēt bez filiāles
+ 	//nodalas nevar pastavet bez filiales
  	if(branchCount == 0) {
- 		cout << "Nav pievienota neviena filiāle! Vispirms pievienojiet filiāli!";
+ 		cout << "No Branch has been added! Firstly, add the Branch!";
  		return;
  	}
 
@@ -183,14 +187,14 @@ void addDepartment() {
  	cout << "\nIevadi nodaļas identifikatoru: ";
  	cin >> department.id;
  	cin.ignore();
- 	cout << "Ievadi nodaļas nosaukumu: ";
+ 	cout << "Enter Department name: ";
  	getline(cin, department.name);
 
  	displayBranches();
  	int option;
  	bool valid_choice = false;
  	while (!valid_choice) {
- 		cout << "Izvēlies kurai filiālei pieder šī nodaļa (izvēlies atbilstošo numuru 1 - " << branchCount << "): ";
+ 		cout << "Choose which Branch owns this Department (enter coresponding number 1 - " << branchCount << "): ";
  		cin >> option;
 
  		if (option >= 1 && option <= branchCount) {
@@ -198,21 +202,21 @@ void addDepartment() {
  			valid_choice = true;
  		}
  		else {
- 			cout << "Nederīga izvēle, ievadi numuru no 1 līdz " << branchCount << endl;
+ 			cout << "Wrong input, enter number from 1 to " << branchCount << endl;
  		}
  	}
  	cin.ignore();
 
  	file << department.id << "|" << department.name << "|" << department.branch_id << endl;
 	file.close();
-	cout << "Nodaļas dati pievienoti veiksmīgi!" << endl;
+	cout << "Department data added successfully!" << endl;
 }
 
 void addEmployee() {
 	loadDepartments();
 
  	if(departmentCount == 0) {
- 		cout << "Nav pievienota neviena nodaļa! Vispirms pievienojiet nodaļu!";
+ 		cout << "No Department has been added! Firstly, add the Department!";
  		return;
  	}
 
@@ -227,11 +231,11 @@ void addEmployee() {
  	cout << "\nIevadi darbinieka identifikatoru: ";
  	cin >> employee.id;
  	cin.ignore();
- 	cout << "Ievadi darbinieka vārdu: ";
+ 	cout << "Enter employee name: ";
  	getline(cin, employee.name);
- 	cout << "Ievadi darbinieka uzvārdu: ";
+ 	cout << "Enter employee surname: ";
  	getline(cin, employee.surname);
- 	cout << "Ievadi darbinieka amatu: ";
+ 	cout << "Enter employee position: ";
  	getline(cin, employee.position);
 
 	//nodaļas izvēle
@@ -239,7 +243,7 @@ void addEmployee() {
  	int option;
  	bool valid_choice = false;
  	while(!valid_choice) {
- 		cout << "Izvēlies kurai nodaļai pieder šis darbinieks (izvēlies atbilstošo numuru 1 - " << departmentCount << "): ";
+ 		cout << "Choose to which Department belongs this employee (enter coresponding number 1 - " << departmentCount << "): ";
  		cin >> option;
 
  		if (option >= 1 && option <= departmentCount) {
@@ -247,7 +251,7 @@ void addEmployee() {
  			valid_choice = true;
  		}
  		else {
- 			cout << "Nederīga izvēle, ievadi numuru no 1 līdz " << departmentCount << endl;
+ 			cout << "Wrong input, enter number from 1 to " << departmentCount << endl;
  		}
  	}
  	cin.ignore();
@@ -256,7 +260,7 @@ void addEmployee() {
  	int access_option;
  	valid_choice = false;
  	while(!valid_choice) {
- 		cout << "Izvēlies piekļuves līmeni:" << endl
+ 		cout << "Choose Access Level:" << endl
 		<< "0: GUEST," << endl
 		<< "1: BASIC_USER" << endl
 		<< "2: ADMIN" << endl
@@ -267,22 +271,21 @@ void addEmployee() {
  			valid_choice = true;
  		}
  		else {
- 			cout << "Nederīga izvēle, ievadi numuru no 0 līdz 3" << endl;
+ 			cout << "Wrong input, enter number from 0 to 3" << endl;
  		}
  	}
 	cin.ignore();
 
  	file << employee.id << "|" << employee.name << "|" << employee.surname << "|" << employee.department_id << "|" << employee.position << "|" << employee.access_level << endl;
 	file.close();
- 	cout << "Darbinieka dati veiksmīgi pievienoti!";
+ 	cout << "Employee data added successfully!";
 
 }
 
 void addClient() {
 	loadBranches();
-	//nodaļas nevar pastāvēt bez filiāles
 	if(branchCount == 0) {
-		cout << "Nav pievienota neviena filiāle! Vispirms pievienojiet filiāli!";
+		cout << "No Branch has been added! Firstly, add the Branch!";
 		return;
 	}
 
@@ -297,16 +300,16 @@ void addClient() {
 	cout << "\nIevadi klienta identifikatoru: ";
 	cin >> client.id;
 	cin.ignore();
-	cout << "Ievadi klienta vārdu: ";
+	cout << "Enter client name: ";
 	getline(cin, client.name);
-	cout << "Ievadi klienta uzvārdu: ";
+	cout << "Enter client surname: ";
 	getline(cin, client.surname);
 
 	displayBranches();
 	int option;
 	bool valid_choice = false;
 	while (!valid_choice) {
-		cout << "Izvēlies kurai filiālei pieder šis klients (izvēlies atbilstošo numuru 1 - " << branchCount << "): ";
+		cout << "Choose to which Branch belongs this client (enter coresponding number 1 - " << branchCount << "): ";
 		cin >> option;
 
 		if (option >= 1 && option <= branchCount) {
@@ -314,7 +317,7 @@ void addClient() {
 			valid_choice = true;
 		}
 		else {
-			cout << "Nederīga izvēle, ievadi numuru no 1 līdz " << branchCount << endl;
+			cout << "Wrong input, enter number from 1 to " << branchCount << endl;
 		}
 	}
 	cin.ignore();
@@ -322,30 +325,30 @@ void addClient() {
 	int client_type_option;
 	valid_choice = false;
 	while(!valid_choice) {
-		cout << "Izvēlies klienta tipu:" << endl
-	   << "0: PRIVATE (Privātpersona)" << endl
-	   << "1: CORPORATE (Uzņēmums)" << endl;
+		cout << "Choose client type:" << endl
+	   << "0: PRIVATE" << endl
+	   << "1: CORPORATE" << endl;
 		cin >> client_type_option;
 		if(client_type_option == 0 || client_type_option == 1) {
 			client.type = static_cast<ClientType>(client_type_option);
 			valid_choice = true;
 		}
 		else {
-			cout << "Nederīga izvēle, ievadi numuru 0 vai 1" << endl;
+			cout << "Wrong input, enter number from 0 to 1" << endl;
 		}
 	}
 	cin.ignore();
 
 	file << client.id << "|" << client.name << "|" << client.surname << "|" << client.branch_id << "|" << client.type << endl;
 	file.close();
-	cout << "Klienta dati pievienoti veiksmīgi!" << endl;
+	cout << "Client data added successfully!" << endl;
 
 }
 
 void addAccount() {
 	loadClients();
 	if(clientCount == 0) {
-		cout << "Nav pievienots neviens klients! Vispirms pievienojiet klientu!";
+		cout << "No Client has been added! Firstly, add the Client!";
 		return;
 	}
 
@@ -363,7 +366,7 @@ void addAccount() {
 	int option;
 	bool valid_choice = false;
 	while (!valid_choice) {
-		cout << "Izvēlies kuram klientam pieder šis konts (izvēlies atbilstošo numuru 1 - " << clientCount << "): ";
+		cout << "Choose which Client owns this Account (enter coresponding number 1 - " << clientCount << "): ";
 		cin >> option;
 
 		if (option >= 1 && option <= clientCount) {
@@ -371,20 +374,20 @@ void addAccount() {
 			valid_choice = true;
 		}
 		else {
-			cout << "Nederīga izvēle, ievadi numuru no 1 līdz " << clientCount << endl;
+			cout << "Wrong input, enter number from 1 to " << clientCount << endl;
 		}
 	}
 	cin.ignore();
 
-	cout << "Ievadi starta balansu: ";
+	cout << "Enter starting balance: ";
 	cin >> account.balance;
 	cin.ignore();
 
 	file << account.account_number << "|" << account.owner_id << "|" << account.balance << endl;
 	file.close();
-	cout << "Konta informācija veiksmīgi pievienota!";
+	cout << "Account data added successfully!";
 }
-//ielādē filiāles sarakstā
+//ielade datus sarakstos
 void loadBranches() {
 	ifstream file(branchesDB);
  	branchCount = 0;
@@ -401,7 +404,7 @@ void loadBranches() {
  		char seperator;
 
  		if (!(ss >> temp_id)) {
- 			//ja neizdodas nolasīšana, pāriet uz nākamo līniju
+ 			//ja neizdodas nolasisana, pariet uz nakamo liniju
  			continue;
  		}
 
@@ -417,7 +420,7 @@ void loadBranches() {
  			continue;
  		}
 
- 		//ja visas daļas veiksmīgi nolasītas:
+ 		//ja visas daļas veiksmigi nolasitas:
  		branchArray[branchCount].id = temp_id;
  		branchArray[branchCount].name = temp_name;
  		branchArray[branchCount].address = temp_address;
@@ -444,7 +447,6 @@ void loadDepartments() {
 		char seperator;
 
 		if (!(ss >> temp_id)) {
-			//ja neizdodas nolasīšana, pāriet uz nākamo līniju
 			continue;
 		}
 
@@ -460,7 +462,6 @@ void loadDepartments() {
 			continue;
 		}
 
-		//ja visas daļas veiksmīgi nolasītas:
 		departmentArray[departmentCount].id = temp_id;
 		departmentArray[departmentCount].name = temp_name;
 		departmentArray[departmentCount].branch_id = temp_branch_id;
@@ -569,7 +570,6 @@ void loadAccounts() {
 		double temp_balance;
 		char seperator;
 
-		// Ielādes loģika no faila, pārbaudot atdalītājus '|'
 		if (!getline(ss, temp_acc_nr, '|')) continue;
 		if (!(ss >> temp_owner_id) || !(ss >> seperator) || seperator != '|') continue;
 		if (!(ss >> temp_balance)) continue;
@@ -582,7 +582,7 @@ void loadAccounts() {
 	}
 	file.close();
 }
-//parāda filiāles kā numurētu sarakstu
+//parada datus ka numuretus sarakstus
 void displayBranches() {
 	loadBranches();
  	cout << "\n --- Pieejamās filiāles: " << branchCount << endl;
@@ -1020,6 +1020,44 @@ void editClient() {
 	}
 	file.close();
 	cout << "Klienta dati veiksmīgi atjaunināti!" << endl;
+}
+
+void searchBranches() {
+	ifstream file(branchesDB);
+	if (!file) {
+		cout << "Could not open file" << endl;
+		return;
+	}
+
+	string searchName;
+	cout << "\nEnter branch name to find: ";
+	cin >> searchName;
+	cin.ignore();
+
+	string line;
+	while (getline(file, line)) {
+		stringstream ss(line);
+		string token;
+		Branch branch;
+
+		if (getline(ss, token, '|')) {
+			branch.id = stoi(token);
+		}
+		if (getline(ss, token, '|')) {
+			branch.name = token;
+		}
+		if (getline(ss, token)) {
+			branch.address = token;
+		}
+
+		if (branch.name == searchName) {
+			cout << "Branch " << searchName << " has adress: " << branch.address << endl;
+			file.close();
+			return;
+		}
+	}
+	file.close();
+	cout << "Branch with name " << searchName << " doesnt exist!" << endl;
 }
 
 string generateAccountNumber() {
