@@ -11,7 +11,6 @@
 using namespace std;
 
 void displayBranches(bool useSearchResults) {
-	//ja jaatelo viss saraksts, tad jaielade visi dati
 	if (!useSearchResults) {
 		loadBranches();
 	}
@@ -32,9 +31,9 @@ void displayBranches(bool useSearchResults) {
 		<< left << "Address" << endl;
 	cout << setfill('-') << setw(70) << "" << endl;
 	cout << setfill(' ');
+
 	for (int i = 0; i < count; i++) {
 		int indexInBranchArray;
-		//ja izmantojam atlases
 		if (useSearchResults) {
 			indexInBranchArray = searchResultIndexes[i];
 		}
@@ -42,10 +41,8 @@ void displayBranches(bool useSearchResults) {
 			indexInBranchArray = i;
 		}
 
-		//pieklust fialiales strukturai caur indexu
 		const Branch& currentBranch = branchArray[indexInBranchArray];
 
-		
 		cout << left << setw(5) << (i + 1) << "|"
 			<<left << setw(5) << currentBranch.id << "|"
 			<< left << setw(25) << currentBranch.name << "|"
@@ -63,11 +60,19 @@ void displayDepartments(bool useSearchResults) {
 
 	int count = useSearchResults ? searchResultCount : departmentCount;
 
-	cout << "\n Total Departments : " << count << endl;
+	cout << "\n Total Departments found: " << count << "\n" << endl;
 	if (count == 0) {
 		cout << (useSearchResults ? "No departments found!" : "No department has been loaded") << endl;
 		return;
 	}
+	cout << setfill('-') << setw(70) << "" << endl;
+	cout << setfill(' ');
+	cout << left << setw(5) << "#" << "|"
+		<< left << setw(5) << "ID" << "|"
+		<< left << setw(25) << "Department Name" << "|"
+		<< left << "Branch" << endl;
+	cout << setfill('-') << setw(70) << "" << endl;
+	cout << setfill(' ');
 
 	for (int i = 0; i < count; i++) {
 		int indexInDepartmentArray;
@@ -80,8 +85,6 @@ void displayDepartments(bool useSearchResults) {
 
 		const Department& currentDepartment = departmentArray[indexInDepartmentArray];
 
-		cout << (i + 1) << ". " << currentDepartment.name << " (ID: " << currentDepartment.id << ")";
-
 		string branchName = "Not Found!";
 		int branchId = currentDepartment.branch_id;
 		for (int j = 0; j < branchCount; j++) {
@@ -90,23 +93,53 @@ void displayDepartments(bool useSearchResults) {
 				break;
 			}
 		}
-		cout << ", Branch: " << branchName << ")" << endl;
+		cout << left << setw(5) << (i + 1) << "|"
+			<< left << setw(5) << currentDepartment.id << "|"
+			<< left << setw(25) << currentDepartment.name << "|" << left << branchName << endl;
 	}
-	cout << "--------------------------------" << endl;
+	cout << setfill('-') << setw(70) << "" << endl;
+	cout << setfill(' ');
 }
 
 void displayEmployees(bool useSearchResults) {
-	loadEmployees();
-	cout << "\n Total Employees: " << employeeCount << endl;
-	if (employeeCount == 0) {
-		cout << "No employee has been found" << endl;
+	if (!useSearchResults) {
+		loadEmployees();
+		loadDepartments();
+	}
+	int count = useSearchResults ? searchResultCount : employeeCount;
+
+	cout << "\n Total Employees found: " << employeeCount << "\n" << endl;
+	if (count == 0) {
+		cout << (useSearchResults ? "No employees found!" : "No employee has been loaded") << endl;
 		return;
 	}
 
-	for (int i = 0; i < employeeCount; i++) {
+	cout << setfill('-') << setw(100) << "" << endl;
+	cout << setfill(' ');
+	cout << left << setw(5) << "#" << "|"
+		<< left << setw(5) << "ID" << "|"
+		<< left << setw(15) << "Name" << "|"
+		<< left << setw(15) << "Surname" << "|"
+		<< left << setw(20) << "Department" << "|"
+		<< left << setw(20) << "Position" << "|"
+		<< left << "Access Level" << endl;
+	cout << setfill('-') << setw(100) << "" << endl;
+	cout << setfill(' ');
+
+	for (int i = 0; i < count; i++) {
+		int indexInEmployeeArray;
+		if (useSearchResults) {
+			indexInEmployeeArray = searchResultIndexes[i];
+		}
+		else {
+			indexInEmployeeArray = i;
+		}
+
+		const Employee& currentEmployee = employeeArray[indexInEmployeeArray];
+
 		// Konverte enum uz lasamu tekstu
 		string accessLevelStr;
-		switch (employeeArray[i].access_level) {
+		switch (currentEmployee.access_level) {
 		case GUEST: accessLevelStr = "GUEST"; break;
 		case BASIC_USER: accessLevelStr = "BASIC_USER"; break;
 		case ADMIN: accessLevelStr = "ADMIN"; break;
@@ -114,16 +147,32 @@ void displayEmployees(bool useSearchResults) {
 		default: accessLevelStr = "Unknown"; break;
 		}
 
-		cout << (i + 1) << ". " << employeeArray[i].name << " " << employeeArray[i].surname
-			<< " (ID: " << employeeArray[i].id << ", Position: " << employeeArray[i].position
-			<< ", Access Level: " << accessLevelStr << ")" << endl;
+		string departmentName = "Not Found!";
+		int departmentId = currentEmployee.department_id;
+		for (int j = 0; j < departmentCount; j++) {
+			if (departmentArray[j].id == departmentId) {
+				departmentName = departmentArray[j].name;
+				break;
+			}
+		}
+
+		cout << left << setw(5) << (i + 1) << "|"
+			<< left << setw(5) << currentEmployee.id << "|"
+			<< left << setw(15) << currentEmployee.name << "|"
+			<< left << setw(15) << currentEmployee.surname << "|"
+			<< left << setw(20) << departmentName << "|"
+			<< left << setw(20) << currentEmployee.position << "|"
+			<< left << accessLevelStr << endl;
 	}
-	cout << "--------------------------------" << endl;
+	cout << setfill('-') << setw(100) << "" << endl;
+	cout << setfill(' ');
 }
 
 void displayClients(bool useSearchResults) {
-	loadClients();
-	cout << "\n Total Cleints: " << clientCount << endl;
+	if (!useSearchResults) {
+		loadClients();
+	}
+	cout << "\n Total Clients: " << clientCount << endl;
 	if (clientCount == 0) {
 		cout << "No client has been found" << endl;
 		return;
@@ -138,7 +187,9 @@ void displayClients(bool useSearchResults) {
 }
 
 void displayAccounts(bool useSearchResults) {
-	loadAccounts();
+	if (!useSearchResults) {
+		loadAccounts();
+	}
 	cout << "\n Total Accounts: " << accountCount << endl;
 	if (accountCount == 0) {
 		cout << "No account has been found" << endl;
