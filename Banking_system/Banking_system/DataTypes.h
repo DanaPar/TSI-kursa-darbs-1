@@ -3,10 +3,8 @@
 #include <string>
 using namespace std;
 
-//konstantes, max masivu izmers
 #define MAX_COUNT 1000
 
-//failu nosaukumu deklaracijas
 extern const string branchesDB;
 extern const string departmentsDB;
 extern const string employeesDB;
@@ -78,7 +76,6 @@ struct Payment {
 	struct Date date;
 };
 
-//globalo datu deklaracijas, masivu un skaititaju deklaracijas
 extern Branch branchArray[MAX_COUNT];
 extern int branchCount;
 
@@ -94,10 +91,15 @@ extern int clientCount;
 extern Account accountArray[MAX_COUNT];
 extern int accountCount;
 
+extern int searchResultIndexes[MAX_COUNT];
+extern int searchResultCount;
+
 //menu stavoklu enumeracija
 enum MenuState {
 	STATE_MAIN_MENU,
 	STATE_BRANCH_MGMT,
+	STATE_BRANCH_SEARCH,
+	STATE_BRANCH_DELETE,
 	STATE_DEPT_MGMT,
 	STATE_EMPLOYEE_MGMT,
 	STATE_CLIENT_MGMT,

@@ -1,5 +1,6 @@
 Banking_system/.vs/Banking_system/
-Banking_system/Banking_system/Banking_system
+Banking_system/Banking_system/Banking_system.vcxproj
+Banking_system/Banking_system/Banking_system.vcxproj.filters
 Banking_system/Banking_system/Debug/
 Banking_system/Debug/
 Banking_system/Banking_system/DataBase

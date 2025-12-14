@@ -20,7 +20,7 @@ void loadAccounts();
 void loadPayments(); //ToDo create
 
 //datu attelosanas funkcijas
-void displayBranches();
+void displayBranches(bool useSearchResults);
 void displayDepartments();
 void displayEmployees();
 void displayClients();
@@ -36,7 +36,9 @@ void editAccount(); //ToDo
 void editPayment(); //ToDo
 
 //meklesanas funkcijas
-void searchBranches();
+void searchBranchesById();
+void searchBranchByName();
+void searchBranchByAddress();
 
 //datu dzesanas funkcijas
 void deleteBranches();

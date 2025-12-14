@@ -31,3 +31,6 @@ Account accountArray[MAX_COUNT];
 int accountCount = 0;
 Payment paymentArray[MAX_COUNT];
 int paymentCount = 0;
+
+int searchResultIndexes[MAX_COUNT];
+int searchResultCount = 0;

@@ -10,18 +10,35 @@
 
 using namespace std;
 
-//parada datus ka numuretus sarakstus
-void displayBranches() {
-	loadBranches();
-	cout << "\n Total Branches: " << branchCount << endl;
-	if (branchCount == 0) {
-		cout << "No branch has been loaded" << endl;
+void displayBranches(bool useSearchResults) {
+	//ja jaatelo viss saraksts, tad jaielade visi dati
+	if (!useSearchResults) {
+		loadBranches();
+	}
+	
+	int count = useSearchResults ? searchResultCount : branchCount;
+
+	cout << "\n Total Branches: " << count << endl;
+	if (count == 0) {
+		cout << (useSearchResults ? "No brances found!" : "No branch has been loaded") << endl;
 		return;
 	}
 
-	for (int i = 0; i < branchCount; i++) {
+	for (int i = 0; i < count; i++) {
+		int indexInBranchArray;
+		//ja izmantojam atlases
+		if (useSearchResults) {
+			indexInBranchArray = searchResultIndexes[i];
+		}
+		else {
+			indexInBranchArray = i;
+		}
+
+		//pieklust fialiales strukturai caur indexu
+		const Branch& currentBranch = branchArray[indexInBranchArray];
+
 		//(i + 1) lietotaja izveles numurs
-		cout << (i + 1) << ". " << branchArray[i].name << " (ID: " << branchArray[i].id << ")" << endl;
+		cout << (i + 1) << ". " << currentBranch.name << " (ID: " << currentBranch.id << ", Adress: " << currentBranch.address << ")" << endl;
 	}
 	cout << "--------------------------------" << endl;
 }

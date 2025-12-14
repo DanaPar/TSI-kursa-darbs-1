@@ -70,7 +70,7 @@ void addDepartment() {
 		}
 	} while (department.name.empty());
 
-	displayBranches();
+	displayBranches(false);
 	int option;
 	bool valid_choice = false;
 	while (!valid_choice) {
@@ -212,7 +212,7 @@ void addClient() {
 		}
 	} while (client.surname.empty());
 
-	displayBranches();
+	displayBranches(false);
 	int option;
 	bool valid_choice = false;
 	while (!valid_choice) {

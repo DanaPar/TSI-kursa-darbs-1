@@ -40,6 +40,12 @@ void runProgram() {
         case STATE_BRANCH_MGMT:
             currentState = displayBranchManagement();
             break;
+        case STATE_BRANCH_SEARCH:
+            currentState = displayBranchSearchMenu();
+            break;
+        case STATE_BRANCH_DELETE:
+            currentState = displayBranchDeleteMenu();
+            break;
         case STATE_DEPT_MGMT:
             currentState = displayDepartmentManagement();
             break;
@@ -136,19 +142,17 @@ MenuState displayBranchManagement() {
         cout << "\n=======================================================\n";
         cout << "                  MENU -> Branches -> Search\n";
         cout << "=======================================================\n";
-        searchBranches();
-        return STATE_BRANCH_MGMT;
+        return STATE_BRANCH_SEARCH;
     case 4:
         cout << "\n=======================================================\n";
         cout << "                  MENU -> Branches -> Delete\n";
         cout << "=======================================================\n";
-        cout << "Neimplementeta dzesanas funkcija\n";
-        return STATE_BRANCH_MGMT;
+        return STATE_BRANCH_DELETE;
     case 5:
         cout << "\n=======================================================\n";
         cout << "                  MENU -> Branches -> View\n";
         cout << "=======================================================\n";
-        displayBranches();
+        displayBranches(false);
         return STATE_BRANCH_MGMT;
     case 6:
         return STATE_MAIN_MENU;
@@ -381,4 +385,71 @@ MenuState displayAccountManagement() {
         return STATE_MAIN_MENU;
     }
     return STATE_ACCOUNT_MGMT;
+}
+
+MenuState displayBranchSearchMenu() {
+    int option;
+
+    cout << "1. Search by ID\n";
+    cout << "2. Search by Name\n";
+    cout << "3. Search by Address\n";
+    cout << "4. Back to Branch Management Menu\n";
+    cout << "Your choice: ";
+
+    inputManager(option, 1, 4);
+    system("cls");
+
+    switch (option) {
+    case 1:
+        cout << "\n=======================================================\n";
+        cout << "         MENU -> Branches -> Search by ID\n";
+        cout << "=======================================================\n";
+        searchBranchesById(); // Assuming 1 means ID search criterion
+        return STATE_BRANCH_SEARCH;
+    case 2:
+        cout << "\n=======================================================\n";
+        cout << "         MENU -> Branches -> Search by Name\n";
+        cout << "=======================================================\n";
+        //searchBranchByName(2); // Assuming 2 means Name search criterion
+        return STATE_BRANCH_SEARCH;
+    case 3:
+        cout << "\n=======================================================\n";
+        cout << "         MENU -> Branches -> Search by Address\n";
+        cout << "=======================================================\n";
+        //searchBranchByAddress(3); // Assuming 3 means Address search criterion
+        return STATE_BRANCH_SEARCH;
+    case 4:
+        return STATE_BRANCH_MGMT;
+    }
+    return STATE_BRANCH_SEARCH;
+}
+
+MenuState displayBranchDeleteMenu() {
+    int option;
+
+    cout << "1. Delete by ID\n";
+    cout << "2. Delete by Name\n";
+    cout << "3. Delete by Address\n";
+    cout << "4. Back to Branch Management Menu\n";
+    cout << "Your choice: ";
+
+    inputManager(option, 1, 4);
+    system("cls");
+
+    switch (option) {
+    case 1:
+        cout << "\n=======================================================\n";
+        cout << "                  MENU -> Branches -> Delete by ID\n";
+        cout << "=======================================================\n";
+        searchBranchesById();
+        deleteBranches();
+        return STATE_BRANCH_DELETE;
+    case 2:
+    case 3:
+        deleteBranches();
+        return STATE_BRANCH_DELETE;
+    case 4:
+        return STATE_BRANCH_MGMT;
+    }
+    return STATE_BRANCH_DELETE;
 }

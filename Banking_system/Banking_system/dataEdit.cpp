@@ -16,7 +16,7 @@ void editBranch() {
 		cout << "No branch has been found!" << endl;
 		return;
 	}
-	displayBranches();
+	displayBranches(false);
 
 	int option;
 	cout << "Enter number of branch to edit (1 - " << branchCount << "): ";
@@ -87,7 +87,7 @@ void editDepartment() {
 
 	// Filiales izveles atjaunosana (ja nepieciesams)
 	if (branchCount > 0) {
-		displayBranches();
+		displayBranches(false);
 		string newBranch;
 		cout << "Choose new Branch (1 - " << branchCount << "), or leave blank to keep current one:";
 		getline(cin, newBranch);
@@ -287,7 +287,7 @@ void editClient() {
 
 	// Filiales izveles atjaunosana
 	if (branchCount > 0) {
-		displayBranches();
+		displayBranches(false);
 		string newBranch;
 		cout << "Choose new Branch (1 - " << branchCount << "), or leave blank to keep current one:";
 		getline(cin, newBranch);

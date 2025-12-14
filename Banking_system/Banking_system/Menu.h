@@ -13,5 +13,7 @@ MenuState displayEmployeeManagement();
 MenuState displayClientManagement();
 MenuState displayAccountManagement();
 //MenuState displayPaymentManagement();
+MenuState displayBranchSearchMenu();
+MenuState displayBranchDeleteMenu();
 
 #endif
