@@ -11,12 +11,12 @@
 using namespace std;
 
 //visi faili, kas glaba datus
-const string branchesDB = "branchesDB.txt";
-const string departmentsDB = "departmentsDB.txt";
-const string employeesDB = "employeesDB.txt";
-const string clientsDB = "clientsDB.txt";
-const string accountsDB = "accountsDB.txt";
-const string paymentsDB = "paymentsDB.txt";
+const string branchesDB = "DataBase/branchesDB.txt";
+const string departmentsDB = "DataBase/departmentsDB.txt";
+const string employeesDB = "DataBase/employeesDB.txt";
+const string clientsDB = "DataBase/clientsDB.txt";
+const string accountsDB = "DataBase/accountsDB.txt";
+const string paymentsDB = "DataBase/paymentsDB.txt";
 
 //globalie datu glabataji (masivi un skaititaji)
 Branch branchArray[MAX_COUNT];
@@ -43,22 +43,31 @@ void addBranch() {
 
 	branch.id = generateBranchId();
 	cout << "New Branch ID: " << branch.id << endl;
-	cout << "Enter Branch name: ";
-	getline(cin, branch.name);
-	cout << "Enter Branch address: ";
-	getline(cin, branch.address);
+	
+	do {
+		cout << "Enter Branch name: ";
+		getline(cin, branch.name);
+		if (branch.name.empty()) {
+			cout << "Branch name cant be left blank! Please try again!\n";
+		}
+	} while (branch.name.empty());
+
+	do {
+		cout << "Enter Branch address: ";
+		getline(cin, branch.address);
+		if (branch.address.empty()) {
+			cout << "Branch address cant be left blank! Please try again!\n";
+		}
+	} while (branch.address.empty());
 
 	file << branch.id << "|" << branch.name << "|" << branch.address << endl;
 	file.close();
 	cout << "Branch data added successfully!" << endl;
-
-	//pec filiales pievienosanas ieladejam datus atkal, lai atjauninatu masivu
-	loadBranches();
 }
 
 void addDepartment() {
 	loadBranches();
-	//nodalas nevar pastavet bez filiales
+
 	if (branchCount == 0) {
 		cout << "No Branch has been added! Firstly, add the Branch!";
 		return;
@@ -74,8 +83,14 @@ void addDepartment() {
 
 	department.id = generateDepartmentId();
 	cout << "New Department ID: " << department.id << endl;
-	cout << "Enter Department name: ";
-	getline(cin, department.name);
+
+	do {
+		cout << "Enter Department name: ";
+		getline(cin, department.name);
+		if (department.name.empty()) {
+			cout << "Department name cant be left blank! Please try again!\n";
+		}
+	} while (department.name.empty());
 
 	displayBranches();
 	int option;
@@ -117,12 +132,31 @@ void addEmployee() {
 
 	employee.id = generateEmployeeId();
 	cout << "New Employee ID: " << employee.id << endl;
-	cout << "Enter employee name: ";
-	getline(cin, employee.name);
-	cout << "Enter employee surname: ";
-	getline(cin, employee.surname);
-	cout << "Enter employee position: ";
-	getline(cin, employee.position);
+
+	do {
+		cout << "Enter employee name: ";
+		getline(cin, employee.name);
+		if (employee.name.empty()) {
+			cout << "Employee name cant be left blank! Please try again!\n";
+		}
+	} while (employee.name.empty());
+
+	do {
+		cout << "Enter employee surname: ";
+		getline(cin, employee.surname);
+		if (employee.surname.empty()) {
+			cout << "Employee surnname cant be left blank! Please try again!\n";
+		}
+	} while (employee.surname.empty());
+
+	do {
+		cout << "Enter employee position: ";
+		getline(cin, employee.position);
+		if (employee.position.empty()) {
+			cout << "Employee position cant be left blank! Please try again!\n";
+		}
+	} while (employee.position.empty());
+	
 
 	displayDepartments();
 	int option;
@@ -183,10 +217,22 @@ void addClient() {
 
 	client.id = generateClientId();
 	cout << "New Client ID: " << client.id << endl;
-	cout << "Enter client name: ";
-	getline(cin, client.name);
-	cout << "Enter client surname: ";
-	getline(cin, client.surname);
+
+	do {
+		cout << "Enter client name: ";
+		getline(cin, client.name);
+		if (client.name.empty()) {
+			cout << "Client name cant be left blank! Please try again!\n";
+		}
+	} while (client.name.empty());
+
+	do {
+		cout << "Enter client surname: ";
+		getline(cin, client.surname);
+		if (client.surname.empty()) {
+			cout << "Client surnname cant be left blank! Please try again!\n";
+		}
+	} while (client.surname.empty());
 
 	displayBranches();
 	int option;
