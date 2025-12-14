@@ -18,12 +18,20 @@ void displayBranches(bool useSearchResults) {
 	
 	int count = useSearchResults ? searchResultCount : branchCount;
 
-	cout << "\n Total Branches: " << count << endl;
+	cout << "Total Branches found: " << count << "\n" << endl;
 	if (count == 0) {
 		cout << (useSearchResults ? "No brances found!" : "No branch has been loaded") << endl;
 		return;
 	}
 
+	cout << setfill('-') << setw(70) << "" << endl;
+	cout << setfill(' ');
+	cout << left << setw(5) << "#" << "|"
+		<< left << setw(5) << "ID" << "|"
+		<< left << setw(25) << "Branch Name" << "|"
+		<< left << "Address" << endl;
+	cout << setfill('-') << setw(70) << "" << endl;
+	cout << setfill(' ');
 	for (int i = 0; i < count; i++) {
 		int indexInBranchArray;
 		//ja izmantojam atlases
@@ -37,10 +45,14 @@ void displayBranches(bool useSearchResults) {
 		//pieklust fialiales strukturai caur indexu
 		const Branch& currentBranch = branchArray[indexInBranchArray];
 
-		//(i + 1) lietotaja izveles numurs
-		cout << (i + 1) << ". " << currentBranch.name << " (ID: " << currentBranch.id << ", Adress: " << currentBranch.address << ")" << endl;
+		
+		cout << left << setw(5) << (i + 1) << "|"
+			<<left << setw(5) << currentBranch.id << "|"
+			<< left << setw(25) << currentBranch.name << "|"
+			<< left << currentBranch.address << endl;
 	}
-	cout << "--------------------------------" << endl;
+	cout << setfill('-') << setw(70) << "" << endl;
+	cout << setfill(' ');
 }
 
 void displayDepartments(bool useSearchResults) {
