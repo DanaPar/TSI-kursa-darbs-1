@@ -18,6 +18,7 @@ void inputManager(int& option, int min, int max) {
         cin.clear();
         cin.ignore(numeric_limits<streamsize>::max(), '\n');
     }
+    cin.ignore();
 }
 
 void clearScreenWithDelay(int sec) {

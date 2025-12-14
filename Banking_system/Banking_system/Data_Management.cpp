@@ -40,9 +40,9 @@ void addBranch() {
 	}
 
 	Branch branch;
-	cout << "\nIevadi filiales identifikatoru: ";
-	cin >> branch.id;
-	cin.ignore();
+
+	branch.id = generateBranchId();
+	cout << "New Branch ID: " << branch.id << endl;
 	cout << "Enter Branch name: ";
 	getline(cin, branch.name);
 	cout << "Enter Branch address: ";
@@ -72,9 +72,8 @@ void addDepartment() {
 
 	Department department;
 
-	cout << "\nIevadi nodalas identifikatoru: ";
-	cin >> department.id;
-	cin.ignore();
+	department.id = generateDepartmentId();
+	cout << "New Department ID: " << department.id << endl;
 	cout << "Enter Department name: ";
 	getline(cin, department.name);
 
@@ -116,9 +115,8 @@ void addEmployee() {
 
 	Employee employee;
 
-	cout << "\nIevadi darbinieka identifikatoru: ";
-	cin >> employee.id;
-	cin.ignore();
+	employee.id = generateEmployeeId();
+	cout << "New Employee ID: " << employee.id << endl;
 	cout << "Enter employee name: ";
 	getline(cin, employee.name);
 	cout << "Enter employee surname: ";
@@ -183,9 +181,8 @@ void addClient() {
 
 	Client client;
 
-	cout << "\nIevadi klienta identifikatoru: ";
-	cin >> client.id;
-	cin.ignore();
+	client.id = generateClientId();
+	cout << "New Client ID: " << client.id << endl;
 	cout << "Enter client name: ";
 	getline(cin, client.name);
 	cout << "Enter client surname: ";
@@ -228,7 +225,6 @@ void addClient() {
 	file << client.id << "|" << client.name << "|" << client.surname << "|" << client.branch_id << "|" << client.type << endl;
 	file.close();
 	cout << "Client data added successfully!" << endl;
-
 }
 
 void addAccount() {
@@ -955,6 +951,50 @@ void searchBranches() {
 	}
 	file.close();
 	cout << "Branch with name " << searchName << " doesnt exist!" << endl;
+}
+
+int generateBranchId() {
+	loadBranches();
+	int maxId = 0;
+	for (int i = 0; i < branchCount; i++) {
+		if (branchArray[i].id > maxId) {
+			maxId = branchArray[i].id;
+		}
+	}
+	return maxId + 1;
+}
+
+int generateDepartmentId() {
+	loadDepartments();
+	int maxId = 0;
+	for (int i = 0; i < departmentCount; i++) {
+		if (departmentArray[i].id > maxId) {
+			maxId = departmentArray[i].id;
+		}
+	}
+	return maxId + 1;
+}
+
+int generateEmployeeId() {
+	loadEmployees();
+	int maxId = 0;
+	for (int i = 0; i < employeeCount; i++) {
+		if (employeeArray[i].id > maxId) {
+			maxId = employeeArray[i].id;
+		}
+	}
+	return maxId + 1;
+}
+
+int generateClientId() {
+	loadClients();
+	int maxId = 0;
+	for (int i = 0; i < clientCount; i++) {
+		if (clientArray[i].id > maxId) {
+			maxId = clientArray[i].id;
+		}
+	}
+	return maxId + 1;
 }
 
 string generateAccountNumber() {

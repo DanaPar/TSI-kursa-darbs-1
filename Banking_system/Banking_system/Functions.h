@@ -36,6 +36,10 @@ void searchBranches();
 
 void deleteBranches();
 
+int generateBranchId();
+int generateDepartmentId();
+int generateEmployeeId();
+int generateClientId();
 string generateAccountNumber();
 bool isAccountNumberUnique(const string& accountNumber);
 
