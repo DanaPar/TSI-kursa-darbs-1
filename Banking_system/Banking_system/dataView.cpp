@@ -43,23 +43,37 @@ void displayBranches(bool useSearchResults) {
 	cout << "--------------------------------" << endl;
 }
 
-void displayDepartments() {
-	loadDepartments();
-	loadBranches();
-	cout << "\n Total Departments : " << departmentCount << endl;
-	if (departmentCount == 0) {
-		cout << "No department has been loaded" << endl;
+void displayDepartments(bool useSearchResults) {
+	if (!useSearchResults) {
+		loadDepartments();
+		loadBranches();
+	}
+
+	int count = useSearchResults ? searchResultCount : departmentCount;
+
+	cout << "\n Total Departments : " << count << endl;
+	if (count == 0) {
+		cout << (useSearchResults ? "No departments found!" : "No department has been loaded") << endl;
 		return;
 	}
 
-	for (int i = 0; i < departmentCount; i++) {
-		//(i + 1) lietotaja izveles numurs
-		cout << (i + 1) << ". " << departmentArray[i].name << " (ID: " << departmentArray[i].id << ")";
+	for (int i = 0; i < count; i++) {
+		int indexInDepartmentArray;
+		if (useSearchResults) {
+			indexInDepartmentArray = searchResultIndexes[i];
+		}
+		else {
+			indexInDepartmentArray = i;
+		}
 
-		//papildus parada kurai filialei pieder
+		const Department& currentDepartment = departmentArray[indexInDepartmentArray];
+
+		cout << (i + 1) << ". " << currentDepartment.name << " (ID: " << currentDepartment.id << ")";
+
 		string branchName = "Not Found!";
+		int branchId = currentDepartment.branch_id;
 		for (int j = 0; j < branchCount; j++) {
-			if (branchArray[j].id == departmentArray[i].branch_id) {
+			if (branchArray[j].id == branchId) {
 				branchName = branchArray[j].name;
 				break;
 			}
@@ -69,7 +83,7 @@ void displayDepartments() {
 	cout << "--------------------------------" << endl;
 }
 
-void displayEmployees() {
+void displayEmployees(bool useSearchResults) {
 	loadEmployees();
 	cout << "\n Total Employees: " << employeeCount << endl;
 	if (employeeCount == 0) {
@@ -95,7 +109,7 @@ void displayEmployees() {
 	cout << "--------------------------------" << endl;
 }
 
-void displayClients() {
+void displayClients(bool useSearchResults) {
 	loadClients();
 	cout << "\n Total Cleints: " << clientCount << endl;
 	if (clientCount == 0) {
@@ -111,7 +125,7 @@ void displayClients() {
 	cout << "--------------------------------" << endl;
 }
 
-void displayAccounts() {
+void displayAccounts(bool useSearchResults) {
 	loadAccounts();
 	cout << "\n Total Accounts: " << accountCount << endl;
 	if (accountCount == 0) {

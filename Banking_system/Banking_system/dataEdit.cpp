@@ -63,7 +63,7 @@ void editDepartment() {
 		cout << "No department has been found!" << endl;
 		return;
 	}
-	displayDepartments();
+	displayDepartments(false);
 
 	int option;
 	cout << "Enter number of Department to edit (1 - " << departmentCount << "): ";
@@ -142,7 +142,7 @@ void editEmployee() {
 		cout << "No employee has been found!" << endl;
 		return;
 	}
-	displayEmployees();
+	displayEmployees(false);
 
 	int option;
 	cout << "Enter number of Employee to edit (1 - " << employeeCount << "): ";
@@ -176,7 +176,7 @@ void editEmployee() {
 
 	// Nodalas izveles atjaunosana
 	if (departmentCount > 0) {
-		displayDepartments();
+		displayDepartments(false);
 		string newDepartment;
 		cout << "Choose new department (1 - " << departmentCount << "), or leave blank to keep current one:";
 		getline(cin, newDepartment);
@@ -258,7 +258,7 @@ void editClient() {
 		cout << "No client has been found!" << endl;
 		return;
 	}
-	displayClients();
+	displayClients(false);
 
 	int option;
 	cout << "Enter number of Client to edit (1 - " << clientCount << "): ";

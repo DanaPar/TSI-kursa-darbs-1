@@ -21,11 +21,11 @@ void loadPayments(); //ToDo create
 
 //datu attelosanas funkcijas
 void displayBranches(bool useSearchResults);
-void displayDepartments();
-void displayEmployees();
-void displayClients();
-void displayAccounts();
-void displayPayments(); //ToDo
+void displayDepartments(bool useSearchResults);
+void displayEmployees(bool useSearchResults);
+void displayClients(bool useSearchResults);
+void displayAccounts(bool useSearchResults);
+void displayPayments(bool useSearchResults); //ToDo
 
 //datu labosanas funckijas
 void editBranch();
@@ -39,9 +39,17 @@ void editPayment(); //ToDo
 void searchBranchesById();
 void searchBranchesByName();
 void searchBranchesByAddress();
+void searchDepartmentsById();
+void searchDepartmentsByName();
+void searchDepartmentsByBranch();
 
 //datu dzesanas funkcijas
 void deleteBranches();
+void deleteDepartments();
+void deleteEmployees();
+void deleteClients();
+void deleteAccounts();
+void deletePayments();
 
 //skaitlu utt generesanas funckijas
 int generateBranchId();

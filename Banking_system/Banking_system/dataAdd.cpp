@@ -136,7 +136,7 @@ void addEmployee() {
 	} while (employee.position.empty());
 
 
-	displayDepartments();
+	displayDepartments(false);
 	int option;
 	bool valid_choice = false;
 	while (!valid_choice) {
@@ -268,7 +268,7 @@ void addAccount() {
 
 	account.account_number = generateAccountNumber();
 	cout << "New account number: " << account.account_number << endl;
-	displayClients();
+	displayClients(false);
 	int option;
 	bool valid_choice = false;
 	while (!valid_choice) {

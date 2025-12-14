@@ -15,5 +15,7 @@ MenuState displayAccountManagement();
 //MenuState displayPaymentManagement();
 MenuState displayBranchSearchMenu();
 MenuState displayBranchDeleteMenu();
+MenuState displayDepartmentSearchMenu();
+MenuState displayDepartmentDeleteMenu();
 
 #endif

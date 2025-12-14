@@ -49,6 +49,12 @@ void runProgram() {
         case STATE_DEPT_MGMT:
             currentState = displayDepartmentManagement();
             break;
+        case STATE_DEPT_SEARCH:
+            currentState = displayDepartmentSearchMenu();
+            break;
+        case STATE_DEPT_DELETE:
+            currentState = displayDepartmentDeleteMenu();
+            break;
         case STATE_EMPLOYEE_MGMT:
             currentState = displayEmployeeManagement();
             break;
@@ -196,19 +202,17 @@ MenuState displayDepartmentManagement() {
         cout << "\n=======================================================\n";
         cout << "                  MENU -> Departments -> Search\n";
         cout << "=======================================================\n";
-        cout << "Pagaidam neimplementeta: meklet Nodalu\n";
-        return STATE_DEPT_MGMT;
+        return STATE_DEPT_SEARCH;
     case 4:
         cout << "\n=======================================================\n";
         cout << "                  MENU -> Departments -> Delete\n";
         cout << "=======================================================\n";
-        cout << "Pagaidam neimplementeta: dzest nodalu\n";
-        return STATE_DEPT_MGMT;
+        return STATE_DEPT_DELETE;
     case 5:
         cout << "\n=======================================================\n";
         cout << "                  MENU -> Departments -> View\n";
         cout << "=======================================================\n";
-        displayDepartments();
+        displayDepartments(false);
         return STATE_DEPT_MGMT;
     case 6:
 
@@ -265,7 +269,7 @@ MenuState displayEmployeeManagement() {
         cout << "\n=======================================================\n";
         cout << "                  MENU -> Employees -> View\n";
         cout << "=======================================================\n";
-        displayEmployees();
+        displayEmployees(false);
         return STATE_EMPLOYEE_MGMT;
     case 6:
 
@@ -322,7 +326,7 @@ MenuState displayClientManagement() {
         cout << "\n=======================================================\n";
         cout << "                  MENU -> Clients -> View\n";
         cout << "=======================================================\n";
-        displayClients();
+        displayClients(false);
         return STATE_CLIENT_MGMT;
     case 6:
 
@@ -378,7 +382,7 @@ MenuState displayAccountManagement() {
         cout << "\n=======================================================\n";
         cout << "                  MENU -> Accounts -> View\n";
         cout << "=======================================================\n";
-        displayAccounts();
+        displayAccounts(false);
         return STATE_ACCOUNT_MGMT;
     case 6:
 
@@ -462,4 +466,81 @@ MenuState displayBranchDeleteMenu() {
         return STATE_BRANCH_MGMT;
     }
     return STATE_BRANCH_DELETE;
+}
+
+MenuState displayDepartmentSearchMenu() {
+    int option;
+
+    cout << "1. Search by ID\n";
+    cout << "2. Search by Name\n";
+    cout << "3. Search by Branch\n";
+    cout << "4. Back to Department Management Menu\n";
+    cout << "Your choice: ";
+
+    inputManager(option, 1, 4);
+    system("cls");
+
+    switch (option) {
+    case 1:
+        cout << "\n=======================================================\n";
+        cout << "         MENU -> Departments -> -> Search by ID\n";
+        cout << "=======================================================\n";
+        searchDepartmentsById();
+        return STATE_DEPT_SEARCH;
+    case 2:
+        cout << "\n=======================================================\n";
+        cout << "         MENU -> Departments -> Search by Name\n";
+        cout << "=======================================================\n";
+        searchDepartmentsByName();
+        return STATE_DEPT_SEARCH;
+    case 3:
+        cout << "\n=======================================================\n";
+        cout << "         MENU -> Departments -> Search by Branch\n";
+        cout << "=======================================================\n";
+        searchDepartmentsByBranch();
+        return STATE_DEPT_SEARCH;
+    case 4:
+        return STATE_DEPT_MGMT;
+    }
+    return STATE_DEPT_SEARCH;
+}
+
+MenuState displayDepartmentDeleteMenu() {
+    int option;
+
+    cout << "1. Delete by ID\n";
+    cout << "2. Delete by Name\n";
+    cout << "3. Delete by Branch\n";
+    cout << "4. Back to Department Management Menu\n";
+    cout << "Your choice: ";
+
+    inputManager(option, 1, 4);
+    system("cls");
+
+    switch (option) {
+    case 1:
+        cout << "\n=======================================================\n";
+        cout << "         MENU -> Departments -> -> Delete by ID\n";
+        cout << "=======================================================\n";
+        searchDepartmentsById();
+        deleteDepartments();
+        return STATE_DEPT_DELETE;
+    case 2:
+        cout << "\n=======================================================\n";
+        cout << "         MENU -> Departments -> Delete by Name\n";
+        cout << "=======================================================\n";
+        searchDepartmentsByName();
+        deleteDepartments();
+        return STATE_DEPT_DELETE;
+    case 3:
+        cout << "\n=======================================================\n";
+        cout << "         MENU -> Departments -> Delete by Branch\n";
+        cout << "=======================================================\n";
+        searchDepartmentsByBranch();
+        deleteDepartments();
+        return STATE_DEPT_DELETE;
+    case 4:
+        return STATE_DEPT_MGMT;
+    }
+    return STATE_DEPT_DELETE;
 }
