@@ -85,6 +85,9 @@ extern int branchCount;
 extern Department departmentArray[MAX_COUNT];
 extern int departmentCount;
 
+extern Employee employeeArray[MAX_COUNT];
+extern int employeeCount;
+
 extern Client clientArray[MAX_COUNT];
 extern int clientCount;
 

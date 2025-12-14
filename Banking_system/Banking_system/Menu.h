@@ -1,7 +1,7 @@
 #ifndef MENU_H
 #define MENU_H
 
-#include "DataTypes.h"
+#include "dataTypes.h"
 
 void inputManager(int& option, int min, int max);
 void clearScreenWithDelay(int sec);

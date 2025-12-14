@@ -1,6 +1,6 @@
-#include "DataTypes.h"
-#include "Menu.h"
-#include "Functions.h"
+#include "dataTypes.h"
+#include "menu.h"
+#include "functions.h"
 #include <iostream>
 #include <limits>
 #include <cstdlib>
