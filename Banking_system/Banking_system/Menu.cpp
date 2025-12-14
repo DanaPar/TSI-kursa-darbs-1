@@ -410,13 +410,13 @@ MenuState displayBranchSearchMenu() {
         cout << "\n=======================================================\n";
         cout << "         MENU -> Branches -> Search by Name\n";
         cout << "=======================================================\n";
-        //searchBranchByName(2); // Assuming 2 means Name search criterion
+        searchBranchesByName();
         return STATE_BRANCH_SEARCH;
     case 3:
         cout << "\n=======================================================\n";
         cout << "         MENU -> Branches -> Search by Address\n";
         cout << "=======================================================\n";
-        //searchBranchByAddress(3); // Assuming 3 means Address search criterion
+        searchBranchesByAddress();
         return STATE_BRANCH_SEARCH;
     case 4:
         return STATE_BRANCH_MGMT;
@@ -445,7 +445,17 @@ MenuState displayBranchDeleteMenu() {
         deleteBranches();
         return STATE_BRANCH_DELETE;
     case 2:
+        cout << "\n=======================================================\n";
+        cout << "                  MENU -> Branches -> Delete by name\n";
+        cout << "=======================================================\n";
+        searchBranchesByName();
+        deleteBranches();
+        return STATE_BRANCH_DELETE;
     case 3:
+        cout << "\n=======================================================\n";
+        cout << "                  MENU -> Branches -> Delete by address\n";
+        cout << "=======================================================\n";
+        searchBranchesByAddress();
         deleteBranches();
         return STATE_BRANCH_DELETE;
     case 4:

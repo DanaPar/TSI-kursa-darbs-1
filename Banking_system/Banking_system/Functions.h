@@ -37,8 +37,8 @@ void editPayment(); //ToDo
 
 //meklesanas funkcijas
 void searchBranchesById();
-void searchBranchByName();
-void searchBranchByAddress();
+void searchBranchesByName();
+void searchBranchesByAddress();
 
 //datu dzesanas funkcijas
 void deleteBranches();
@@ -50,6 +50,8 @@ int generateEmployeeId();
 int generateClientId();
 string generateAccountNumber();
 bool isAccountNumberUnique(const string& accountNumber);
+string toLower(const string& str);
+
 
 #endif
 

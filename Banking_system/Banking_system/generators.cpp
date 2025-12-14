@@ -7,6 +7,8 @@
 #include <sstream>
 #include <cstdlib>
 #include <ctime>
+#include <cctype>
+#include <algorithm>
 
 using namespace std;
 
@@ -103,4 +105,11 @@ bool isAccountNumberUnique(const string& accountNumber) {
 	}
 	file.close();
 	return true;
+}
+
+string toLower(const string& str) {
+	string lowerStr = str;
+	// Uses std::transform and ::tolower (from <algorithm> and <cctype>)
+	transform(lowerStr.begin(), lowerStr.end(), lowerStr.begin(), ::tolower);
+	return lowerStr;
 }
