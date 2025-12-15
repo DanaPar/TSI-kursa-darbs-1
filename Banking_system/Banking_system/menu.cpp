@@ -47,6 +47,9 @@ void runProgram() {
         case STATE_BRANCH_DELETE:
             currentState = displayBranchDeleteMenu();
             break;
+        case STATE_BRANCH_SORT:
+            currentState = sortBranchesMenu();
+            break;
         case STATE_DEPT_MGMT:
             currentState = displayDepartmentManagement();
             break;
@@ -167,7 +170,7 @@ MenuState displayBranchManagement() {
         cout << "                  MENU -> Branches -> View\n";
         cout << "=======================================================\n";
         displayBranches(false);
-        return STATE_BRANCH_MGMT;
+        return STATE_BRANCH_SORT;
     case 6:
         return STATE_MAIN_MENU;
     }
@@ -249,6 +252,75 @@ MenuState displayBranchDeleteMenu() {
         return STATE_BRANCH_MGMT;
     }
     return STATE_BRANCH_DELETE;
+}
+
+MenuState sortBranchesMenu() {
+    int option;
+
+    cout << "1. Sort by Id\n";
+    cout << "2. Sort by Name\n";
+    cout << "3. Back to Branch Management Menu\n";
+    cout << "Your choice: ";
+
+    inputManager(option, 1, 3);
+    //clearScreenWithDelay(0);
+
+    switch (option) {
+    case 1:
+        cout << "1. Sort ascending order\n";
+        cout << "2. Sort descending order\n";
+        cout << "3. Back to Branch Management Menu\n";
+        cout << "Your choice: ";
+        inputManager(option, 1, 3);
+        clearScreenWithDelay(0);
+        switch (option) {
+        case 1: 
+            cout << "\n=======================================================\n";
+            cout << "                  MENU -> Branches -> View -> Sort by Id(ascending)\n";
+            cout << "=======================================================\n";
+            sortBranchesById(true);
+            break;
+        case 2:
+            cout << "\n=======================================================\n";
+            cout << "                  MENU -> Branches -> View -> Sort by Id(descending)\n";
+            cout << "=======================================================\n";
+            sortBranchesById(false);
+            break;
+        case 3: 
+            clearScreenWithDelay(0); 
+            return STATE_BRANCH_MGMT;
+        }
+        return STATE_BRANCH_SORT;
+        case 2:
+        cout << "1. Sort ascending order\n";
+        cout << "2. Sort descending order\n";
+        cout << "3. Back to Branch Management Menu\n";
+        cout << "Your choice: ";
+        inputManager(option, 1, 3);
+        clearScreenWithDelay(0);
+        switch (option) {
+        case 1:
+            cout << "\n=======================================================\n";
+            cout << "                  MENU -> Branches -> View -> Sort by Name(ascending)\n";
+            cout << "=======================================================\n";
+            sortBranchesByName(true);
+            break;
+        case 2: 
+            cout << "\n=======================================================\n";
+            cout << "                  MENU -> Branches -> View -> Sort by Name(descending)\n";
+            cout << "=======================================================\n"; 
+            sortBranchesByName(false);
+            break;
+        case 3: 
+            clearScreenWithDelay(0);
+            return STATE_BRANCH_MGMT;
+        }
+        return STATE_BRANCH_SORT;
+    case 3:
+        clearScreenWithDelay(0);
+        return STATE_BRANCH_MGMT;
+    }
+    return STATE_BRANCH_SORT;
 }
 
 MenuState displayDepartmentManagement() {

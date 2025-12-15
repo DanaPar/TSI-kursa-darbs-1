@@ -27,6 +27,10 @@ void displayClients(bool useSearchResults);
 void displayAccounts(bool useSearchResults);
 void displayPayments(bool useSearchResults); //ToDo
 
+//datu k?rtošana
+void sortBranchesById(bool ascending);
+void sortBranchesByName(bool ascending);
+
 //datu labosanas funckijas
 void editBranch();
 void editDepartment();
