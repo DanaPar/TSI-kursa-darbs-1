@@ -640,7 +640,7 @@ void displayEmployees() {
 			case BASIC_USER: accessLevelStr = "BASIC_USER"; break;
 			case ADMIN: accessLevelStr = "ADMIN"; break;
 			case SUPER_ADMIN: accessLevelStr = "SUPER_ADMIN"; break;
-			default: accessLevelStr = "Nezināms"; break;
+			default: accessLevelStr = "Unknown"; break;
 		}
 
 		cout << (i + 1) << ". " << employeeArray[i].name << " " << employeeArray[i].surname
