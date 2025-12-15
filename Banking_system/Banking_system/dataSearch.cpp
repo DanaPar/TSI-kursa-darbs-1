@@ -336,3 +336,42 @@ void searchDepartmentsByBranch() {
         cout << "--- Search Complete: No Departments Found in Branch(es) starting with " << searchBranchName << " ---\n";
     }
 }
+
+void searchEmployeesById() {
+    loadEmployees();
+    int searchId;
+    //notira ieprieksejos rezultatus
+    searchResultCount = 0;
+    cout << "Enter Employee ID to search: ";
+
+    while (!(cin >> searchId)) {
+        cout << "Invalid input. Please enter a valid integer ID: ";
+        cin.clear();
+        cin.ignore(numeric_limits<streamsize>::max(), '\n');
+    }
+    cin.ignore();
+
+    for (int i = 0; i < employeeCount; ++i) {
+        if (employeeArray[i].id == searchId) {
+            if (searchResultCount < MAX_COUNT) {
+                searchResultIndexes[searchResultCount] = i;
+                searchResultCount++;
+                break;
+            }
+            else {
+                cout << "Warning: Maximum search results limit reached.\n";
+                break;
+            }
+        }
+    }
+
+    if (searchResultCount > 0) {
+        cout << "--- Search Complete: " << searchResultCount << " Employee(s) Found ---\n";
+        displayEmployees(true);
+    }
+    else {
+        cout << "--- Search Complete: No Employees Found with ID " << searchId << " ---\n";
+    }
+}
+//void searchEmployeesByPosition();
+//void searchEmployeesByAccessLevel();

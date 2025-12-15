@@ -55,8 +55,8 @@ void displayBranches(bool useSearchResults) {
 void displayDepartments(bool useSearchResults) {
 	if (!useSearchResults) {
 		loadDepartments();
-		loadBranches();
 	}
+	loadBranches();
 
 	int count = useSearchResults ? searchResultCount : departmentCount;
 
@@ -104,8 +104,9 @@ void displayDepartments(bool useSearchResults) {
 void displayEmployees(bool useSearchResults) {
 	if (!useSearchResults) {
 		loadEmployees();
-		loadDepartments();
 	}
+	loadDepartments();
+
 	int count = useSearchResults ? searchResultCount : employeeCount;
 
 	cout << "\n Total Employees found: " << count << "\n" << endl;
@@ -171,8 +172,9 @@ void displayEmployees(bool useSearchResults) {
 void displayClients(bool useSearchResults) {
 	if (!useSearchResults) {
 		loadClients();
-		loadBranches();
 	}
+	loadBranches();
+
 	int count = useSearchResults ? searchResultCount : clientCount;
 
 	cout << "\n Total Clients found: " << count << "\n" << endl;
@@ -226,8 +228,8 @@ void displayClients(bool useSearchResults) {
 void displayAccounts(bool useSearchResults) {
 	if (!useSearchResults) {
 		loadAccounts();
-		loadClients();
 	}
+	loadClients();
 
 	int count = useSearchResults ? searchResultCount : accountCount;
 

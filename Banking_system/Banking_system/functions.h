@@ -42,6 +42,9 @@ void searchBranchesByAddress();
 void searchDepartmentsById();
 void searchDepartmentsByName();
 void searchDepartmentsByBranch();
+void searchEmployeesById();
+void searchEmployeesByPosition();
+void searchEmployeesByAccessLevel();
 
 //datu dzesanas funkcijas
 void deleteBranches();

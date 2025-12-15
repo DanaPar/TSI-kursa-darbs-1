@@ -59,6 +59,9 @@ void runProgram() {
         case STATE_EMPLOYEE_MGMT:
             currentState = displayEmployeeManagement();
             break;
+        case STATE_EMPLOYEE_SEARCH:
+            currentState = displayEmployeeSearchMenu();
+            break;
         case STATE_CLIENT_MGMT:
             currentState = displayClientManagement();
             break;
@@ -274,8 +277,7 @@ MenuState displayEmployeeManagement() {
         cout << "\n=======================================================\n";
         cout << "                  MENU -> Employees -> Search\n";
         cout << "=======================================================\n";
-        cout << "Pagaidam neimplementeta: meklet darbinieku\n";
-        return STATE_EMPLOYEE_MGMT;
+        return STATE_EMPLOYEE_SEARCH;
     case 4:
         cout << "\n=======================================================\n";
         cout << "                  MENU -> Employees -> Delete\n";
@@ -520,7 +522,7 @@ MenuState displayDepartmentSearchMenu() {
     switch (option) {
     case 1:
         cout << "\n=======================================================\n";
-        cout << "         MENU -> Departments -> -> Search by ID\n";
+        cout << "         MENU -> Departments -> Search by ID\n";
         cout << "=======================================================\n";
         searchDepartmentsById();
         return STATE_DEPT_SEARCH;
@@ -561,7 +563,7 @@ MenuState displayDepartmentDeleteMenu() {
     switch (option) {
     case 1:
         cout << "\n=======================================================\n";
-        cout << "         MENU -> Departments -> -> Delete by ID\n";
+        cout << "         MENU -> Departments -> Delete by ID\n";
         cout << "=======================================================\n";
         searchDepartmentsById();
         deleteDepartments();
@@ -584,4 +586,45 @@ MenuState displayDepartmentDeleteMenu() {
         return STATE_DEPT_MGMT;
     }
     return STATE_DEPT_DELETE;
+}
+
+MenuState displayEmployeeSearchMenu() {
+    int option;
+
+    cout << "1. Search by ID\n";
+    cout << "2. Search by Name\n";
+    cout << "3. Search by Branch\n";
+    cout << "4. Back to Department Management Menu\n";
+    cout << "Your choice: ";
+
+    inputManager(option, 1, 4);
+#ifdef _WIN32
+    system("cls");      // Windows
+#else
+    system("clear");    // Mac/Unix
+#endif
+
+    switch (option) {
+        case 1:
+            cout << "\n=======================================================\n";
+        cout << "         MENU -> Employees -> Search by ID\n";
+        cout << "=======================================================\n";
+        searchEmployeesById();
+        return STATE_EMPLOYEE_SEARCH;
+        case 2:
+            cout << "\n=======================================================\n";
+        cout << "         MENU -> Employees -> Search by Name\n";
+        cout << "=======================================================\n";
+        searchDepartmentsByName();
+        return STATE_EMPLOYEE_SEARCH;
+        case 3:
+            cout << "\n=======================================================\n";
+        cout << "         MENU -> Employees -> Search by Access Level\n";
+        cout << "=======================================================\n";
+        searchDepartmentsByBranch();
+        return STATE_EMPLOYEE_SEARCH;
+        case 4:
+            return STATE_EMPLOYEE_MGMT;
+    }
+    return STATE_EMPLOYEE_SEARCH;
 }

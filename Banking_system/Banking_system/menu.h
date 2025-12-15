@@ -17,5 +17,6 @@ MenuState displayBranchSearchMenu();
 MenuState displayBranchDeleteMenu();
 MenuState displayDepartmentSearchMenu();
 MenuState displayDepartmentDeleteMenu();
+MenuState displayEmployeeSearchMenu();
 
 #endif
