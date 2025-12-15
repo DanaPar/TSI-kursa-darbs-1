@@ -5,8 +5,6 @@
 #include <string>
 #include <fstream>
 #include <sstream>
-#include <cstdlib>
-#include <ctime>
 
 using namespace std;
 
@@ -318,7 +316,7 @@ void editClient() {
 		}
 	}
 
-	// Klienta tipa atjaunošana
+	// Klienta tipa atjaunoï¿½ana
 	string newClientType;
 	cout << "Choose new client type (current: " << client.type << "):" << endl << "0: PRIVATE, 1: CORPORATE, or leave blank to keep current one:" << endl;
 	getline(cin, newClientType);

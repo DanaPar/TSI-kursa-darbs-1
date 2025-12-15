@@ -5,8 +5,6 @@
 #include <string>
 #include <fstream>
 #include <sstream>
-#include <cstdlib>
-#include <ctime>
 
 using namespace std;
 

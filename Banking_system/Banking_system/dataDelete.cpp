@@ -1,5 +1,3 @@
-// dataDelete.cpp
-
 #include "dataTypes.h"
 #include "functions.h"
 #include <iostream>
@@ -7,10 +5,6 @@
 #include <string>
 #include <fstream>
 #include <sstream>
-#include <cstdlib>
-#include <ctime>
-#include <limits>
-#include <algorithm>
 
 using namespace std;
 

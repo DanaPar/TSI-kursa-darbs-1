@@ -5,11 +5,7 @@
 #include <string>
 #include <fstream>
 #include <sstream>
-#include <cstdlib>
-#include <ctime>
 #include <limits>
-#include <algorithm> // for transform
-
 
 using namespace std;
 
