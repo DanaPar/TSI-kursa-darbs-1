@@ -189,11 +189,7 @@ MenuState displayDepartmentManagement() {
     cout << "Your choice: ";
 
     inputManager(option, 1, 6);
-#ifdef _WIN32
-    system("cls");      // Windows
-#else
-    system("clear");    // Mac/Unix
-#endif
+    clearScreenWithDelay(0);
 
     switch (option) {
     case 1:
@@ -248,11 +244,7 @@ MenuState displayEmployeeManagement() {
     cout << "Your choice: ";
 
     inputManager(option, 1, 6);
-#ifdef _WIN32
-    system("cls");      // Windows
-#else
-    system("clear");    // Mac/Unix
-#endif
+    clearScreenWithDelay(0);
 
     switch (option) {
     case 1:
@@ -308,11 +300,7 @@ MenuState displayClientManagement() {
     cout << "Your choice: ";
 
     inputManager(option, 1, 6);
-#ifdef _WIN32
-    system("cls");      // Windows
-#else
-    system("clear");    // Mac/Unix
-#endif
+    clearScreenWithDelay(0);
 
     switch (option) {
     case 1:
@@ -369,11 +357,7 @@ MenuState displayAccountManagement() {
     cout << "Your choice: ";
 
     inputManager(option, 1, 6);
-#ifdef _WIN32
-    system("cls");      // Windows
-#else
-    system("clear");    // Mac/Unix
-#endif
+    clearScreenWithDelay(0);
 
     switch (option) {
     case 1:
@@ -424,11 +408,7 @@ MenuState displayBranchSearchMenu() {
     cout << "Your choice: ";
 
     inputManager(option, 1, 4);
-#ifdef _WIN32
-    system("cls");      // Windows
-#else
-    system("clear");    // Mac/Unix
-#endif
+    clearScreenWithDelay(0);
 
     switch (option) {
     case 1:
@@ -465,11 +445,7 @@ MenuState displayBranchDeleteMenu() {
     cout << "Your choice: ";
 
     inputManager(option, 1, 4);
-#ifdef _WIN32
-    system("cls");      // Windows
-#else
-    system("clear");    // Mac/Unix
-#endif
+    clearScreenWithDelay(0);
 
     switch (option) {
     case 1:
@@ -509,11 +485,7 @@ MenuState displayDepartmentSearchMenu() {
     cout << "Your choice: ";
 
     inputManager(option, 1, 4);
-#ifdef _WIN32
-    system("cls");      // Windows
-#else
-    system("clear");    // Mac/Unix
-#endif
+    clearScreenWithDelay(0);
 
     switch (option) {
     case 1:
@@ -550,11 +522,7 @@ MenuState displayDepartmentDeleteMenu() {
     cout << "Your choice: ";
 
     inputManager(option, 1, 4);
-#ifdef _WIN32
-    system("cls");      // Windows
-#else
-    system("clear");    // Mac/Unix
-#endif
+    clearScreenWithDelay(0);
 
     switch (option) {
     case 1:
@@ -594,11 +562,7 @@ MenuState displayEmployeeSearchMenu() {
     cout << "Your choice: ";
 
     inputManager(option, 1, 4);
-#ifdef _WIN32
-    system("cls");      // Windows
-#else
-    system("clear");    // Mac/Unix
-#endif
+    clearScreenWithDelay(0);
 
     switch (option) {
         case 1:
