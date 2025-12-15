@@ -3,13 +3,11 @@
 #include "functions.h"
 #include <iostream>
 #include <limits>
-#include <cstdlib>
+#include <cstdlib> //for system()
+#include <chrono>       // Required for std::chrono::milliseconds
+#include <thread>       // Required for std::this_thread::sleep_for
 
-#ifdef _WIN32
-#define NOMINMAX
-#include<windows.h>//for sleep()
-#endif
-
+using namespace std;
 
 
 void inputManager(int& option, int min, int max) {
@@ -22,9 +20,12 @@ void inputManager(int& option, int min, int max) {
 }
 
 void clearScreenWithDelay(int sec) {
-    int miliseconds = sec * 1000;
-    Sleep(miliseconds);
-    system("cls");
+    this_thread::sleep_for(chrono::seconds(sec));
+#ifdef _WIN32
+    system("cls");      // Windows
+#else
+    system("clear");    // Mac/Unix
+#endif
 }
 
 // ------ GALVENA PROGRAMMAS CILPA ------
@@ -96,7 +97,11 @@ MenuState displayMainMenu() {
     cout << "Your choice: ";
 
     inputManager(option, 1, 7);
-    system("cls");
+#ifdef _WIN32
+    system("cls");      // Windows
+#else
+    system("clear");    // Mac/Unix
+#endif
 
     switch (option) {
     case 1: return STATE_BRANCH_MGMT;
@@ -127,7 +132,11 @@ MenuState displayBranchManagement() {
     cout << "Your choice: ";
 
     inputManager(option, 1, 6);
-    system("cls");
+#ifdef _WIN32
+    system("cls");      // Windows
+#else
+    system("clear");    // Mac/Unix
+#endif
 
     switch (option) {
     case 1:
@@ -181,7 +190,11 @@ MenuState displayDepartmentManagement() {
     cout << "Your choice: ";
 
     inputManager(option, 1, 6);
-    system("cls");
+#ifdef _WIN32
+    system("cls");      // Windows
+#else
+    system("clear");    // Mac/Unix
+#endif
 
     switch (option) {
     case 1:
@@ -236,7 +249,11 @@ MenuState displayEmployeeManagement() {
     cout << "Your choice: ";
 
     inputManager(option, 1, 6);
-    system("cls");
+#ifdef _WIN32
+    system("cls");      // Windows
+#else
+    system("clear");    // Mac/Unix
+#endif
 
     switch (option) {
     case 1:
@@ -293,7 +310,11 @@ MenuState displayClientManagement() {
     cout << "Your choice: ";
 
     inputManager(option, 1, 6);
-    system("cls");
+#ifdef _WIN32
+    system("cls");      // Windows
+#else
+    system("clear");    // Mac/Unix
+#endif
 
     switch (option) {
     case 1:
@@ -350,7 +371,11 @@ MenuState displayAccountManagement() {
     cout << "Your choice: ";
 
     inputManager(option, 1, 6);
-    system("cls");
+#ifdef _WIN32
+    system("cls");      // Windows
+#else
+    system("clear");    // Mac/Unix
+#endif
 
     switch (option) {
     case 1:
@@ -401,7 +426,11 @@ MenuState displayBranchSearchMenu() {
     cout << "Your choice: ";
 
     inputManager(option, 1, 4);
-    system("cls");
+#ifdef _WIN32
+    system("cls");      // Windows
+#else
+    system("clear");    // Mac/Unix
+#endif
 
     switch (option) {
     case 1:
@@ -438,7 +467,11 @@ MenuState displayBranchDeleteMenu() {
     cout << "Your choice: ";
 
     inputManager(option, 1, 4);
-    system("cls");
+#ifdef _WIN32
+    system("cls");      // Windows
+#else
+    system("clear");    // Mac/Unix
+#endif
 
     switch (option) {
     case 1:
@@ -478,7 +511,11 @@ MenuState displayDepartmentSearchMenu() {
     cout << "Your choice: ";
 
     inputManager(option, 1, 4);
-    system("cls");
+#ifdef _WIN32
+    system("cls");      // Windows
+#else
+    system("clear");    // Mac/Unix
+#endif
 
     switch (option) {
     case 1:
@@ -515,7 +552,11 @@ MenuState displayDepartmentDeleteMenu() {
     cout << "Your choice: ";
 
     inputManager(option, 1, 4);
-    system("cls");
+#ifdef _WIN32
+    system("cls");      // Windows
+#else
+    system("clear");    // Mac/Unix
+#endif
 
     switch (option) {
     case 1:

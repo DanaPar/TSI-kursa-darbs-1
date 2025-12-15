@@ -108,7 +108,7 @@ void displayEmployees(bool useSearchResults) {
 	}
 	int count = useSearchResults ? searchResultCount : employeeCount;
 
-	cout << "\n Total Employees found: " << employeeCount << "\n" << endl;
+	cout << "\n Total Employees found: " << count << "\n" << endl;
 	if (count == 0) {
 		cout << (useSearchResults ? "No employees found!" : "No employee has been loaded") << endl;
 		return;
@@ -171,35 +171,110 @@ void displayEmployees(bool useSearchResults) {
 void displayClients(bool useSearchResults) {
 	if (!useSearchResults) {
 		loadClients();
+		loadBranches();
 	}
-	cout << "\n Total Clients: " << clientCount << endl;
-	if (clientCount == 0) {
-		cout << "No client has been found" << endl;
+	int count = useSearchResults ? searchResultCount : clientCount;
+
+	cout << "\n Total Clients found: " << count << "\n" << endl;
+	if (count == 0) {
+		cout << (useSearchResults ? "No clients found!" : "No client has been loaded") << endl;
 		return;
 	}
 
-	for (int i = 0; i < clientCount; i++) {
+	cout << setfill('-') << setw(100) << "" << endl;
+	cout << setfill(' ');
+	cout << left << setw(5) << "#" << "|"
+		<< left << setw(5) << "ID" << "|"
+		<< left << setw(30) << "Name" << "|"
+		<< left << setw(15) << "Surname" << "|"
+		<< left << setw(20) << "Branch" << "|"
+		<< left << "Type" << endl;
+	cout << setfill('-') << setw(100) << "" << endl;
+	cout << setfill(' ');
+
+	for (int i = 0; i < count; i++) {
+		int indexInClientArray;
+		if (useSearchResults) {
+			indexInClientArray = searchResultIndexes[i];
+		}
+		else {
+			indexInClientArray = i;
+		}
+
+		const Client& currentClient = clientArray[indexInClientArray];
+
 		string clientTypeStr = (clientArray[i].type == PRIVATE) ? "Private" : "Corporate";
-		//(i + 1) lietotaja izveles numurs
-		cout << (i + 1) << ". " << clientArray[i].name << " " << clientArray[i].surname << " (ID: " << clientArray[i].id << ", Type: " << clientTypeStr << ")" << endl;
+		string branchName = "Not Found!";
+		int branchId = currentClient.branch_id;
+		for (int j = 0; j < branchCount; j++) {
+			if (branchArray[j].id == branchId) {
+				branchName = branchArray[j].name;
+				break;
+			}
+		}
+		cout << left << setw(5) << (i + 1) << "|"
+		<< left << setw(5) << currentClient.id << "|"
+		<< left << setw(30) << currentClient.name << "|"
+		<< left << setw(15) << currentClient.surname << "|"
+		<< left << setw(20) << branchName << "|"
+		<< left << "Type" << endl;
 	}
-	cout << "--------------------------------" << endl;
+	cout << setfill('-') << setw(100) << "" << endl;
+	cout << setfill(' ');
 }
 
 void displayAccounts(bool useSearchResults) {
 	if (!useSearchResults) {
 		loadAccounts();
+		loadClients();
 	}
-	cout << "\n Total Accounts: " << accountCount << endl;
-	if (accountCount == 0) {
-		cout << "No account has been found" << endl;
+
+	int count = useSearchResults ? searchResultCount : accountCount;
+
+	cout << "\n Total Accounts found: " << count << endl;
+	if (count == 0) {
+		cout << (useSearchResults ? "No accounts found!" : "No account has been loaded") << endl;
 		return;
 	}
 
-	for (int i = 0; i < accountCount; i++) {
-		cout << (i + 1) << ". Account Nr: " << accountArray[i].account_number
-			<< " (Client ID: " << accountArray[i].owner_id
-			<< ", Balance: " << fixed << setprecision(2) << accountArray[i].balance << " EUR)" << endl;
+	cout << setfill('-') << setw(100) << "" << endl;
+	cout << setfill(' ');
+	cout << left << setw(5) << "#" << "|"
+		<< left << setw(30) << "Account" << "|"
+		<< left << setw(20) << "Owner" << "|"
+		<< left << "Balance" << endl;
+	cout << setfill('-') << setw(100) << "" << endl;
+	cout << setfill(' ');
+
+	for (int i = 0; i < count; i++) {
+		int indexInAccountArray;
+		if (useSearchResults) {
+			indexInAccountArray = searchResultIndexes[i];
+		}
+		else {
+			indexInAccountArray = i;
+		}
+
+		const Account& currentAccount = accountArray[indexInAccountArray];
+
+		string clientName = "Not Found!";
+		int clientId = currentAccount.owner_id;
+		for (int j = 0; j < clientCount; j++) {
+			if (clientArray[j].id == clientId) {
+				if (clientArray[j].type == 0) { // 0:PRIVATE
+					clientName = clientArray[j].name + " " + clientArray[j].surname;
+				} else {
+					clientName = clientArray[j].name;
+				}
+				break;
+			}
+		}
+
+		cout << left << setw(5) << (i + 1) << "|"
+		<< left << setw(30) << currentAccount.account_number << "|"
+		<< left << setw(20) << clientName << "|"
+		<< left << currentAccount.balance << endl;
 	}
-	cout << "--------------------------------" << endl;
+	cout << setfill('-') << setw(100) << "" << endl;
+	cout << setfill(' ');
 }
