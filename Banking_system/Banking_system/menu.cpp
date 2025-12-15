@@ -174,6 +174,83 @@ MenuState displayBranchManagement() {
     return STATE_BRANCH_MGMT;
 }
 
+MenuState displayBranchSearchMenu() {
+    int option;
+
+    cout << "1. Search by ID\n";
+    cout << "2. Search by Name\n";
+    cout << "3. Search by Address\n";
+    cout << "4. Back to Branch Management Menu\n";
+    cout << "Your choice: ";
+
+    inputManager(option, 1, 4);
+    clearScreenWithDelay(0);
+
+    switch (option) {
+    case 1:
+        cout << "\n=======================================================\n";
+        cout << "         MENU -> Branches -> Search by ID\n";
+        cout << "=======================================================\n";
+        searchBranchesById(); // Assuming 1 means ID search criterion
+        return STATE_BRANCH_SEARCH;
+    case 2:
+        cout << "\n=======================================================\n";
+        cout << "         MENU -> Branches -> Search by Name\n";
+        cout << "=======================================================\n";
+        searchBranchesByName();
+        return STATE_BRANCH_SEARCH;
+    case 3:
+        cout << "\n=======================================================\n";
+        cout << "         MENU -> Branches -> Search by Address\n";
+        cout << "=======================================================\n";
+        searchBranchesByAddress();
+        return STATE_BRANCH_SEARCH;
+    case 4:
+        return STATE_BRANCH_MGMT;
+    }
+    return STATE_BRANCH_SEARCH;
+}
+
+MenuState displayBranchDeleteMenu() {
+    int option;
+
+    cout << "1. Delete by ID\n";
+    cout << "2. Delete by Name\n";
+    cout << "3. Delete by Address\n";
+    cout << "4. Back to Branch Management Menu\n";
+    cout << "Your choice: ";
+
+    inputManager(option, 1, 4);
+    clearScreenWithDelay(0);
+
+    switch (option) {
+    case 1:
+        cout << "\n=======================================================\n";
+        cout << "                  MENU -> Branches -> Delete by ID\n";
+        cout << "=======================================================\n";
+        searchBranchesById();
+        deleteBranches();
+        return STATE_BRANCH_DELETE;
+    case 2:
+        cout << "\n=======================================================\n";
+        cout << "                  MENU -> Branches -> Delete by name\n";
+        cout << "=======================================================\n";
+        searchBranchesByName();
+        deleteBranches();
+        return STATE_BRANCH_DELETE;
+    case 3:
+        cout << "\n=======================================================\n";
+        cout << "                  MENU -> Branches -> Delete by address\n";
+        cout << "=======================================================\n";
+        searchBranchesByAddress();
+        deleteBranches();
+        return STATE_BRANCH_DELETE;
+    case 4:
+        return STATE_BRANCH_MGMT;
+    }
+    return STATE_BRANCH_DELETE;
+}
+
 MenuState displayDepartmentManagement() {
     int option;
 
@@ -227,6 +304,83 @@ MenuState displayDepartmentManagement() {
         return STATE_MAIN_MENU;
     }
     return STATE_DEPT_MGMT;
+}
+
+MenuState displayDepartmentSearchMenu() {
+    int option;
+
+    cout << "1. Search by ID\n";
+    cout << "2. Search by Name\n";
+    cout << "3. Search by Branch\n";
+    cout << "4. Back to Department Management Menu\n";
+    cout << "Your choice: ";
+
+    inputManager(option, 1, 4);
+    clearScreenWithDelay(0);
+
+    switch (option) {
+    case 1:
+        cout << "\n=======================================================\n";
+        cout << "         MENU -> Departments -> Search by ID\n";
+        cout << "=======================================================\n";
+        searchDepartmentsById();
+        return STATE_DEPT_SEARCH;
+    case 2:
+        cout << "\n=======================================================\n";
+        cout << "         MENU -> Departments -> Search by Name\n";
+        cout << "=======================================================\n";
+        searchDepartmentsByName();
+        return STATE_DEPT_SEARCH;
+    case 3:
+        cout << "\n=======================================================\n";
+        cout << "         MENU -> Departments -> Search by Branch\n";
+        cout << "=======================================================\n";
+        searchDepartmentsByBranch();
+        return STATE_DEPT_SEARCH;
+    case 4:
+        return STATE_DEPT_MGMT;
+    }
+    return STATE_DEPT_SEARCH;
+}
+
+MenuState displayDepartmentDeleteMenu() {
+    int option;
+
+    cout << "1. Delete by ID\n";
+    cout << "2. Delete by Name\n";
+    cout << "3. Delete by Branch\n";
+    cout << "4. Back to Department Management Menu\n";
+    cout << "Your choice: ";
+
+    inputManager(option, 1, 4);
+    clearScreenWithDelay(0);
+
+    switch (option) {
+    case 1:
+        cout << "\n=======================================================\n";
+        cout << "         MENU -> Departments -> Delete by ID\n";
+        cout << "=======================================================\n";
+        searchDepartmentsById();
+        deleteDepartments();
+        return STATE_DEPT_DELETE;
+    case 2:
+        cout << "\n=======================================================\n";
+        cout << "         MENU -> Departments -> Delete by Name\n";
+        cout << "=======================================================\n";
+        searchDepartmentsByName();
+        deleteDepartments();
+        return STATE_DEPT_DELETE;
+    case 3:
+        cout << "\n=======================================================\n";
+        cout << "         MENU -> Departments -> Delete by Branch\n";
+        cout << "=======================================================\n";
+        searchDepartmentsByBranch();
+        deleteDepartments();
+        return STATE_DEPT_DELETE;
+    case 4:
+        return STATE_DEPT_MGMT;
+    }
+    return STATE_DEPT_DELETE;
 }
 
 MenuState displayEmployeeManagement() {
@@ -283,6 +437,43 @@ MenuState displayEmployeeManagement() {
         return STATE_MAIN_MENU;
     }
     return STATE_EMPLOYEE_MGMT;
+}
+
+MenuState displayEmployeeSearchMenu() {
+    int option;
+
+    cout << "1. Search by ID\n";
+    cout << "2. Search by Name\n";
+    cout << "3. Search by Branch\n";
+    cout << "4. Back to Department Management Menu\n";
+    cout << "Your choice: ";
+
+    inputManager(option, 1, 4);
+    clearScreenWithDelay(0);
+
+    switch (option) {
+    case 1:
+        cout << "\n=======================================================\n";
+        cout << "         MENU -> Employees -> Search by ID\n";
+        cout << "=======================================================\n";
+        searchEmployeesById();
+        return STATE_EMPLOYEE_SEARCH;
+    case 2:
+        cout << "\n=======================================================\n";
+        cout << "         MENU -> Employees -> Search by Name\n";
+        cout << "=======================================================\n";
+        searchDepartmentsByName();
+        return STATE_EMPLOYEE_SEARCH;
+    case 3:
+        cout << "\n=======================================================\n";
+        cout << "         MENU -> Employees -> Search by Access Level\n";
+        cout << "=======================================================\n";
+        searchDepartmentsByBranch();
+        return STATE_EMPLOYEE_SEARCH;
+    case 4:
+        return STATE_EMPLOYEE_MGMT;
+    }
+    return STATE_EMPLOYEE_SEARCH;
 }
 
 MenuState displayClientManagement() {
@@ -396,195 +587,4 @@ MenuState displayAccountManagement() {
         return STATE_MAIN_MENU;
     }
     return STATE_ACCOUNT_MGMT;
-}
-
-MenuState displayBranchSearchMenu() {
-    int option;
-
-    cout << "1. Search by ID\n";
-    cout << "2. Search by Name\n";
-    cout << "3. Search by Address\n";
-    cout << "4. Back to Branch Management Menu\n";
-    cout << "Your choice: ";
-
-    inputManager(option, 1, 4);
-    clearScreenWithDelay(0);
-
-    switch (option) {
-    case 1:
-        cout << "\n=======================================================\n";
-        cout << "         MENU -> Branches -> Search by ID\n";
-        cout << "=======================================================\n";
-        searchBranchesById(); // Assuming 1 means ID search criterion
-        return STATE_BRANCH_SEARCH;
-    case 2:
-        cout << "\n=======================================================\n";
-        cout << "         MENU -> Branches -> Search by Name\n";
-        cout << "=======================================================\n";
-        searchBranchesByName();
-        return STATE_BRANCH_SEARCH;
-    case 3:
-        cout << "\n=======================================================\n";
-        cout << "         MENU -> Branches -> Search by Address\n";
-        cout << "=======================================================\n";
-        searchBranchesByAddress();
-        return STATE_BRANCH_SEARCH;
-    case 4:
-        return STATE_BRANCH_MGMT;
-    }
-    return STATE_BRANCH_SEARCH;
-}
-
-MenuState displayBranchDeleteMenu() {
-    int option;
-
-    cout << "1. Delete by ID\n";
-    cout << "2. Delete by Name\n";
-    cout << "3. Delete by Address\n";
-    cout << "4. Back to Branch Management Menu\n";
-    cout << "Your choice: ";
-
-    inputManager(option, 1, 4);
-    clearScreenWithDelay(0);
-
-    switch (option) {
-    case 1:
-        cout << "\n=======================================================\n";
-        cout << "                  MENU -> Branches -> Delete by ID\n";
-        cout << "=======================================================\n";
-        searchBranchesById();
-        deleteBranches();
-        return STATE_BRANCH_DELETE;
-    case 2:
-        cout << "\n=======================================================\n";
-        cout << "                  MENU -> Branches -> Delete by name\n";
-        cout << "=======================================================\n";
-        searchBranchesByName();
-        deleteBranches();
-        return STATE_BRANCH_DELETE;
-    case 3:
-        cout << "\n=======================================================\n";
-        cout << "                  MENU -> Branches -> Delete by address\n";
-        cout << "=======================================================\n";
-        searchBranchesByAddress();
-        deleteBranches();
-        return STATE_BRANCH_DELETE;
-    case 4:
-        return STATE_BRANCH_MGMT;
-    }
-    return STATE_BRANCH_DELETE;
-}
-
-MenuState displayDepartmentSearchMenu() {
-    int option;
-
-    cout << "1. Search by ID\n";
-    cout << "2. Search by Name\n";
-    cout << "3. Search by Branch\n";
-    cout << "4. Back to Department Management Menu\n";
-    cout << "Your choice: ";
-
-    inputManager(option, 1, 4);
-    clearScreenWithDelay(0);
-
-    switch (option) {
-    case 1:
-        cout << "\n=======================================================\n";
-        cout << "         MENU -> Departments -> Search by ID\n";
-        cout << "=======================================================\n";
-        searchDepartmentsById();
-        return STATE_DEPT_SEARCH;
-    case 2:
-        cout << "\n=======================================================\n";
-        cout << "         MENU -> Departments -> Search by Name\n";
-        cout << "=======================================================\n";
-        searchDepartmentsByName();
-        return STATE_DEPT_SEARCH;
-    case 3:
-        cout << "\n=======================================================\n";
-        cout << "         MENU -> Departments -> Search by Branch\n";
-        cout << "=======================================================\n";
-        searchDepartmentsByBranch();
-        return STATE_DEPT_SEARCH;
-    case 4:
-        return STATE_DEPT_MGMT;
-    }
-    return STATE_DEPT_SEARCH;
-}
-
-MenuState displayDepartmentDeleteMenu() {
-    int option;
-
-    cout << "1. Delete by ID\n";
-    cout << "2. Delete by Name\n";
-    cout << "3. Delete by Branch\n";
-    cout << "4. Back to Department Management Menu\n";
-    cout << "Your choice: ";
-
-    inputManager(option, 1, 4);
-    clearScreenWithDelay(0);
-
-    switch (option) {
-    case 1:
-        cout << "\n=======================================================\n";
-        cout << "         MENU -> Departments -> Delete by ID\n";
-        cout << "=======================================================\n";
-        searchDepartmentsById();
-        deleteDepartments();
-        return STATE_DEPT_DELETE;
-    case 2:
-        cout << "\n=======================================================\n";
-        cout << "         MENU -> Departments -> Delete by Name\n";
-        cout << "=======================================================\n";
-        searchDepartmentsByName();
-        deleteDepartments();
-        return STATE_DEPT_DELETE;
-    case 3:
-        cout << "\n=======================================================\n";
-        cout << "         MENU -> Departments -> Delete by Branch\n";
-        cout << "=======================================================\n";
-        searchDepartmentsByBranch();
-        deleteDepartments();
-        return STATE_DEPT_DELETE;
-    case 4:
-        return STATE_DEPT_MGMT;
-    }
-    return STATE_DEPT_DELETE;
-}
-
-MenuState displayEmployeeSearchMenu() {
-    int option;
-
-    cout << "1. Search by ID\n";
-    cout << "2. Search by Name\n";
-    cout << "3. Search by Branch\n";
-    cout << "4. Back to Department Management Menu\n";
-    cout << "Your choice: ";
-
-    inputManager(option, 1, 4);
-    clearScreenWithDelay(0);
-
-    switch (option) {
-        case 1:
-            cout << "\n=======================================================\n";
-        cout << "         MENU -> Employees -> Search by ID\n";
-        cout << "=======================================================\n";
-        searchEmployeesById();
-        return STATE_EMPLOYEE_SEARCH;
-        case 2:
-            cout << "\n=======================================================\n";
-        cout << "         MENU -> Employees -> Search by Name\n";
-        cout << "=======================================================\n";
-        searchDepartmentsByName();
-        return STATE_EMPLOYEE_SEARCH;
-        case 3:
-            cout << "\n=======================================================\n";
-        cout << "         MENU -> Employees -> Search by Access Level\n";
-        cout << "=======================================================\n";
-        searchDepartmentsByBranch();
-        return STATE_EMPLOYEE_SEARCH;
-        case 4:
-            return STATE_EMPLOYEE_MGMT;
-    }
-    return STATE_EMPLOYEE_SEARCH;
 }
