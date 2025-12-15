@@ -100,11 +100,7 @@ MenuState displayMainMenu() {
     cout << "Your choice: ";
 
     inputManager(option, 1, 7);
-#ifdef _WIN32
-    system("cls");      // Windows
-#else
-    system("clear");    // Mac/Unix
-#endif
+    clearScreenWithDelay(0);
 
     switch (option) {
     case 1: return STATE_BRANCH_MGMT;
