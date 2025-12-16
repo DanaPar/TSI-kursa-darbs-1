@@ -18,6 +18,7 @@ MenuState displayBranchDeleteMenu();
 MenuState displayDepartmentSearchMenu();
 MenuState displayDepartmentDeleteMenu();
 MenuState displayEmployeeSearchMenu();
+MenuState displayAccountSearchMenu();
 MenuState sortBranchesMenu();
 
 #endif

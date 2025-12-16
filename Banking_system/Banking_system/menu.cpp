@@ -71,6 +71,9 @@ void runProgram() {
         case STATE_ACCOUNT_MGMT:
             currentState = displayAccountManagement();
             break;
+        case STATE_ACCOUNT_SEARCH:
+            currentState = displayAccountSearchMenu();
+            break;
         case STATE_PAYMENT_MGMT:
             // Neimplementetas izvelnes atgriezas uz sakumu
             currentState = STATE_MAIN_MENU;
@@ -640,8 +643,7 @@ MenuState displayAccountManagement() {
         cout << "\n=======================================================\n";
         cout << "                  MENU -> Accounts -> Search\n";
         cout << "=======================================================\n";
-        cout << "Pagaidam neimplementeta: Meklet kontu\n";
-        return STATE_ACCOUNT_MGMT;
+        return STATE_ACCOUNT_SEARCH;
     case 4:
         cout << "\n=======================================================\n";
         cout << "                  MENU -> Accounts -> Delete\n";
@@ -655,8 +657,37 @@ MenuState displayAccountManagement() {
         displayAccounts(false);
         return STATE_ACCOUNT_MGMT;
     case 6:
-
         return STATE_MAIN_MENU;
     }
     return STATE_ACCOUNT_MGMT;
+}
+
+MenuState displayAccountSearchMenu() {
+    int option;
+
+    cout << "1. Search by owner name\n";
+    cout << "2. Search by Balance\n";
+    cout << "3. Back to Account Management Menu\n";
+    cout << "Your choice: ";
+
+    inputManager(option, 1, 3);
+    clearScreenWithDelay(0);
+
+    switch (option) {
+    case 1:
+        cout << "\n=======================================================\n";
+        cout << "         MENU -> Accounts -> Search by owner Name\n";
+        cout << "=======================================================\n";
+        searchAccountByOwner();
+        return STATE_ACCOUNT_SEARCH;
+    case 2:
+        cout << "\n=======================================================\n";
+        cout << "         MENU -> Accounts -> Search by Balance\n";
+        cout << "=======================================================\n";
+        cout << "no implementation for now";
+        return STATE_ACCOUNT_SEARCH;
+    case 3:
+        return STATE_ACCOUNT_MGMT;
+    }
+    return STATE_ACCOUNT_SEARCH;
 }

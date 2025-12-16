@@ -371,3 +371,71 @@ void searchEmployeesById() {
 }
 //void searchEmployeesByPosition();
 //void searchEmployeesByAccessLevel();
+
+void searchAccountByOwner() {
+    loadAccounts();
+    loadClients();
+    string searchClientName;
+
+    searchResultCount = 0;
+    int clientsFound = 0;
+
+    cout << "Enter Clients Name or prefix to search for accounts: ";
+    getline(cin, searchClientName);
+
+    if (searchClientName.empty()) {
+        cout << "Search client name cannot be empty!\n";
+        return;
+    }
+
+    string lowerSearchName = toLower(searchClientName);
+    size_t searchLength = lowerSearchName.length();
+
+    for (int i = 0; i < accountCount; ++i) {
+        int accountOwnerId = accountArray[i].owner_id;
+
+        bool clientMatchFound = false;
+
+        for (int j = 0; j < clientCount; ++j) {
+            if (clientArray[j].id == accountOwnerId) {
+
+                string clientName = clientArray[j].name;
+                string clientSurname = clientArray[j].surname;
+                string fullName = clientName + " " + clientSurname;
+
+                if (fullName.length() >= searchLength) {
+                    string clientPrefix = fullName.substr(0, searchLength);
+                    string lowerClientPrefix = toLower(clientPrefix);
+
+                    if (lowerClientPrefix == lowerSearchName) {
+                        clientMatchFound = true;
+                        break;
+                    }
+                }
+                break;
+            }
+        }
+
+        if (clientMatchFound) {
+            if (searchResultCount < MAX_COUNT) {
+                searchResultIndexes[searchResultCount] = i;
+                searchResultCount++;
+                clientsFound++;
+            }
+            else {
+                cout << "Warning: Maximum search results limit reached for departments.\n";
+                break;
+            }
+        }
+    }
+
+    if (clientsFound > 0) {
+        cout << "--- Search Complete: " << clientsFound << " Account(s) Found ---\n";
+        displayAccounts(true);
+    }
+    else {
+        cout << "--- Search Complete: No Accounts Found in Clients starting with " << searchClientName << " ---\n";
+    }
+}
+
+//void searchAccountByRange();

@@ -8,6 +8,7 @@
 #include <cstdlib>
 #include <ctime>
 #include <cctype>
+#include <algorithm>
 
 using namespace std;
 
