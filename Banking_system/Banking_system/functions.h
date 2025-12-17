@@ -32,8 +32,8 @@ void sortEmployeesByName(bool ascending);
 void sortEmployeesByAccessLevel(bool ascending);
 void sortClientsByName(bool ascending);
 void sortClientsByType(bool ascendig);
-// void sortAccountsByBalance(bool ascending);
-// void sortAccountsByOwner(bool ascending);
+void sortAccountsByBalance(bool ascending);
+void sortAccountsByOwner(bool ascending);
 
 //datu labosanas funckijas
 void editBranch();

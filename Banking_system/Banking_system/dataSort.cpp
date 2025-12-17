@@ -333,3 +333,104 @@ void sortClientsByType(bool ascending) {
     }
     displayClients(true);
 }
+
+void sortAccountsByBalance(bool ascending) {
+    if (accountCount == 0) {
+        return;
+    }
+
+    searchResultCount = accountCount;
+    for (int i = 0; i < accountCount; ++i) {
+        searchResultIndexes[i] = i;
+    }
+
+    for (int i = 0; i < searchResultCount - 1; i++) {
+        int bestIndex = i; 
+
+        for (int j = i + 1; j < searchResultCount; j++) {
+            int indexA = searchResultIndexes[j];
+            int indexB = searchResultIndexes[bestIndex];
+
+            double balanceA = accountArray[indexA].balance;
+            double balanceB = accountArray[indexB].balance;
+
+            bool isJBetter = false;
+
+            if (ascending) {
+                if (balanceA < balanceB) {
+                    isJBetter = true;
+                }
+            }
+            else {
+                if (balanceA > balanceB) {
+                    isJBetter = true;
+                }
+            }
+
+            if (isJBetter) {
+                bestIndex = j;
+            }
+        }
+
+        if (bestIndex != i) {
+            int temp = searchResultIndexes[i];
+            searchResultIndexes[i] = searchResultIndexes[bestIndex];
+            searchResultIndexes[bestIndex] = temp;
+        }
+    }
+    displayAccounts(true);
+}
+
+void sortAccountsByOwner(bool ascending) {
+    if (accountCount == 0) return;
+
+    searchResultCount = accountCount;
+    for (int i = 0; i < accountCount; ++i) {
+        searchResultIndexes[i] = i;
+    }
+
+    for (int i = 0; i < searchResultCount - 1; i++) {
+        int bestIndex = i;
+
+        for (int j = i + 1; j < searchResultCount; j++) {
+            int accIdxA = searchResultIndexes[j];
+            int accIdxB = searchResultIndexes[bestIndex];
+
+            string nameA = "", nameB = "";
+
+            for (int k = 0; k < clientCount; k++) {
+                if (clientArray[k].id == accountArray[accIdxA].owner_id) {
+                    nameA = clientArray[k].name + " " + clientArray[k].surname;
+                    break;
+                }
+            }
+
+            for (int k = 0; k < clientCount; k++) {
+                if (clientArray[k].id == accountArray[accIdxB].owner_id) {
+                    nameB = clientArray[k].name + " " + clientArray[k].surname;
+                    break;
+                }
+            }
+
+            bool isJBetter = false;
+            if (ascending) {
+                if (nameA < nameB) isJBetter = true;
+            }
+            else {
+                if (nameA > nameB) isJBetter = true;
+            }
+
+            if (isJBetter) {
+                bestIndex = j;
+            }
+        }
+
+        if (bestIndex != i) {
+            int temp = searchResultIndexes[i];
+            searchResultIndexes[i] = searchResultIndexes[bestIndex];
+            searchResultIndexes[bestIndex] = temp;
+        }
+    }
+
+    displayAccounts(true);
+}

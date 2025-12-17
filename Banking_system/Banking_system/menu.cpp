@@ -83,6 +83,9 @@ void runProgram() {
         case STATE_ACCOUNT_SEARCH:
             currentState = displayAccountSearchMenu();
             break;
+        case STATE_ACCOUNT_SORT:
+            currentState = sortAccountsMenu();
+            break;
         case STATE_STATISTICS_MGMT:
             // Neimplementetas izvelnes atgriezas uz sakumu
             currentState = STATE_MAIN_MENU;
@@ -842,7 +845,7 @@ MenuState displayAccountManagement() {
         cout << "                  MENU -> Accounts -> View\n";
         cout << "=======================================================\n";
         displayAccounts(false);
-        return STATE_ACCOUNT_MGMT;
+        return STATE_ACCOUNT_SORT;
     case 6:
         return STATE_MAIN_MENU;
     }
@@ -877,4 +880,73 @@ MenuState displayAccountSearchMenu() {
         return STATE_ACCOUNT_MGMT;
     }
     return STATE_ACCOUNT_SEARCH;
+}
+
+MenuState sortAccountsMenu() {
+    int option;
+
+    cout << "1. Sort by Balance\n";
+    cout << "2. Sort by Owner\n";
+    cout << "3. Back to Accounts Management Menu\n";
+    cout << "Your choice: ";
+
+    inputManager(option, 1, 3);
+    //clearScreenWithDelay(0);
+
+    switch (option) {
+    case 1:
+        cout << "1. Sort ascending order\n";
+        cout << "2. Sort descending order\n";
+        cout << "3. Back to Accounts Management Menu\n";
+        cout << "Your choice: ";
+        inputManager(option, 1, 3);
+        clearScreenWithDelay(0);
+        switch (option) {
+        case 1:
+            cout << "\n=======================================================\n";
+            cout << "                  MENU -> Accounts -> View -> Sort by Balance(ascending)\n";
+            cout << "=======================================================\n";
+            sortAccountsByBalance(true);
+            break;
+        case 2:
+            cout << "\n=======================================================\n";
+            cout << "                  MENU -> Accounts -> View -> Sort by Balance(descending)\n";
+            cout << "=======================================================\n";
+            sortAccountsByBalance(false);
+            break;
+        case 3:
+            clearScreenWithDelay(0);
+            return STATE_ACCOUNT_MGMT;
+        }
+        return STATE_ACCOUNT_SORT;
+    case 2:
+        cout << "1. Sort ascending order\n";
+        cout << "2. Sort descending order\n";
+        cout << "3. Back to Accounts Management Menu\n";
+        cout << "Your choice: ";
+        inputManager(option, 1, 3);
+        clearScreenWithDelay(0);
+        switch (option) {
+        case 1:
+            cout << "\n=======================================================\n";
+            cout << "                  MENU -> Accounts -> View -> Sort by Owner(ascending)\n";
+            cout << "=======================================================\n";
+            sortAccountsByOwner(true);
+            break;
+        case 2:
+            cout << "\n=======================================================\n";
+            cout << "                  MENU -> Accounts -> View -> Sort by Owner(descending)\n";
+            cout << "=======================================================\n";
+            sortAccountsByOwner(false);
+            break;
+        case 3:
+            clearScreenWithDelay(0);
+            return STATE_ACCOUNT_MGMT;
+        }
+        return STATE_ACCOUNT_SORT;
+    case 3:
+        clearScreenWithDelay(0);
+        return STATE_ACCOUNT_MGMT;
+    }
+    return STATE_ACCOUNT_SORT;
 }
