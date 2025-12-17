@@ -29,9 +29,9 @@ void sortBranchesById(bool ascending);
 void sortBranchesByName(bool ascending);
 void sortDepartmentsByName(bool ascending);
 void sortEmployeesByName(bool ascending);
-// void sortEmployeesByPosition(bool ascending);
-// void sortClientsByName(bool ascending);
-// void sortClientsByType(bool ascendig);
+void sortEmployeesByAccessLevel(bool ascending);
+void sortClientsByName(bool ascending);
+void sortClientsByType(bool ascendig);
 // void sortAccountsByBalance(bool ascending);
 // void sortAccountsByOwner(bool ascending);
 

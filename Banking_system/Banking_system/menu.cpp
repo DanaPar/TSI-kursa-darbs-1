@@ -74,6 +74,9 @@ void runProgram() {
         case STATE_CLIENT_MGMT:
             currentState = displayClientManagement();
             break;
+        case STATE_CLIENT_SORT:
+            currentState = sortClientsMenu();
+            break;
         case STATE_ACCOUNT_MGMT:
             currentState = displayAccountManagement();
             break;
@@ -600,7 +603,7 @@ MenuState sortEmployeesMenu() {
     int option;
 
     cout << "1. Sort by Name\n";
-    cout << "2. Sort by Position\n";
+    cout << "2. Sort by Access Level\n";
     cout << "3. Back to Employee Management Menu\n";
     cout << "Your choice: ";
 
@@ -643,15 +646,15 @@ MenuState sortEmployeesMenu() {
         switch (option) {
         case 1:
             cout << "\n=======================================================\n";
-            cout << "                  MENU -> Branches -> View -> Sort by Position(ascending)\n";
+            cout << "                  MENU -> Branches -> View -> Sort by Access Level(ascending)\n";
             cout << "=======================================================\n";
-            //sortBranchesByName(true);
+            sortEmployeesByAccessLevel(true);
             break;
         case 2:
             cout << "\n=======================================================\n";
-            cout << "                  MENU -> Branches -> View -> Sort by Position(descending)\n";
+            cout << "                  MENU -> Branches -> View -> Sort by Access level(descending)\n";
             cout << "=======================================================\n";
-            //sortBranchesByName(false);
+            sortEmployeesByAccessLevel(false);
             break;
         case 3:
             clearScreenWithDelay(0);
@@ -714,12 +717,81 @@ MenuState displayClientManagement() {
         cout << "                  MENU -> Clients -> View\n";
         cout << "=======================================================\n";
         displayClients(false);
-        return STATE_CLIENT_MGMT;
+        return STATE_CLIENT_SORT;
     case 6:
 
         return STATE_MAIN_MENU;
     }
     return STATE_CLIENT_MGMT;
+}
+
+MenuState sortClientsMenu() {
+    int option;
+
+    cout << "1. Sort by Name\n";
+    cout << "2. Sort by Type\n";
+    cout << "3. Back to Clients Management Menu\n";
+    cout << "Your choice: ";
+
+    inputManager(option, 1, 3);
+    //clearScreenWithDelay(0);
+
+    switch (option) {
+    case 1:
+        cout << "1. Sort ascending order\n";
+        cout << "2. Sort descending order\n";
+        cout << "3. Back to Clients Management Menu\n";
+        cout << "Your choice: ";
+        inputManager(option, 1, 3);
+        clearScreenWithDelay(0);
+        switch (option) {
+        case 1:
+            cout << "\n=======================================================\n";
+            cout << "                  MENU -> Clients -> View -> Sort by Name(ascending)\n";
+            cout << "=======================================================\n";
+            sortClientsByName(true);
+            break;
+        case 2:
+            cout << "\n=======================================================\n";
+            cout << "                  MENU -> Clients -> View -> Sort by Name(descending)\n";
+            cout << "=======================================================\n";
+            sortClientsByName(false);
+            break;
+        case 3:
+            clearScreenWithDelay(0);
+            return STATE_CLIENT_MGMT;
+        }
+        return STATE_CLIENT_SORT;
+    case 2:
+        cout << "1. Sort ascending order\n";
+        cout << "2. Sort descending order\n";
+        cout << "3. Back to Branch Management Menu\n";
+        cout << "Your choice: ";
+        inputManager(option, 1, 3);
+        clearScreenWithDelay(0);
+        switch (option) {
+        case 1:
+            cout << "\n=======================================================\n";
+            cout << "                  MENU -> Clients -> View -> Sort by Type(corporate firs)\n";
+            cout << "=======================================================\n";
+            sortClientsByType(true);
+            break;
+        case 2:
+            cout << "\n=======================================================\n";
+            cout << "                  MENU -> Clients -> View -> Sort by Type(private first)\n";
+            cout << "=======================================================\n";
+            sortClientsByType(false);
+            break;
+        case 3:
+            clearScreenWithDelay(0);
+            return STATE_CLIENT_MGMT;
+        }
+        return STATE_CLIENT_SORT;
+    case 3:
+        clearScreenWithDelay(0);
+        return STATE_CLIENT_MGMT;
+    }
+    return STATE_CLIENT_SORT;
 }
 
 MenuState displayAccountManagement() {

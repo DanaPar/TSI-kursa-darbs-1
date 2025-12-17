@@ -51,7 +51,7 @@ struct Client {
 	string name;
 	string surname;
 	int branch_id;
-	enum ClientType type;;
+	enum ClientType type;
 };
 
 struct Account {
@@ -96,7 +96,7 @@ enum MenuState {
 	STATE_CLIENT_MGMT,
 	// STATE_CLIENT_SEARCH,
 	// STATE_CLIENT_DELETE,
-	// STATE_CLIENT_SORT,
+	STATE_CLIENT_SORT,
 	STATE_ACCOUNT_MGMT,
 	STATE_ACCOUNT_SEARCH,
 	// STATE_ACCOUNT_DELETE,

@@ -21,7 +21,7 @@ MenuState displayAccountSearchMenu();
 MenuState sortBranchesMenu();
 MenuState sortDepartmentsMenu();
 MenuState sortEmployeesMenu();
-// MenuState sortClietsMenu();
+MenuState sortClientsMenu();
 // MenuState sortAccountsMenu();
 
 #endif

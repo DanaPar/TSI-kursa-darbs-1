@@ -203,7 +203,7 @@ void displayClients(bool useSearchResults) {
 
 		const Client& currentClient = clientArray[indexInClientArray];
 
-		string clientTypeStr = (clientArray[i].type == PRIVATE) ? "Private" : "Corporate";
+		string clientTypeStr = (currentClient.type == PRIVATE) ? "Private" : "Corporate";
 		string branchName = "Not Found!";
 		int branchId = currentClient.branch_id;
 		for (int j = 0; j < branchCount; j++) {

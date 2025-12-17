@@ -194,3 +194,142 @@ void sortEmployeesByName(bool ascending) {
 
     displayEmployees(true);
 }
+
+void sortEmployeesByAccessLevel(bool ascending) {
+    if (employeeCount == 0) {
+        return;
+    }
+
+    searchResultCount = employeeCount;
+    for (int i = 0; i < employeeCount; ++i) {
+        searchResultIndexes[i] = i;
+    }
+
+    for (int i = 0; i < searchResultCount - 1; i++) {
+        int bestIndex = i;
+        for (int j = i + 1; j < searchResultCount; j++) {
+            int indexA = searchResultIndexes[j];
+            int indexB = searchResultIndexes[bestIndex];
+
+            int levelA = (int)employeeArray[indexA].access_level;
+            int levelB = (int)employeeArray[indexB].access_level;
+
+            bool isJBetter = false;
+
+            if (ascending) {
+                if (levelA < levelB) {
+                    isJBetter = true;
+                }
+            }
+            else {
+                if (levelA > levelB) {
+                    isJBetter = true;
+                }
+            }
+
+            if (isJBetter) {
+                bestIndex = j;
+            }
+        }
+
+        if (bestIndex != i) {
+            int temp = searchResultIndexes[i];
+            searchResultIndexes[i] = searchResultIndexes[bestIndex];
+            searchResultIndexes[bestIndex] = temp;
+        }
+    }
+    displayEmployees(true);
+}
+
+void sortClientsByName(bool ascending) {
+    if (clientCount == 0) {
+        return;
+    }
+
+    searchResultCount = clientCount;
+    for (int i = 0; i < clientCount; ++i) {
+        searchResultIndexes[i] = i;
+    }
+
+    for (int i = 0; i < searchResultCount - 1; i++) {
+        int bestIndex = i;
+        for (int j = i + 1; j < searchResultCount; j++) {
+            int indexA = searchResultIndexes[j];
+            int indexB = searchResultIndexes[bestIndex];
+
+            string nameA = clientArray[indexA].name + " " + clientArray[indexA].surname;
+            string nameB = clientArray[indexB].name + " " + clientArray[indexB].surname;
+
+            bool isJBetter = false;
+
+            if (ascending) {
+                if (nameA < nameB) {
+                    isJBetter = true;
+                }
+            }
+            else {
+                if (nameA > nameB) {
+                    isJBetter = true;
+                }
+            }
+
+            if (isJBetter) {
+                bestIndex = j;
+            }
+        }
+
+        if (bestIndex != i) {
+            int temp = searchResultIndexes[i];
+            searchResultIndexes[i] = searchResultIndexes[bestIndex];
+            searchResultIndexes[bestIndex] = temp;
+        }
+    }
+    displayClients(true);
+}
+
+void sortClientsByType(bool ascending) {
+    if (clientCount == 0) {
+        return;
+    }
+
+    searchResultCount = clientCount;
+    for (int i = 0; i < clientCount; ++i) {
+        searchResultIndexes[i] = i;
+    }
+
+    for (int i = 0; i < searchResultCount - 1; i++) {
+        int bestIndex = i;
+        for (int j = i + 1; j < searchResultCount; j++) {
+            int indexA = searchResultIndexes[j];
+            int indexB = searchResultIndexes[bestIndex];
+
+            int typeA = (int)clientArray[indexA].type;
+            int typeB = (int)clientArray[indexB].type;
+
+            bool isJBetter = false;
+
+            if (ascending) {
+                if (typeA < typeB) {
+                    isJBetter = true;
+                }
+            }
+            else {
+
+                if (typeA > typeB) {
+                    isJBetter = true;
+                }
+            }
+
+            if (isJBetter) {
+                bestIndex = j;
+            }
+        }
+
+        if (bestIndex != i) {
+            int temp = searchResultIndexes[i];
+            searchResultIndexes[i] = searchResultIndexes[bestIndex];
+            searchResultIndexes[bestIndex] = temp;
+        }
+    }
+    displayClients(true);
+}
