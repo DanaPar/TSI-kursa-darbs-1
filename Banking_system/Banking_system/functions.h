@@ -24,6 +24,13 @@ void displayEmployees(bool useSearchResults);
 void displayClients(bool useSearchResults);
 void displayAccounts(bool useSearchResults);
 
+//datu labosanas funckijas
+void editBranch();
+void editDepartment();
+void editEmployee();
+void editClient();
+void editAccount();
+
 //datu kartosana
 void sortBranchesById(bool ascending);
 void sortBranchesByName(bool ascending);
@@ -34,13 +41,6 @@ void sortClientsByName(bool ascending);
 void sortClientsByType(bool ascendig);
 void sortAccountsByBalance(bool ascending);
 void sortAccountsByOwner(bool ascending);
-
-//datu labosanas funckijas
-void editBranch();
-void editDepartment();
-void editEmployee();
-void editClient();
-void editAccount();
 
 //meklesanas funkcijas
 void searchBranchesById();

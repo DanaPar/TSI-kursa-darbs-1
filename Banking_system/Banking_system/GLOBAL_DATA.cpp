@@ -1,5 +1,4 @@
 #include "dataTypes.h"
-
 #include <string>
 #include <fstream>
 

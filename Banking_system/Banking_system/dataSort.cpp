@@ -1,12 +1,6 @@
 #include "dataTypes.h"
 #include "functions.h"
-#include <iostream>
-#include <iomanip>
 #include <string>
-#include <fstream>
-#include <sstream>
-#include <cstdlib>
-#include <ctime>
 
 using namespace std;
 

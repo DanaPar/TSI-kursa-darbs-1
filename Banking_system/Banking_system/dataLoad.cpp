@@ -1,12 +1,10 @@
 #include "dataTypes.h"
-#include "functions.h"
 #include <string>
 #include <fstream>
 #include <sstream>
 
 using namespace std;
 
-//ielade datus sarakstos
 void loadBranches() {
 	ifstream file(branchesDB);
 	branchCount = 0;
@@ -23,7 +21,6 @@ void loadBranches() {
 		char seperator;
 
 		if (!(ss >> temp_id)) {
-			//ja neizdodas nolasisana, pariet uz nakamo liniju
 			continue;
 		}
 
@@ -39,7 +36,6 @@ void loadBranches() {
 			continue;
 		}
 
-		//ja visas dalas veiksmigi nolasitas:
 		branchArray[branchCount].id = temp_id;
 		branchArray[branchCount].name = temp_name;
 		branchArray[branchCount].address = temp_address;
