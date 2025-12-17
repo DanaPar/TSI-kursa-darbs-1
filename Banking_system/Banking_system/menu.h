@@ -20,5 +20,8 @@ MenuState displayEmployeeSearchMenu();
 MenuState displayAccountSearchMenu();
 MenuState sortBranchesMenu();
 MenuState sortDepartmentsMenu();
+MenuState sortEmployeesMenu();
+// MenuState sortClietsMenu();
+// MenuState sortAccountsMenu();
 
 #endif

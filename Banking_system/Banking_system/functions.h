@@ -28,8 +28,12 @@ void displayAccounts(bool useSearchResults);
 void sortBranchesById(bool ascending);
 void sortBranchesByName(bool ascending);
 void sortDepartmentsByName(bool ascending);
-void sortDepartmentsByEmployeeCount(bool ascending);
-
+void sortEmployeesByName(bool ascending);
+// void sortEmployeesByPosition(bool ascending);
+// void sortClientsByName(bool ascending);
+// void sortClientsByType(bool ascendig);
+// void sortAccountsByBalance(bool ascending);
+// void sortAccountsByOwner(bool ascending);
 
 //datu labosanas funckijas
 void editBranch();

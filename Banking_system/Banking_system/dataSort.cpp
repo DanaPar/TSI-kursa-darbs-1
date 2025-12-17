@@ -147,3 +147,50 @@ void sortDepartmentsByName(bool ascending) {
     }
     displayDepartments(true);
 }
+
+void sortEmployeesByName(bool ascending) {
+    if (employeeCount == 0) {
+        return;
+    }
+
+    searchResultCount = employeeCount;
+    for (int i = 0; i < employeeCount; ++i) {
+        searchResultIndexes[i] = i;
+    }
+
+    for (int i = 0; i < searchResultCount - 1; i++) {
+        int bestIndex = i;
+        for (int j = i + 1; j < searchResultCount; j++) {
+            int indexA = searchResultIndexes[j];
+            int indexB = searchResultIndexes[bestIndex];
+
+            string nameA = employeeArray[indexA].name + " " + employeeArray[indexA].surname;
+            string nameB = employeeArray[indexB].name + " " + employeeArray[indexB].surname;
+
+            bool isJBetter = false;
+
+            if (ascending) {
+                if (nameA < nameB) {
+                    isJBetter = true;
+                }
+            }
+            else {
+                if (nameA > nameB) {
+                    isJBetter = true;
+                }
+            }
+
+            if (isJBetter) {
+                bestIndex = j;
+            }
+        }
+
+        if (bestIndex != i) {
+            int temp = searchResultIndexes[i];
+            searchResultIndexes[i] = searchResultIndexes[bestIndex];
+            searchResultIndexes[bestIndex] = temp;
+        }
+    }
+
+    displayEmployees(true);
+}
