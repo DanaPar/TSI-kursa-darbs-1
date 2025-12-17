@@ -27,7 +27,7 @@ void displayClients(bool useSearchResults);
 void displayAccounts(bool useSearchResults);
 void displayPayments(bool useSearchResults); //ToDo
 
-//datu k?rtošana
+//datu kartosana
 void sortBranchesById(bool ascending);
 void sortBranchesByName(bool ascending);
 
@@ -36,7 +36,7 @@ void editBranch();
 void editDepartment();
 void editEmployee();
 void editClient();
-void editAccount(); //ToDo
+void editAccount();
 void editPayment(); //ToDo
 
 //meklesanas funkcijas

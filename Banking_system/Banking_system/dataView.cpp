@@ -217,7 +217,7 @@ void displayClients(bool useSearchResults) {
 		<< left << setw(30) << currentClient.name << "|"
 		<< left << setw(15) << currentClient.surname << "|"
 		<< left << setw(20) << branchName << "|"
-		<< left << "Type" << endl;
+		<< left << clientTypeStr << endl;
 	}
 	cout << setfill('-') << setw(100) << "" << endl;
 	cout << setfill(' ');

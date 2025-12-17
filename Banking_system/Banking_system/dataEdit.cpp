@@ -357,3 +357,44 @@ void editClient() {
 	file.close();
 	cout << "Client data updated successfully!" << endl;
 }
+
+void editAccount() {
+	loadAccounts();
+	if (accountCount == 0) {
+		cout << "No accout has been found!" << endl;
+		return;
+	}
+	displayAccounts(false);
+
+	int option;
+	cout << "Enter number of account to edit (1 - " << accountCount << "): ";
+	if (!(cin >> option) || option < 1 || option > accountCount) {
+		cout << "Wrong input!" << endl;
+		cin.clear();
+		cin.ignore(numeric_limits<streamsize>::max(), '\n');
+		return;
+	}
+	cin.ignore();
+
+	Account& account = accountArray[option - 1]; // Atsauce uz elementu
+	double newBalance;
+	cout << "Enter new balance (current: " << account.balance << "): ";
+	if (!(cin >> newBalance)) {
+		cout << "Invalid amount!" << endl;
+		cin.clear();
+		cin.ignore(numeric_limits<streamsize>::max(), '\n');
+		return;
+	}
+	account.balance = newBalance;
+	ofstream file(accountsDB, ios::trunc);
+	if (!file) {
+		cout << "Could not open file" << endl;
+		return;
+	}
+
+	for (int i = 0; i < accountCount; i++) {
+		file << accountArray[i].account_number << "|" << accountArray[i].owner_id << "|" << accountArray[i].balance << endl;
+	}
+	file.close();
+	cout << "Employee data updated successfully!" << endl;
+}

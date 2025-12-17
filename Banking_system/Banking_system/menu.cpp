@@ -637,7 +637,8 @@ MenuState displayAccountManagement() {
         cout << "\n=======================================================\n";
         cout << "                  MENU -> Accounts -> Edit\n";
         cout << "=======================================================\n";
-        cout << "Pagaidam neimplementeta: Labot kontu\n";
+        editAccount();
+        clearScreenWithDelay(1);
         return STATE_ACCOUNT_MGMT;
     case 3:
         cout << "\n=======================================================\n";
