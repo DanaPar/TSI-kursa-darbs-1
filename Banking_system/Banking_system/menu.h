@@ -12,7 +12,6 @@ MenuState displayDepartmentManagement();
 MenuState displayEmployeeManagement();
 MenuState displayClientManagement();
 MenuState displayAccountManagement();
-//MenuState displayPaymentManagement();
 MenuState displayBranchSearchMenu();
 MenuState displayBranchDeleteMenu();
 MenuState displayDepartmentSearchMenu();
@@ -20,5 +19,6 @@ MenuState displayDepartmentDeleteMenu();
 MenuState displayEmployeeSearchMenu();
 MenuState displayAccountSearchMenu();
 MenuState sortBranchesMenu();
+MenuState sortDepartmentsMenu();
 
 #endif

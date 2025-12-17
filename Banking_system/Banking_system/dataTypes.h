@@ -10,13 +10,6 @@ extern const string departmentsDB;
 extern const string employeesDB;
 extern const string clientsDB;
 extern const string accountsDB;
-extern const string paymentsDB;
-
-struct Date {
-	int day = 0;
-	int month = 0;
-	int year = 0;
-};
 
 enum AccessLevel {
 	GUEST = 0,
@@ -67,15 +60,6 @@ struct Account {
 	double balance;
 };
 
-struct Payment {
-	long id;
-	float amount;
-	string payerAccNr;
-	string receiverAccNr;
-	string detailsOfPayment;
-	struct Date date;
-};
-
 extern Branch branchArray[MAX_COUNT];
 extern int branchCount;
 
@@ -104,12 +88,13 @@ enum MenuState {
 	STATE_DEPT_MGMT,
 	STATE_DEPT_SEARCH,
 	STATE_DEPT_DELETE,
+	STATE_DEPT_SORT,
 	STATE_EMPLOYEE_MGMT,
 	STATE_EMPLOYEE_SEARCH,
 	STATE_CLIENT_MGMT,
 	STATE_ACCOUNT_MGMT,
 	STATE_ACCOUNT_SEARCH,
-	STATE_PAYMENT_MGMT,
+	STATE_STATISTICS_MGMT,
 	STATE_EXIT
 };
 

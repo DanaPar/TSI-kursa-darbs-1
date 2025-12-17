@@ -59,6 +59,9 @@ void runProgram() {
         case STATE_DEPT_DELETE:
             currentState = displayDepartmentDeleteMenu();
             break;
+        case STATE_DEPT_SORT:
+            currentState = sortDepartmentsMenu();
+            break;
         case STATE_EMPLOYEE_MGMT:
             currentState = displayEmployeeManagement();
             break;
@@ -74,7 +77,7 @@ void runProgram() {
         case STATE_ACCOUNT_SEARCH:
             currentState = displayAccountSearchMenu();
             break;
-        case STATE_PAYMENT_MGMT:
+        case STATE_STATISTICS_MGMT:
             // Neimplementetas izvelnes atgriezas uz sakumu
             currentState = STATE_MAIN_MENU;
             break;
@@ -373,7 +376,7 @@ MenuState displayDepartmentManagement() {
         cout << "                  MENU -> Departments -> View\n";
         cout << "=======================================================\n";
         displayDepartments(false);
-        return STATE_DEPT_MGMT;
+        return STATE_DEPT_SORT;
     case 6:
 
         return STATE_MAIN_MENU;
@@ -456,6 +459,49 @@ MenuState displayDepartmentDeleteMenu() {
         return STATE_DEPT_MGMT;
     }
     return STATE_DEPT_DELETE;
+}
+
+MenuState sortDepartmentsMenu() {
+    int option;
+
+    cout << "1. Sort by Name\n";
+    cout << "2. Back to Department Management Menu\n";
+    cout << "Your choice: ";
+
+    inputManager(option, 1, 2);
+    //clearScreenWithDelay(0);
+
+    switch (option) {
+        case 1:
+        cout << "1. Sort ascending order\n";
+        cout << "2. Sort descending order\n";
+        cout << "3. Back to Department Management Menu\n";
+        cout << "Your choice: ";
+        inputManager(option, 1, 3);
+        clearScreenWithDelay(0);
+        switch (option) {
+        case 1:
+            cout << "\n=======================================================\n";
+            cout << "                  MENU -> Branches -> View -> Sort by Name(ascending)\n";
+            cout << "=======================================================\n";
+            sortDepartmentsByName(true);
+            break;
+        case 2:
+            cout << "\n=======================================================\n";
+            cout << "                  MENU -> Branches -> View -> Sort by Name(descending)\n";
+            cout << "=======================================================\n";
+            sortDepartmentsByName(false);
+            break;
+        case 3:
+            clearScreenWithDelay(0);
+            return STATE_DEPT_MGMT;
+        }
+        return STATE_DEPT_SORT;
+        case 2:
+        clearScreenWithDelay(0);
+        return STATE_DEPT_MGMT;
+    }
+    return STATE_DEPT_SORT;
 }
 
 MenuState displayEmployeeManagement() {
