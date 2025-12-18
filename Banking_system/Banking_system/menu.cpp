@@ -582,10 +582,11 @@ MenuState displayEmployeeSearchMenu() {
     cout << "1. Search by ID\n";
     cout << "2. Search by Name\n";
     cout << "3. Search by Department\n";
-    cout << "4. Back to Employee Management Menu\n";
+    cout << "4. Search by Branch\n";
+    cout << "5. Back to Employee Management Menu\n";
     cout << "Your choice: ";
 
-    inputManager(option, 1, 4);
+    inputManager(option, 1, 5);
     clearScreenWithDelay(0);
 
     switch (option) {
@@ -608,6 +609,12 @@ MenuState displayEmployeeSearchMenu() {
         searchEmployeesByDepartment();
         return STATE_EMPLOYEE_SEARCH;
     case 4:
+        cout << "\n=======================================================\n";
+        cout << "         MENU -> Employees -> Search by Branch\n";
+        cout << "=======================================================\n";
+        searchEmployeesByBranch();
+        return STATE_EMPLOYEE_SEARCH;
+    case 5:
         return STATE_EMPLOYEE_MGMT;
     }
     return STATE_EMPLOYEE_SEARCH;
@@ -619,10 +626,11 @@ MenuState displayEmployeeDeleteMenu() {
     cout << "1. Delete by ID\n";
     cout << "2. Delete by Name\n";
     cout << "3. Delete by Department\n";
-    cout << "4. Back to Employee Management Menu\n";
+    cout << "4. Delete By Branch\n";
+    cout << "5. Back to Employee Management Menu\n";
     cout << "Your choice: ";
 
-    inputManager(option, 1, 4);
+    inputManager(option, 1, 5);
     clearScreenWithDelay(0);
 
     switch (option) {
@@ -648,6 +656,13 @@ MenuState displayEmployeeDeleteMenu() {
         deleteEmployees();
         return STATE_EMPLOYEE_DELETE;
     case 4:
+        cout << "\n=======================================================\n";
+        cout << "         MENU -> Employees -> Delete by Branch\n";
+        cout << "=======================================================\n";
+        searchEmployeesByBranch();
+        deleteEmployees();
+        return STATE_EMPLOYEE_DELETE;
+    case 5:
         return STATE_EMPLOYEE_MGMT;
     }
     return STATE_EMPLOYEE_DELETE;

@@ -9,64 +9,164 @@
 using namespace std;
 
 void deleteBranches() {
-	if (searchResultCount == 0) {
-		cout << "--- No branches found matching search criteria. Nothing to delete. ---\n";
-		return;
-	}
+    if (searchResultCount == 0) return;
 
-	cout << "\n--- WARNING: BATCH DELETION ---\n";
-	cout << "Do you want to delete ALL " << searchResultCount
-		<< " branches listed above? (Y/N): ";
+    loadDepartments();
+    loadEmployees();
+    loadClients();
+
+    // 1. Check if any Department in the selected Branches has Employees
+    int totalEmployeesAffected = 0;
+    for (int i = 0; i < searchResultCount; i++) {
+        int targetBranchId = branchArray[searchResultIndexes[i]].id;
+
+        for (int d = 0; d < departmentCount; d++) {
+            if (departmentArray[d].branch_id == targetBranchId) {
+                for (int e = 0; e < employeeCount; e++) {
+                    if (employeeArray[e].department_id == departmentArray[d].id) {
+                        totalEmployeesAffected++;
+                    }
+                }
+            }
+        }
+    }
+
+    // 2. If employees exist, block deletion
+    if (totalEmployeesAffected > 0) {
+        cout << "\n--- ERROR: CANNOT DELETE BRANCH(ES) ---\n";
+        cout << "There are " << totalEmployeesAffected << " employees still assigned to departments in these branches.\n";
+        cout << "You must move these employees to other departments or delete them first!\n";
+        searchResultCount = 0;
+        return;
+    }
+
+    // 3. Check for Clients and handle migration
+    int clientsToMove = 0;
+    for (int i = 0; i < searchResultCount; i++) {
+        int targetBranchId = branchArray[searchResultIndexes[i]].id;
+        for (int c = 0; c < clientCount; c++) {
+            if (clientArray[c].branch_id == targetBranchId) {
+                clientsToMove++;
+            }
+        }
+    }
+
+    int newBranchId = -1;
+    if (clientsToMove > 0) {
+        cout << "\n--- CLIENT MIGRATION REQUIRED ---\n";
+        cout << "There are " << clientsToMove << " clients in these branches.\n";
+        displayBranches(false); // Show all branches for selection
+
+        int choice;
+        bool valid = false;
+        while (!valid) {
+            cout << "Enter the corresponding number (1-" << branchCount << ") of the Branch to move these clients to: ";
+            cin >> choice;
+            if (choice >= 1 && choice <= branchCount) {
+                // Ensure they don't pick a branch that is currently being deleted
+                bool beingDeleted = false;
+                for (int k = 0; k < searchResultCount; k++) {
+                    if (searchResultIndexes[k] == choice - 1) beingDeleted = true;
+                }
+
+                if (beingDeleted) {
+                    cout << "You cannot move clients to a branch that is also being deleted!\n";
+                }
+                else {
+                    newBranchId = branchArray[choice - 1].id;
+                    valid = true;
+                }
+            }
+        }
+        cin.ignore();
+    }
+
+    // 4. Final Confirmation
+    cout << "\n--- WARNING: BRANCH DELETION ---\n";
+    cout << "This will delete " << searchResultCount << " branch(es) and all associated departments.\n";
+    if (clientsToMove > 0) cout << clientsToMove << " clients will be moved to Branch ID: " << newBranchId << endl;
+    cout << "Do you want to proceed? (Y/N): ";
 
     char confirm;
-	cin >> confirm;
-	cin.ignore();
+    cin >> confirm;
+    cin.ignore();
+    if (confirm != 'y' && confirm != 'Y') {
+        cout << "Deletion aborted.\n";
+        searchResultCount = 0;
+        return;
+    }
 
-	if (confirm != 'y' && confirm != 'Y') {
-		cout << "Deletion aborted by user.\n";
-		searchResultCount = 0; // Clear results even on abort
-		return;
-	}
+    // 5. Execution
+    int branchesDeleted = 0, deptsDeleted = 0;
 
-	cout << "Deleting branches...\n";
-	int successfulDeletions = 0;
     for (int i = branchCount - 1; i >= 0; --i) {
-        // Check if the current main array index 'i' is in the list of results to be deleted
         bool shouldDelete = false;
-        for (int j = 0; j < searchResultCount; ++j) {
-            if (searchResultIndexes[j] == i) {
-                shouldDelete = true;
-                break;
-            }
+        for (int j = 0; j < searchResultCount; j++) {
+            if (searchResultIndexes[j] == i) shouldDelete = true;
         }
 
         if (shouldDelete) {
-            // Found a branch to delete at index 'i' in branchArray
-            cout << "Deleted Branch ID: " << branchArray[i].id << endl;
+            int targetBranchId = branchArray[i].id;
 
-            // Shift elements one position to the left (overwriting branchArray[i])
-            for (int k = i; k < branchCount - 1; ++k) {
-                branchArray[k] = branchArray[k + 1];
+            // Move Clients
+            for (int c = 0; c < clientCount; c++) {
+                if (clientArray[c].branch_id == targetBranchId) {
+                    clientArray[c].branch_id = newBranchId;
+                }
             }
 
+            // Delete Departments
+            for (int d = departmentCount - 1; d >= 0; --d) {
+                if (departmentArray[d].branch_id == targetBranchId) {
+                    for (int k = d; k < departmentCount - 1; k++) departmentArray[k] = departmentArray[k + 1];
+                    departmentCount--;
+                    deptsDeleted++;
+                }
+            }
+
+            // Delete Branch
+            cout << "Deleted Branch: " << branchArray[i].name << endl;
+            for (int k = i; k < branchCount - 1; k++) branchArray[k] = branchArray[k + 1];
             branchCount--;
-            successfulDeletions++;
+            branchesDeleted++;
         }
     }
-    searchResultCount = 0; // The result list is now entirely invalid
-    cout << "\nBatch deletion complete. " << successfulDeletions << " branch(es) deleted.\n";
 
-	// Parraksta visu failu
-	ofstream file(branchesDB, ios::trunc);
-	if (!file) {
-		cout << "Error opening file for writing!" << endl;
-		return;
-	}
+    // 6. Save all updated databases
+    ofstream file(branchesDB, ios::trunc);
+    if (!file) {
+        cout << "Error opening file for writing!" << endl;
+        return;
+    }
 
-	for (int i = 0; i < branchCount; i++) {
-		file << branchArray[i].id << "|" << branchArray[i].name << "|" << branchArray[i].address << endl;
-	}
-	file.close();
+    for (int i = 0; i < branchCount; i++) {
+        file << branchArray[i].id << "|" << branchArray[i].name << "|" << branchArray[i].address << endl;
+    }
+    file.close();
+
+    ofstream deptFile(departmentsDB, ios::trunc);
+    if (deptFile) {
+        for (int i = 0; i < departmentCount; i++) {
+            deptFile << departmentArray[i].id << "|" << departmentArray[i].name << "|" << departmentArray[i].branch_id << endl;
+        }
+        deptFile.close();
+    }
+
+    ofstream clientFile(clientsDB, ios::trunc);
+    if (clientFile) {
+        for (int i = 0; i < clientCount; i++) {
+            clientFile << clientArray[i].id << "|"
+                << clientArray[i].name << "|"
+                << clientArray[i].surname << "|"
+                << clientArray[i].branch_id << "|"
+                << clientArray[i].type << endl;
+        }
+        clientFile.close();
+        cout << "Client data updated successfully!" << endl;
+    }
+
+    searchResultCount = 0;
+    cout << "\nDeletion complete. " << branchesDeleted << " branches and " << deptsDeleted << " departments removed.\n";
 }
 
 void deleteDepartments() {
@@ -74,9 +174,24 @@ void deleteDepartments() {
         return;
     }
 
+    // 1. Load employees into memory to count and process them
+    loadEmployees();
+
+    // 2. Pre-scan: Count how many employees will be affected
+    int empsToBeDeletedCount = 0;
+    for (int i = 0; i < searchResultCount; i++) {
+        int targetDeptId = departmentArray[searchResultIndexes[i]].id;
+        for (int e = 0; e < employeeCount; e++) {
+            if (employeeArray[e].department_id == targetDeptId) {
+                empsToBeDeletedCount++;
+            }
+        }
+    }
+
     cout << "\n--- WARNING: BATCH DELETION ---\n";
-    cout << "Do you want to delete ALL " << searchResultCount
-        << " branches listed above? (Y/N): ";
+    cout << "This action will delete " << searchResultCount << " department(s).\n";
+    cout << "CAUTION: " << empsToBeDeletedCount << " employee(s) associated with these departments will also be PERMANENTLY deleted.\n";
+    cout << "Do you want to proceed? (Y/N): ";
 
     char confirm;
     cin >> confirm;
@@ -84,49 +199,72 @@ void deleteDepartments() {
 
     if (confirm != 'y' && confirm != 'Y') {
         cout << "Deletion aborted by user.\n";
-        searchResultCount = 0; // Clear results even on abort
+        searchResultCount = 0;
         return;
     }
 
-    cout << "Deleting departments...\n";
-    int successfulDeletions = 0;
+    cout << "Deleting departments and employees...\n";
+    int successfulDeptsDeleted = 0;
+    int actualEmpsDeleted = 0;
+
+    // Process from end to beginning to maintain array integrity
     for (int i = departmentCount - 1; i >= 0; --i) {
-        // Check if the current main array index 'i' is in the list of results to be deleted
-        bool shouldDelete = false;
+        bool shouldDeleteDept = false;
         for (int j = 0; j < searchResultCount; ++j) {
             if (searchResultIndexes[j] == i) {
-                shouldDelete = true;
+                shouldDeleteDept = true;
                 break;
             }
         }
 
-        if (shouldDelete) {
-            // Found a branch to delete at index 'i' in branchArray
-            cout << "Deleted Department ID: " << departmentArray[i].id << endl;
+        if (shouldDeleteDept) {
+            int targetDeptId = departmentArray[i].id;
 
-            // Shift elements one position to the left (overwriting branchArray[i])
+            // Cascade delete employees
+            for (int e = employeeCount - 1; e >= 0; --e) {
+                if (employeeArray[e].department_id == targetDeptId) {
+                    for (int k = e; k < employeeCount - 1; ++k) {
+                        employeeArray[k] = employeeArray[k + 1];
+                    }
+                    employeeCount--;
+                    actualEmpsDeleted++;
+                }
+            }
+
+            // Delete department
+            cout << "Deleted Department ID: " << targetDeptId << " (" << departmentArray[i].name << ")" << endl;
             for (int k = i; k < departmentCount - 1; ++k) {
                 departmentArray[k] = departmentArray[k + 1];
             }
-
             departmentCount--;
-            successfulDeletions++;
+            successfulDeptsDeleted++;
         }
     }
-    searchResultCount = 0; // The result list is now entirely invalid
-    cout << "\nBatch deletion complete. " << successfulDeletions << " department(s) deleted.\n";
 
-    ofstream file(departmentsDB, ios::trunc);
-    if (!file) {
-        cout << "Error opening file for writing!" << endl;
-        return;
+    searchResultCount = 0;
+    cout << "\nBatch deletion complete.\n";
+    cout << successfulDeptsDeleted << " department(s) deleted.\n";
+    cout << actualEmpsDeleted << " employee(s) deleted.\n";
+
+    // Save changes to Department file
+    ofstream deptFile(departmentsDB, ios::trunc);
+    if (deptFile) {
+        for (int i = 0; i < departmentCount; i++) {
+            deptFile << departmentArray[i].id << "|" << departmentArray[i].name << "|" << departmentArray[i].branch_id << endl;
+        }
+        deptFile.close();
     }
 
-    for (int i = 0; i < departmentCount; i++) {
-        file << departmentArray[i].id << "|" << departmentArray[i].name << "|" << departmentArray[i].branch_id << endl;
+    // Save changes to Employee file
+    ofstream empFile(employeesDB, ios::trunc);
+    if (empFile) {
+        for (int i = 0; i < employeeCount; i++) {
+            empFile << employeeArray[i].id << "|" << employeeArray[i].name << "|" << employeeArray[i].surname << "|"
+                << employeeArray[i].department_id << "|" << employeeArray[i].position << "|" << employeeArray[i].access_level << endl;
+        }
+        empFile.close();
     }
-    file.close();
-    cout << "Branch data updated successfully!" << endl;
+    cout << "Database updated successfully!" << endl;
 }
 
 void deleteEmployees() {

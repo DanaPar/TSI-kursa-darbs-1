@@ -54,9 +54,10 @@ void searchClientsByBranch();
 void searchEmployeesById();
 void searchEmployeesByName();
 void searchEmployeesByDepartment();
+void searchEmployeesByBranch();
 void searchAccountByNumber();
 void searchAccountByOwner();
-void searchAccountByRange();
+void searchAccountByBalance();
 
 //datu dzesanas funkcijas
 void deleteBranches();

@@ -481,6 +481,76 @@ void searchEmployeesById() {
     }
 }
 
+void searchEmployeesByBranch() {
+    loadEmployees();
+    loadDepartments();
+    loadBranches();
+
+    string searchBranchName;
+    searchResultCount = 0;
+    int employeesFound = 0;
+
+    cout << "Enter Branch Name or prefix to search for employees: ";
+    getline(cin, searchBranchName);
+
+    if (searchBranchName.empty()) {
+        cout << "Search branch name cannot be empty!\n";
+        return;
+    }
+
+    string lowerSearchName = toLower(searchBranchName);
+    size_t searchLength = lowerSearchName.length();
+
+    for (int i = 0; i < employeeCount; ++i) {
+        int empDeptId = employeeArray[i].department_id; // Step 1: Get Dept ID
+        bool branchMatchFound = false;
+
+        // Step 2: Find the Department to get its branch_id
+        for (int j = 0; j < departmentCount; ++j) {
+            if (departmentArray[j].id == empDeptId) {
+                int deptBranchId = departmentArray[j].branch_id; // Found Branch ID
+
+                // Step 3: Find the Branch to get its name
+                for (int k = 0; k < branchCount; ++k) {
+                    if (branchArray[k].id == deptBranchId) {
+                        string branchName = branchArray[k].name;
+
+                        // Step 4: Compare prefix
+                        if (branchName.length() >= searchLength) {
+                            string branchPrefix = branchName.substr(0, searchLength);
+                            if (toLower(branchPrefix) == lowerSearchName) {
+                                branchMatchFound = true;
+                            }
+                        }
+                        break; // Exit branch loop
+                    }
+                }
+                break; // Exit department loop
+            }
+        }
+
+        if (branchMatchFound) {
+            if (searchResultCount < MAX_COUNT) {
+                searchResultIndexes[searchResultCount] = i;
+                searchResultCount++;
+                employeesFound++;
+            }
+            else {
+                cout << "Warning: Maximum search results limit reached.\n";
+                break;
+            }
+        }
+    }
+
+    if (employeesFound > 0) {
+        cout << "--- Search Complete: " << employeesFound << " Employee(s) Found ---\n";
+        displayEmployees(true);
+    }
+    else {
+        cout << "--- Search Complete: No Employees Found in Branches starting with " << searchBranchName << " ---\n";
+    }
+}
+
 void searchEmployeesByName() {
     loadEmployees(); // Refresh data from file
     string searchInput;
