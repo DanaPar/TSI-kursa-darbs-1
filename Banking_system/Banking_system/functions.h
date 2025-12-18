@@ -49,9 +49,12 @@ void searchBranchesByAddress();
 void searchDepartmentsById();
 void searchDepartmentsByName();
 void searchDepartmentsByBranch();
+void searchClientsByName();
+void searchClientsByBranch();
 void searchEmployeesById();
-void searchEmployeesByPosition();
-void searchEmployeesByAccessLevel();
+void searchEmployeesByName();
+void searchEmployeesByDepartment();
+void searchAccountByNumber();
 void searchAccountByOwner();
 void searchAccountByRange();
 

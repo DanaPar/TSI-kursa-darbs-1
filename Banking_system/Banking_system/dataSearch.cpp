@@ -333,6 +333,117 @@ void searchDepartmentsByBranch() {
     }
 }
 
+void searchClientsByName() {
+    loadClients(); // Refresh client data from storage
+    string searchInput;
+    searchResultCount = 0; // Reset global search result counter
+
+    cout << "Enter Client Name or prefix to search: ";
+    getline(cin, searchInput);
+
+    if (searchInput.empty()) {
+        cout << "Search name cannot be empty!\n";
+        return;
+    }
+
+    string lowerSearch = toLower(searchInput);
+    size_t searchLength = lowerSearch.length();
+
+    for (int i = 0; i < clientCount; ++i) {
+        // Build full name: "Name Surname"
+        string firstName = clientArray[i].name;
+        string lastName = clientArray[i].surname;
+        string fullName = firstName + " " + lastName;
+
+        // Convert to lower case for case-insensitive matching
+        string lowerFullName = toLower(fullName);
+
+        // Check if the full name starts with the search string
+        if (lowerFullName.length() >= searchLength) {
+            string namePrefix = lowerFullName.substr(0, searchLength);
+
+            if (namePrefix == lowerSearch) {
+                if (searchResultCount < MAX_COUNT) {
+                    searchResultIndexes[searchResultCount] = i;
+                    searchResultCount++;
+                }
+                else {
+                    cout << "Warning: Maximum search results limit reached.\n";
+                    break;
+                }
+            }
+        }
+    }
+
+    if (searchResultCount > 0) {
+        cout << "--- Search Complete: " << searchResultCount << " Client(s) Found ---\n";
+        displayClients(true); // Assuming you have a display function for clients
+    }
+    else {
+        cout << "--- Search Complete: No Clients found matching \"" << searchInput << "\" ---\n";
+    }
+}
+
+void searchClientsByBranch() {
+    loadClients();
+    loadBranches(); // Assuming you have a function to load branch data
+    string searchBranchName;
+
+    searchResultCount = 0;
+    int clientsFound = 0;
+
+    cout << "Enter Branch Name or prefix to search for clients: ";
+    getline(cin, searchBranchName);
+
+    if (searchBranchName.empty()) {
+        cout << "Search branch name cannot be empty!\n";
+        return;
+    }
+
+    string lowerSearchName = toLower(searchBranchName);
+    size_t searchLength = lowerSearchName.length();
+
+    for (int i = 0; i < clientCount; ++i) {
+        int clientBranchId = clientArray[i].branch_id;
+        bool branchMatchFound = false;
+
+        // Find the branch details for this client
+        for (int j = 0; j < branchCount; ++j) {
+            if (branchArray[j].id == clientBranchId) {
+                string branchName = branchArray[j].name;
+
+                if (branchName.length() >= searchLength) {
+                    string branchPrefix = branchName.substr(0, searchLength);
+                    if (toLower(branchPrefix) == lowerSearchName) {
+                        branchMatchFound = true;
+                    }
+                }
+                break;
+            }
+        }
+
+        if (branchMatchFound) {
+            if (searchResultCount < MAX_COUNT) {
+                searchResultIndexes[searchResultCount] = i;
+                searchResultCount++;
+                clientsFound++;
+            }
+            else {
+                cout << "Warning: Maximum search results limit reached.\n";
+                break;
+            }
+        }
+    }
+
+    if (clientsFound > 0) {
+        cout << "--- Search Complete: " << clientsFound << " Client(s) Found ---\n";
+        displayClients(true);
+    }
+    else {
+        cout << "--- Search Complete: No Clients Found in Branches starting with " << searchBranchName << " ---\n";
+    }
+}
+
 void searchEmployeesById() {
     loadEmployees();
     int searchId;
@@ -369,8 +480,119 @@ void searchEmployeesById() {
         cout << "--- Search Complete: No Employees Found with ID " << searchId << " ---\n";
     }
 }
-//void searchEmployeesByPosition();
-//void searchEmployeesByAccessLevel();
+
+void searchEmployeesByName() {
+    loadEmployees(); // Refresh data from file
+    string searchInput;
+    searchResultCount = 0; // Reset global result counter
+
+    cout << "Enter Employee Name (or prefix) to search: ";
+    getline(cin, searchInput);
+
+    if (searchInput.empty()) {
+        cout << "Search name cannot be empty!\n";
+        return;
+    }
+
+    string lowerSearch = toLower(searchInput);
+    size_t searchLength = lowerSearch.length();
+
+    for (int i = 0; i < employeeCount; ++i) {
+        // Construct the full name for a comprehensive search
+        string firstName = employeeArray[i].name;
+        string lastName = employeeArray[i].surname;
+        string fullName = firstName + " " + lastName;
+
+        // Convert full name to lower case for comparison
+        string lowerFullName = toLower(fullName);
+
+        // Check if the search string matches the start of the full name
+        if (lowerFullName.length() >= searchLength) {
+            string namePrefix = lowerFullName.substr(0, searchLength);
+
+            if (namePrefix == lowerSearch) {
+                if (searchResultCount < MAX_COUNT) {
+                    searchResultIndexes[searchResultCount] = i;
+                    searchResultCount++;
+                }
+                else {
+                    cout << "Warning: Maximum search results limit reached.\n";
+                    break;
+                }
+            }
+        }
+    }
+
+    if (searchResultCount > 0) {
+        cout << "--- Search Complete: " << searchResultCount << " Employee(s) Found ---\n";
+        displayEmployees(true); // Display using the filtered index list
+    }
+    else {
+        cout << "--- Search Complete: No Employees found matching \"" << searchInput << "\" ---\n";
+    }
+}
+
+void searchEmployeesByDepartment() {
+    loadEmployees();
+    loadDepartments();
+    string searchDeptName;
+
+    searchResultCount = 0; // Reset global search counter
+    int employeesFound = 0;
+
+    cout << "Enter Department Name or prefix to search for employees: ";
+    getline(cin, searchDeptName);
+
+    if (searchDeptName.empty()) {
+        cout << "Search department name cannot be empty!\n";
+        return;
+    }
+
+    string lowerSearchName = toLower(searchDeptName);
+    size_t searchLength = lowerSearchName.length();
+
+    // Iterate through all employees
+    for (int i = 0; i < employeeCount; ++i) {
+        int empDeptId = employeeArray[i].department_id;
+        bool deptMatchFound = false;
+
+        // Find the department details for this specific employee
+        for (int j = 0; j < departmentCount; ++j) {
+            if (departmentArray[j].id == empDeptId) {
+                string deptName = departmentArray[j].name;
+
+                // Check if the department name matches the search prefix
+                if (deptName.length() >= searchLength) {
+                    string deptPrefix = deptName.substr(0, searchLength);
+                    if (toLower(deptPrefix) == lowerSearchName) {
+                        deptMatchFound = true;
+                    }
+                }
+                break; // Exit inner loop once the matching department ID is found
+            }
+        }
+
+        if (deptMatchFound) {
+            if (searchResultCount < MAX_COUNT) {
+                searchResultIndexes[searchResultCount] = i;
+                searchResultCount++;
+                employeesFound++;
+            }
+            else {
+                cout << "Warning: Maximum search results limit reached.\n";
+                break;
+            }
+        }
+    }
+
+    if (employeesFound > 0) {
+        cout << "--- Search Complete: " << employeesFound << " Employee(s) Found ---\n";
+        displayEmployees(true); // Assuming you have a display function for employees
+    }
+    else {
+        cout << "--- Search Complete: No Employees Found in Departments starting with " << searchDeptName << " ---\n";
+    }
+}
 
 void searchAccountByOwner() {
     loadAccounts();
@@ -435,6 +657,53 @@ void searchAccountByOwner() {
     }
     else {
         cout << "--- Search Complete: No Accounts Found in Clients starting with " << searchClientName << " ---\n";
+    }
+}
+
+void searchAccountByNumber() {
+    loadAccounts(); // Ensure data is up to date
+    string searchNumber;
+    searchResultCount = 0; // Reset global result counter
+
+    cout << "Enter Account Number or prefix to search: ";
+    getline(cin, searchNumber);
+
+    if (searchNumber.empty()) {
+        cout << "Search input cannot be empty!\n";
+        return;
+    }
+
+    // Convert search input to lower case in case account numbers contain letters
+    string lowerSearchNumber = toLower(searchNumber);
+    size_t searchLength = lowerSearchNumber.length();
+
+    for (int i = 0; i < accountCount; ++i) {
+        // Assuming your account struct has a field named 'account_number'
+        string currentAccNum = accountArray[i].account_number;
+
+        // Ensure the account number is long enough to match the search prefix
+        if (currentAccNum.length() >= searchLength) {
+            string accPrefix = currentAccNum.substr(0, searchLength);
+
+            if (toLower(accPrefix) == lowerSearchNumber) {
+                if (searchResultCount < MAX_COUNT) {
+                    searchResultIndexes[searchResultCount] = i;
+                    searchResultCount++;
+                }
+                else {
+                    cout << "Warning: Maximum search results limit reached.\n";
+                    break;
+                }
+            }
+        }
+    }
+
+    if (searchResultCount > 0) {
+        cout << "--- Search Complete: " << searchResultCount << " Account(s) Found ---\n";
+        displayAccounts(true); // Displays the accounts stored in searchResultIndexes
+    }
+    else {
+        cout << "--- Search Complete: No Accounts Found with number starting with " << searchNumber << " ---\n";
     }
 }
 

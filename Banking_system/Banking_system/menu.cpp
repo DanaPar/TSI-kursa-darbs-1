@@ -68,11 +68,20 @@ void runProgram() {
         case STATE_EMPLOYEE_SEARCH:
             currentState = displayEmployeeSearchMenu();
             break;
+        case STATE_EMPLOYEE_DELETE:
+            currentState = displayEmployeeDeleteMenu();
+            break;
         case STATE_EMPLOYEE_SORT:
             currentState = sortEmployeesMenu();
             break;
         case STATE_CLIENT_MGMT:
             currentState = displayClientManagement();
+            break;
+        case STATE_CLIENT_SEARCH:
+            currentState = displayClientSearchMenu();
+            break;
+        case STATE_CLIENT_DELETE:
+            currentState = displayClientDeleteMenu();
             break;
         case STATE_CLIENT_SORT:
             currentState = sortClientsMenu();
@@ -82,6 +91,9 @@ void runProgram() {
             break;
         case STATE_ACCOUNT_SEARCH:
             currentState = displayAccountSearchMenu();
+            break;
+        case STATE_ACCOUNT_DELETE:
+            currentState = displayAccountDeleteMenu();
             break;
         case STATE_ACCOUNT_SORT:
             currentState = sortAccountsMenu();
@@ -550,8 +562,7 @@ MenuState displayEmployeeManagement() {
         cout << "\n=======================================================\n";
         cout << "                  MENU -> Employees -> Delete\n";
         cout << "=======================================================\n";
-        cout << "Pagaidam neimplementeta: dzest darbinieku\n";
-        return STATE_EMPLOYEE_MGMT;
+        return STATE_EMPLOYEE_DELETE;
     case 5:
         cout << "\n=======================================================\n";
         cout << "                  MENU -> Employees -> View\n";
@@ -570,8 +581,8 @@ MenuState displayEmployeeSearchMenu() {
 
     cout << "1. Search by ID\n";
     cout << "2. Search by Name\n";
-    cout << "3. Search by Branch\n";
-    cout << "4. Back to Department Management Menu\n";
+    cout << "3. Search by Department\n";
+    cout << "4. Back to Employee Management Menu\n";
     cout << "Your choice: ";
 
     inputManager(option, 1, 4);
@@ -588,18 +599,58 @@ MenuState displayEmployeeSearchMenu() {
         cout << "\n=======================================================\n";
         cout << "         MENU -> Employees -> Search by Name\n";
         cout << "=======================================================\n";
-        searchDepartmentsByName();
+        searchEmployeesByName();
         return STATE_EMPLOYEE_SEARCH;
     case 3:
         cout << "\n=======================================================\n";
-        cout << "         MENU -> Employees -> Search by Access Level\n";
+        cout << "         MENU -> Employees -> Search by Department\n";
         cout << "=======================================================\n";
-        searchDepartmentsByBranch();
+        searchEmployeesByDepartment();
         return STATE_EMPLOYEE_SEARCH;
     case 4:
         return STATE_EMPLOYEE_MGMT;
     }
     return STATE_EMPLOYEE_SEARCH;
+}
+
+MenuState displayEmployeeDeleteMenu() {
+    int option;
+
+    cout << "1. Delete by ID\n";
+    cout << "2. Delete by Name\n";
+    cout << "3. Delete by Department\n";
+    cout << "4. Back to Employee Management Menu\n";
+    cout << "Your choice: ";
+
+    inputManager(option, 1, 4);
+    clearScreenWithDelay(0);
+
+    switch (option) {
+    case 1:
+        cout << "\n=======================================================\n";
+        cout << "         MENU -> Employees -> Delete by ID\n";
+        cout << "=======================================================\n";
+        searchEmployeesById();
+        deleteEmployees();
+        return STATE_EMPLOYEE_DELETE;
+    case 2:
+        cout << "\n=======================================================\n";
+        cout << "         MENU -> Employees -> Delete by Name\n";
+        cout << "=======================================================\n";
+        searchEmployeesByName();
+        deleteEmployees();
+        return STATE_EMPLOYEE_DELETE;
+    case 3:
+        cout << "\n=======================================================\n";
+        cout << "         MENU -> Employees -> Delete by Department\n";
+        cout << "=======================================================\n";
+        searchEmployeesByDepartment();
+        deleteEmployees();
+        return STATE_EMPLOYEE_DELETE;
+    case 4:
+        return STATE_EMPLOYEE_MGMT;
+    }
+    return STATE_EMPLOYEE_DELETE;
 }
 
 MenuState sortEmployeesMenu() {
@@ -707,14 +758,12 @@ MenuState displayClientManagement() {
         cout << "\n=======================================================\n";
         cout << "                  MENU -> Clients -> Search\n";
         cout << "=======================================================\n";
-        cout << "Pagaidam neimplementeta: meklet klientu\n";
-        return STATE_CLIENT_MGMT;
+        return STATE_CLIENT_SEARCH;
     case 4:
         cout << "\n=======================================================\n";
         cout << "                  MENU -> Clients -> Delete\n";
         cout << "=======================================================\n";
-        cout << "Pagaidam neimplementeta: dzest klientu\n";
-        return STATE_CLIENT_MGMT;
+        return STATE_CLIENT_DELETE;
     case 5:
         cout << "\n=======================================================\n";
         cout << "                  MENU -> Clients -> View\n";
@@ -726,6 +775,68 @@ MenuState displayClientManagement() {
         return STATE_MAIN_MENU;
     }
     return STATE_CLIENT_MGMT;
+}
+
+MenuState displayClientSearchMenu() {
+    int option;
+
+    cout << "1. Search by Name\n";
+    cout << "2. Search by Branch\n";
+    cout << "3. Back to Employee Management Menu\n";
+    cout << "Your choice: ";
+
+    inputManager(option, 1, 3);
+    clearScreenWithDelay(0);
+
+    switch (option) {
+    case 1:
+        cout << "\n=======================================================\n";
+        cout << "         MENU -> Clients -> Search by Name\n";
+        cout << "=======================================================\n";
+        searchClientsByName();
+        return STATE_CLIENT_SEARCH;
+    case 2:
+        cout << "\n=======================================================\n";
+        cout << "         MENU -> Clients -> Search by Branch\n";
+        cout << "=======================================================\n";
+        searchClientsByBranch();
+        return STATE_CLIENT_SEARCH;
+    case 3:
+        return STATE_CLIENT_MGMT;
+    }
+    return STATE_CLIENT_SEARCH;
+}
+
+MenuState displayClientDeleteMenu() {
+    int option;
+
+    cout << "1. Delete by Name\n";
+    cout << "2. Delete by Branch\n";
+    cout << "3. Back to Client Management Menu\n";
+    cout << "Your choice: ";
+
+    inputManager(option, 1, 3);
+    clearScreenWithDelay(0);
+
+    switch (option) {
+    case 1:
+        cout << "\n=======================================================\n";
+        cout << "         MENU -> Clients -> Delete by Name\n";
+        cout << "=======================================================\n";
+        searchClientsByName();
+        deleteClients();
+        return STATE_CLIENT_DELETE;
+    case 2:
+        cout << "\n=======================================================\n";
+        cout << "         MENU -> Clients -> Delete by Branch\n";
+        cout << "=======================================================\n";
+        searchClientsByBranch();
+        deleteClients();
+        return STATE_CLIENT_DELETE;
+    case 3:
+        return STATE_CLIENT_MGMT;
+    }
+    return STATE_CLIENT_DELETE;
 }
 
 MenuState sortClientsMenu() {
@@ -839,7 +950,7 @@ MenuState displayAccountManagement() {
         cout << "                  MENU -> Accounts -> Delete\n";
         cout << "=======================================================\n";
         cout << "Pagaidam neimplementeta: dzest kontu\n";
-        return STATE_ACCOUNT_MGMT;
+        return STATE_ACCOUNT_DELETE;
     case 5:
         cout << "\n=======================================================\n";
         cout << "                  MENU -> Accounts -> View\n";
@@ -855,8 +966,45 @@ MenuState displayAccountManagement() {
 MenuState displayAccountSearchMenu() {
     int option;
 
-    cout << "1. Search by owner name\n";
-    cout << "2. Search by Balance\n";
+    cout << "1. Search by account Number\n";
+    cout << "2. Search by owner Name\n";
+    cout << "3. Search by Balance\n";
+    cout << "4. Back to Account Management Menu\n";
+    cout << "Your choice: ";
+
+    inputManager(option, 1, 4);
+    clearScreenWithDelay(0);
+
+    switch (option) {
+    case 1:
+        cout << "\n=======================================================\n";
+        cout << "         MENU -> Accounts -> Search by account Number\n";
+        cout << "=======================================================\n";
+        searchAccountByNumber();
+        return STATE_ACCOUNT_SEARCH;
+    case 2:
+        cout << "\n=======================================================\n";
+        cout << "         MENU -> Accounts -> Search by owner Name\n";
+        cout << "=======================================================\n";
+        searchAccountByOwner();
+        return STATE_ACCOUNT_SEARCH;
+    case 3:
+        cout << "\n=======================================================\n";
+        cout << "         MENU -> Accounts -> Search by Balance\n";
+        cout << "=======================================================\n";
+        cout << "no implementation for now";
+        return STATE_ACCOUNT_SEARCH;
+    case 4:
+        return STATE_ACCOUNT_MGMT;
+    }
+    return STATE_ACCOUNT_SEARCH;
+}
+
+MenuState displayAccountDeleteMenu() {
+    int option;
+
+    cout << "1. Delete by account Number\n";
+    cout << "2. Delete by Owner\n";
     cout << "3. Back to Account Management Menu\n";
     cout << "Your choice: ";
 
@@ -866,20 +1014,22 @@ MenuState displayAccountSearchMenu() {
     switch (option) {
     case 1:
         cout << "\n=======================================================\n";
-        cout << "         MENU -> Accounts -> Search by owner Name\n";
+        cout << "                  MENU -> Accounts -> Delete by account Number\n";
         cout << "=======================================================\n";
-        searchAccountByOwner();
-        return STATE_ACCOUNT_SEARCH;
+        //searchAccountByNumber();
+        //deleteBranches();
+        return STATE_ACCOUNT_DELETE;
     case 2:
         cout << "\n=======================================================\n";
-        cout << "         MENU -> Accounts -> Search by Balance\n";
+        cout << "                  MENU -> Branches -> Delete by Owner\n";
         cout << "=======================================================\n";
-        cout << "no implementation for now";
-        return STATE_ACCOUNT_SEARCH;
+        searchAccountByOwner();
+        deleteAccounts();
+        return STATE_ACCOUNT_DELETE;
     case 3:
         return STATE_ACCOUNT_MGMT;
     }
-    return STATE_ACCOUNT_SEARCH;
+    return STATE_ACCOUNT_DELETE;
 }
 
 MenuState sortAccountsMenu() {
