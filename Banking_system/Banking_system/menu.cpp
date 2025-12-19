@@ -2,10 +2,11 @@
 #include "menu.h"
 #include "functions.h"
 #include <iostream>
+#include <iomanip>
 #include <limits>
-#include <cstdlib> //for system()
-#include <chrono>       // Required for std::chrono::milliseconds
-#include <thread>       // Required for std::this_thread::sleep_for
+#include <cstdlib>
+#include <chrono>
+#include <thread>
 
 using namespace std;
 
@@ -99,7 +100,6 @@ void runProgram() {
             currentState = sortAccountsMenu();
             break;
         case STATE_STATISTICS_MGMT:
-            // Neimplementetas izvelnes atgriezas uz sakumu
             currentState = displayBranchStatisticsMenu();
             break;
         default:
@@ -111,14 +111,12 @@ void runProgram() {
     cout << "Data being saved. Program being closed.\n";
 }
 
-// ------ MENU DISPLEJA FUNKCIJAS (Atgriez Nakamo Stavokli) ------
-
 MenuState displayMainMenu() {
     int option;
 
-    cout << "\n=======================================================\n";
+    cout << setfill('=') << setw(115) << "" << setfill(' ') << endl;
     cout << "                   MAIN MENU\n";
-    cout << "=======================================================\n";
+    cout << setfill('=') << setw(115) << "" << setfill(' ') << endl;
     cout << "Choose coresponding number:\n";
     cout << "1. Branch management\n";
     cout << "2. Department management\n";
@@ -147,9 +145,9 @@ MenuState displayMainMenu() {
 MenuState displayBranchManagement() {
     int option;
 
-    cout << "\n=======================================================\n";
+    cout << setfill('=') << setw(115) << "" << setfill(' ') << endl;
     cout << "                  MENU -> Branches\n";
-    cout << "=======================================================\n";
+    cout << setfill('=') << setw(115) << "" << setfill(' ') << endl;
     cout << "1. Add\n";
     cout << "2. Edit\n";
     cout << "3. Search\n";
@@ -163,33 +161,34 @@ MenuState displayBranchManagement() {
 
     switch (option) {
     case 1:
-        cout << "\n=======================================================\n";
+        cout << setfill('=') << setw(115) << "" << setfill(' ') << endl;
         cout << "                  MENU -> Branches -> Add\n";
-        cout << "=======================================================\n";
+        cout << setfill('=') << setw(115) << "" << setfill(' ') << endl;
+        cout << setfill(' ');
         addBranch();
         clearScreenWithDelay(1);
         return STATE_BRANCH_MGMT;
     case 2:
-        cout << "\n=======================================================\n";
+        cout << setfill('=') << setw(115) << "" << setfill(' ') << endl;
         cout << "                  MENU -> Branches -> Edit\n";
-        cout << "=======================================================\n";
+        cout << setfill('=') << setw(115) << "" << setfill(' ') << endl;
         editBranch();
         clearScreenWithDelay(1);
         return STATE_BRANCH_MGMT;
     case 3:
-        cout << "\n=======================================================\n";
+        cout << setfill('=') << setw(115) << "" << setfill(' ') << endl;
         cout << "                  MENU -> Branches -> Search\n";
-        cout << "=======================================================\n";
+        cout << setfill('=') << setw(115) << "" << setfill(' ') << endl;
         return STATE_BRANCH_SEARCH;
     case 4:
-        cout << "\n=======================================================\n";
+        cout << setfill('=') << setw(115) << "" << setfill(' ') << endl;
         cout << "                  MENU -> Branches -> Delete\n";
-        cout << "=======================================================\n";
+        cout << setfill('=') << setw(115) << "" << setfill(' ') << endl;
         return STATE_BRANCH_DELETE;
     case 5:
-        cout << "\n=======================================================\n";
+        cout << setfill('=') << setw(115) << "" << setfill(' ') << endl;
         cout << "                  MENU -> Branches -> View\n";
-        cout << "=======================================================\n";
+        cout << setfill('=') << setw(115) << "" << setfill(' ') << endl;
         displayBranches(false);
         return STATE_BRANCH_SORT;
     case 6:
@@ -212,21 +211,21 @@ MenuState displayBranchSearchMenu() {
 
     switch (option) {
     case 1:
-        cout << "\n=======================================================\n";
+        cout << setfill('=') << setw(115) << "" << setfill(' ') << endl;
         cout << "         MENU -> Branches -> Search by ID\n";
-        cout << "=======================================================\n";
-        searchBranchesById(); // Assuming 1 means ID search criterion
+        cout << setfill('=') << setw(115) << "" << setfill(' ') << endl;
+        searchBranchesById();
         return STATE_BRANCH_SEARCH;
     case 2:
-        cout << "\n=======================================================\n";
+        cout << setfill('=') << setw(115) << "" << setfill(' ') << endl;
         cout << "         MENU -> Branches -> Search by Name\n";
-        cout << "=======================================================\n";
+        cout << setfill('=') << setw(115) << "" << setfill(' ') << endl;
         searchBranchesByName();
         return STATE_BRANCH_SEARCH;
     case 3:
-        cout << "\n=======================================================\n";
+        cout << setfill('=') << setw(115) << "" << setfill(' ') << endl;
         cout << "         MENU -> Branches -> Search by Address\n";
-        cout << "=======================================================\n";
+        cout << setfill('=') << setw(115) << "" << setfill(' ') << endl;
         searchBranchesByAddress();
         return STATE_BRANCH_SEARCH;
     case 4:
@@ -249,23 +248,23 @@ MenuState displayBranchDeleteMenu() {
 
     switch (option) {
     case 1:
-        cout << "\n=======================================================\n";
+        cout << setfill('=') << setw(115) << "" << setfill(' ') << endl;
         cout << "                  MENU -> Branches -> Delete by ID\n";
-        cout << "=======================================================\n";
+        cout << setfill('=') << setw(115) << "" << setfill(' ') << endl;
         searchBranchesById();
         deleteBranches();
         return STATE_BRANCH_DELETE;
     case 2:
-        cout << "\n=======================================================\n";
+        cout << setfill('=') << setw(115) << "" << setfill(' ') << endl;
         cout << "                  MENU -> Branches -> Delete by name\n";
-        cout << "=======================================================\n";
+        cout << setfill('=') << setw(115) << "" << setfill(' ') << endl;
         searchBranchesByName();
         deleteBranches();
         return STATE_BRANCH_DELETE;
     case 3:
-        cout << "\n=======================================================\n";
+        cout << setfill('=') << setw(115) << "" << setfill(' ') << endl;
         cout << "                  MENU -> Branches -> Delete by address\n";
-        cout << "=======================================================\n";
+        cout << setfill('=') << setw(115) << "" << setfill(' ') << endl;
         searchBranchesByAddress();
         deleteBranches();
         return STATE_BRANCH_DELETE;
@@ -284,8 +283,7 @@ MenuState sortBranchesMenu() {
     cout << "Your choice: ";
 
     inputManager(option, 1, 3);
-    //clearScreenWithDelay(0);
-
+ 
     switch (option) {
     case 1:
         cout << "1. Sort ascending order\n";
@@ -296,15 +294,15 @@ MenuState sortBranchesMenu() {
         clearScreenWithDelay(0);
         switch (option) {
         case 1: 
-            cout << "\n=======================================================\n";
+            cout << setfill('=') << setw(115) << "" << setfill(' ') << endl;
             cout << "                  MENU -> Branches -> View -> Sort by Id(ascending)\n";
-            cout << "=======================================================\n";
+            cout << setfill('=') << setw(115) << "" << setfill(' ') << endl;
             sortBranchesById(true);
             break;
         case 2:
-            cout << "\n=======================================================\n";
+            cout << setfill('=') << setw(115) << "" << setfill(' ') << endl;
             cout << "                  MENU -> Branches -> View -> Sort by Id(descending)\n";
-            cout << "=======================================================\n";
+            cout << setfill('=') << setw(115) << "" << setfill(' ') << endl;
             sortBranchesById(false);
             break;
         case 3: 
@@ -321,15 +319,15 @@ MenuState sortBranchesMenu() {
         clearScreenWithDelay(0);
         switch (option) {
         case 1:
-            cout << "\n=======================================================\n";
+            cout << setfill('=') << setw(115) << "" << setfill(' ') << endl;
             cout << "                  MENU -> Branches -> View -> Sort by Name(ascending)\n";
-            cout << "=======================================================\n";
+            cout << setfill('=') << setw(115) << "" << setfill(' ') << endl;
             sortBranchesByName(true);
             break;
         case 2: 
-            cout << "\n=======================================================\n";
+            cout << setfill('=') << setw(115) << "" << setfill(' ') << endl;
             cout << "                  MENU -> Branches -> View -> Sort by Name(descending)\n";
-            cout << "=======================================================\n"; 
+            cout << setfill('=') << setw(115) << "" << setfill(' ') << endl; 
             sortBranchesByName(false);
             break;
         case 3: 
@@ -347,9 +345,9 @@ MenuState sortBranchesMenu() {
 MenuState displayDepartmentManagement() {
     int option;
 
-    cout << "\n=======================================================\n";
+    cout << setfill('=') << setw(115) << "" << setfill(' ') << endl;
     cout << "                  MENU -> Departments\n";
-    cout << "=======================================================\n";
+    cout << setfill('=') << setw(115) << "" << setfill(' ') << endl;
     cout << "1. Add\n";
     cout << "2. Edit\n";
     cout << "3. Search\n";
@@ -363,33 +361,33 @@ MenuState displayDepartmentManagement() {
 
     switch (option) {
     case 1:
-        cout << "\n=======================================================\n";
+        cout << setfill('=') << setw(115) << "" << setfill(' ') << endl;
         cout << "                  MENU -> Departments -> Add\n";
-        cout << "=======================================================\n";
+        cout << setfill('=') << setw(115) << "" << setfill(' ') << endl;
         addDepartment();
         clearScreenWithDelay(1);
         return STATE_DEPT_MGMT;
     case 2:
-        cout << "\n=======================================================\n";
+        cout << setfill('=') << setw(115) << "" << setfill(' ') << endl;
         cout << "                  MENU -> Departments -> Edit\n";
-        cout << "=======================================================\n";
+        cout << setfill('=') << setw(115) << "" << setfill(' ') << endl;
         editDepartment();
         clearScreenWithDelay(1);
         return STATE_DEPT_MGMT;
     case 3:
-        cout << "\n=======================================================\n";
+        cout << setfill('=') << setw(115) << "" << setfill(' ') << endl;
         cout << "                  MENU -> Departments -> Search\n";
-        cout << "=======================================================\n";
+        cout << setfill('=') << setw(115) << "" << setfill(' ') << endl;
         return STATE_DEPT_SEARCH;
     case 4:
-        cout << "\n=======================================================\n";
+        cout << setfill('=') << setw(115) << "" << setfill(' ') << endl;
         cout << "                  MENU -> Departments -> Delete\n";
-        cout << "=======================================================\n";
+        cout << setfill('=') << setw(115) << "" << setfill(' ') << endl;
         return STATE_DEPT_DELETE;
     case 5:
-        cout << "\n=======================================================\n";
+        cout << setfill('=') << setw(115) << "" << setfill(' ') << endl;
         cout << "                  MENU -> Departments -> View\n";
-        cout << "=======================================================\n";
+        cout << setfill('=') << setw(115) << "" << setfill(' ') << endl;
         displayDepartments(false);
         return STATE_DEPT_SORT;
     case 6:
@@ -413,21 +411,21 @@ MenuState displayDepartmentSearchMenu() {
 
     switch (option) {
     case 1:
-        cout << "\n=======================================================\n";
+        cout << setfill('=') << setw(115) << "" << setfill(' ') << endl;
         cout << "         MENU -> Departments -> Search by ID\n";
-        cout << "=======================================================\n";
+        cout << setfill('=') << setw(115) << "" << setfill(' ') << endl;
         searchDepartmentsById();
         return STATE_DEPT_SEARCH;
     case 2:
-        cout << "\n=======================================================\n";
+        cout << setfill('=') << setw(115) << "" << setfill(' ') << endl;
         cout << "         MENU -> Departments -> Search by Name\n";
-        cout << "=======================================================\n";
+        cout << setfill('=') << setw(115) << "" << setfill(' ') << endl;
         searchDepartmentsByName();
         return STATE_DEPT_SEARCH;
     case 3:
-        cout << "\n=======================================================\n";
+        cout << setfill('=') << setw(115) << "" << setfill(' ') << endl;
         cout << "         MENU -> Departments -> Search by Branch\n";
-        cout << "=======================================================\n";
+        cout << setfill('=') << setw(115) << "" << setfill(' ') << endl;
         searchDepartmentsByBranch();
         return STATE_DEPT_SEARCH;
     case 4:
@@ -450,23 +448,23 @@ MenuState displayDepartmentDeleteMenu() {
 
     switch (option) {
     case 1:
-        cout << "\n=======================================================\n";
+        cout << setfill('=') << setw(115) << "" << setfill(' ') << endl;
         cout << "         MENU -> Departments -> Delete by ID\n";
-        cout << "=======================================================\n";
+        cout << setfill('=') << setw(115) << "" << setfill(' ') << endl;
         searchDepartmentsById();
         deleteDepartments();
         return STATE_DEPT_DELETE;
     case 2:
-        cout << "\n=======================================================\n";
+        cout << setfill('=') << setw(115) << "" << setfill(' ') << endl;
         cout << "         MENU -> Departments -> Delete by Name\n";
-        cout << "=======================================================\n";
+        cout << setfill('=') << setw(115) << "" << setfill(' ') << endl;
         searchDepartmentsByName();
         deleteDepartments();
         return STATE_DEPT_DELETE;
     case 3:
-        cout << "\n=======================================================\n";
+        cout << setfill('=') << setw(115) << "" << setfill(' ') << endl;
         cout << "         MENU -> Departments -> Delete by Branch\n";
-        cout << "=======================================================\n";
+        cout << setfill('=') << setw(115) << "" << setfill(' ') << endl;
         searchDepartmentsByBranch();
         deleteDepartments();
         return STATE_DEPT_DELETE;
@@ -484,7 +482,6 @@ MenuState sortDepartmentsMenu() {
     cout << "Your choice: ";
 
     inputManager(option, 1, 2);
-    //clearScreenWithDelay(0);
 
     switch (option) {
         case 1:
@@ -496,15 +493,15 @@ MenuState sortDepartmentsMenu() {
         clearScreenWithDelay(0);
         switch (option) {
         case 1:
-            cout << "\n=======================================================\n";
+            cout << setfill('=') << setw(115) << "" << setfill(' ') << endl;
             cout << "                  MENU -> Branches -> View -> Sort by Name(ascending)\n";
-            cout << "=======================================================\n";
+            cout << setfill('=') << setw(115) << "" << setfill(' ') << endl;
             sortDepartmentsByName(true);
             break;
         case 2:
-            cout << "\n=======================================================\n";
+            cout << setfill('=') << setw(115) << "" << setfill(' ') << endl;
             cout << "                  MENU -> Branches -> View -> Sort by Name(descending)\n";
-            cout << "=======================================================\n";
+            cout << setfill('=') << setw(115) << "" << setfill(' ') << endl;
             sortDepartmentsByName(false);
             break;
         case 3:
@@ -522,9 +519,9 @@ MenuState sortDepartmentsMenu() {
 MenuState displayEmployeeManagement() {
     int option;
 
-    cout << "\n=======================================================\n";
+    cout << setfill('=') << setw(115) << "" << setfill(' ') << endl;
     cout << "                  MENU -> Employees\n";
-    cout << "=======================================================\n";
+    cout << setfill('=') << setw(115) << "" << setfill(' ') << endl;
     cout << "1. Add\n";
     cout << "2. Edit\n";
     cout << "3. Search\n";
@@ -538,33 +535,33 @@ MenuState displayEmployeeManagement() {
 
     switch (option) {
     case 1:
-        cout << "\n=======================================================\n";
+        cout << setfill('=') << setw(115) << "" << setfill(' ') << endl;
         cout << "                  MENU -> Employees -> Add\n";
-        cout << "=======================================================\n";
+        cout << setfill('=') << setw(115) << "" << setfill(' ') << endl;
         addEmployee();
         clearScreenWithDelay(2);
         return STATE_EMPLOYEE_MGMT;
     case 2:
-        cout << "\n=======================================================\n";
+        cout << setfill('=') << setw(115) << "" << setfill(' ') << endl;
         cout << "                  MENU -> Employees -> Edit\n";
-        cout << "=======================================================\n";
+        cout << setfill('=') << setw(115) << "" << setfill(' ') << endl;
         editEmployee();
         clearScreenWithDelay(1);
         return STATE_EMPLOYEE_MGMT;
     case 3:
-        cout << "\n=======================================================\n";
+        cout << setfill('=') << setw(115) << "" << setfill(' ') << endl;
         cout << "                  MENU -> Employees -> Search\n";
-        cout << "=======================================================\n";
+        cout << setfill('=') << setw(115) << "" << setfill(' ') << endl;
         return STATE_EMPLOYEE_SEARCH;
     case 4:
-        cout << "\n=======================================================\n";
+        cout << setfill('=') << setw(115) << "" << setfill(' ') << endl;
         cout << "                  MENU -> Employees -> Delete\n";
-        cout << "=======================================================\n";
+        cout << setfill('=') << setw(115) << "" << setfill(' ') << endl;
         return STATE_EMPLOYEE_DELETE;
     case 5:
-        cout << "\n=======================================================\n";
+        cout << setfill('=') << setw(115) << "" << setfill(' ') << endl;
         cout << "                  MENU -> Employees -> View\n";
-        cout << "=======================================================\n";
+        cout << setfill('=') << setw(115) << "" << setfill(' ') << endl;
         displayEmployees(false);
         return STATE_EMPLOYEE_SORT;
     case 6:
@@ -589,27 +586,27 @@ MenuState displayEmployeeSearchMenu() {
 
     switch (option) {
     case 1:
-        cout << "\n=======================================================\n";
+        cout << setfill('=') << setw(115) << "" << setfill(' ') << endl;
         cout << "         MENU -> Employees -> Search by ID\n";
-        cout << "=======================================================\n";
+        cout << setfill('=') << setw(115) << "" << setfill(' ') << endl;
         searchEmployeesById();
         return STATE_EMPLOYEE_SEARCH;
     case 2:
-        cout << "\n=======================================================\n";
+        cout << setfill('=') << setw(115) << "" << setfill(' ') << endl;
         cout << "         MENU -> Employees -> Search by Name\n";
-        cout << "=======================================================\n";
+        cout << setfill('=') << setw(115) << "" << setfill(' ') << endl;
         searchEmployeesByName();
         return STATE_EMPLOYEE_SEARCH;
     case 3:
-        cout << "\n=======================================================\n";
+        cout << setfill('=') << setw(115) << "" << setfill(' ') << endl;
         cout << "         MENU -> Employees -> Search by Department\n";
-        cout << "=======================================================\n";
+        cout << setfill('=') << setw(115) << "" << setfill(' ') << endl;
         searchEmployeesByDepartment();
         return STATE_EMPLOYEE_SEARCH;
     case 4:
-        cout << "\n=======================================================\n";
+        cout << setfill('=') << setw(115) << "" << setfill(' ') << endl;
         cout << "         MENU -> Employees -> Search by Branch\n";
-        cout << "=======================================================\n";
+        cout << setfill('=') << setw(115) << "" << setfill(' ') << endl;
         searchEmployeesByBranch();
         return STATE_EMPLOYEE_SEARCH;
     case 5:
@@ -633,30 +630,30 @@ MenuState displayEmployeeDeleteMenu() {
 
     switch (option) {
     case 1:
-        cout << "\n=======================================================\n";
+        cout << setfill('=') << setw(115) << "" << setfill(' ') << endl;
         cout << "         MENU -> Employees -> Delete by ID\n";
-        cout << "=======================================================\n";
+        cout << setfill('=') << setw(115) << "" << setfill(' ') << endl;
         searchEmployeesById();
         deleteEmployees();
         return STATE_EMPLOYEE_DELETE;
     case 2:
-        cout << "\n=======================================================\n";
+        cout << setfill('=') << setw(115) << "" << setfill(' ') << endl;
         cout << "         MENU -> Employees -> Delete by Name\n";
-        cout << "=======================================================\n";
+        cout << setfill('=') << setw(115) << "" << setfill(' ') << endl;
         searchEmployeesByName();
         deleteEmployees();
         return STATE_EMPLOYEE_DELETE;
     case 3:
-        cout << "\n=======================================================\n";
+        cout << setfill('=') << setw(115) << "" << setfill(' ') << endl;
         cout << "         MENU -> Employees -> Delete by Department\n";
-        cout << "=======================================================\n";
+        cout << setfill('=') << setw(115) << "" << setfill(' ') << endl;
         searchEmployeesByDepartment();
         deleteEmployees();
         return STATE_EMPLOYEE_DELETE;
     case 4:
-        cout << "\n=======================================================\n";
+        cout << setfill('=') << setw(115) << "" << setfill(' ') << endl;
         cout << "         MENU -> Employees -> Delete by Branch\n";
-        cout << "=======================================================\n";
+        cout << setfill('=') << setw(115) << "" << setfill(' ') << endl;
         searchEmployeesByBranch();
         deleteEmployees();
         return STATE_EMPLOYEE_DELETE;
@@ -675,7 +672,6 @@ MenuState sortEmployeesMenu() {
     cout << "Your choice: ";
 
     inputManager(option, 1, 3);
-    //clearScreenWithDelay(0);
 
     switch (option) {
     case 1:
@@ -687,15 +683,15 @@ MenuState sortEmployeesMenu() {
         clearScreenWithDelay(0);
         switch (option) {
         case 1:
-            cout << "\n=======================================================\n";
+            cout << setfill('=') << setw(115) << "" << setfill(' ') << endl;
             cout << "                  MENU -> Employees -> View -> Sort by Name(ascending)\n";
-            cout << "=======================================================\n";
+            cout << setfill('=') << setw(115) << "" << setfill(' ') << endl;
             sortEmployeesByName(true);
             break;
         case 2:
-            cout << "\n=======================================================\n";
+            cout << setfill('=') << setw(115) << "" << setfill(' ') << endl;
             cout << "                  MENU -> Employees -> View -> Sort by Name(descending)\n";
-            cout << "=======================================================\n";
+            cout << setfill('=') << setw(115) << "" << setfill(' ') << endl;
             sortEmployeesByName(false);
             break;
         case 3:
@@ -712,15 +708,15 @@ MenuState sortEmployeesMenu() {
         clearScreenWithDelay(0);
         switch (option) {
         case 1:
-            cout << "\n=======================================================\n";
+            cout << setfill('=') << setw(115) << "" << setfill(' ') << endl;
             cout << "                  MENU -> Branches -> View -> Sort by Access Level(ascending)\n";
-            cout << "=======================================================\n";
+            cout << setfill('=') << setw(115) << "" << setfill(' ') << endl;
             sortEmployeesByAccessLevel(true);
             break;
         case 2:
-            cout << "\n=======================================================\n";
+            cout << setfill('=') << setw(115) << "" << setfill(' ') << endl;
             cout << "                  MENU -> Branches -> View -> Sort by Access level(descending)\n";
-            cout << "=======================================================\n";
+            cout << setfill('=') << setw(115) << "" << setfill(' ') << endl;
             sortEmployeesByAccessLevel(false);
             break;
         case 3:
@@ -738,9 +734,9 @@ MenuState sortEmployeesMenu() {
 MenuState displayClientManagement() {
     int option;
 
-    cout << "\n=======================================================\n";
+    cout << setfill('=') << setw(115) << "" << setfill(' ') << endl;
     cout << "                  MENU -> Clients\n";
-    cout << "=======================================================\n";
+    cout << setfill('=') << setw(115) << "" << setfill(' ') << endl;
     cout << "1. Add\n";
     cout << "2. Edit\n";
     cout << "3. Search\n";
@@ -754,33 +750,33 @@ MenuState displayClientManagement() {
 
     switch (option) {
     case 1:
-        cout << "\n=======================================================\n";
+        cout << setfill('=') << setw(115) << "" << setfill(' ') << endl;
         cout << "                  MENU -> Clients -> Add\n";
-        cout << "=======================================================\n";
+        cout << setfill('=') << setw(115) << "" << setfill(' ') << endl;
         addClient();
         clearScreenWithDelay(1);
         return STATE_CLIENT_MGMT;
     case 2:
-        cout << "\n=======================================================\n";
+        cout << setfill('=') << setw(115) << "" << setfill(' ') << endl;
         cout << "                  MENU -> Clients -> Edit\n";
-        cout << "=======================================================\n";
+        cout << setfill('=') << setw(115) << "" << setfill(' ') << endl;
         editClient();
         clearScreenWithDelay(1);
         return STATE_CLIENT_MGMT;
     case 3:
-        cout << "\n=======================================================\n";
+        cout << setfill('=') << setw(115) << "" << setfill(' ') << endl;
         cout << "                  MENU -> Clients -> Search\n";
-        cout << "=======================================================\n";
+        cout << setfill('=') << setw(115) << "" << setfill(' ') << endl;
         return STATE_CLIENT_SEARCH;
     case 4:
-        cout << "\n=======================================================\n";
+        cout << setfill('=') << setw(115) << "" << setfill(' ') << endl;
         cout << "                  MENU -> Clients -> Delete\n";
-        cout << "=======================================================\n";
+        cout << setfill('=') << setw(115) << "" << setfill(' ') << endl;
         return STATE_CLIENT_DELETE;
     case 5:
-        cout << "\n=======================================================\n";
+        cout << setfill('=') << setw(115) << "" << setfill(' ') << endl;
         cout << "                  MENU -> Clients -> View\n";
-        cout << "=======================================================\n";
+        cout << setfill('=') << setw(115) << "" << setfill(' ') << endl;
         displayClients(false);
         return STATE_CLIENT_SORT;
     case 6:
@@ -803,15 +799,15 @@ MenuState displayClientSearchMenu() {
 
     switch (option) {
     case 1:
-        cout << "\n=======================================================\n";
+        cout << setfill('=') << setw(115) << "" << setfill(' ') << endl;
         cout << "         MENU -> Clients -> Search by Name\n";
-        cout << "=======================================================\n";
+        cout << setfill('=') << setw(115) << "" << setfill(' ') << endl;
         searchClientsByName();
         return STATE_CLIENT_SEARCH;
     case 2:
-        cout << "\n=======================================================\n";
+        cout << setfill('=') << setw(115) << "" << setfill(' ') << endl;
         cout << "         MENU -> Clients -> Search by Branch\n";
-        cout << "=======================================================\n";
+        cout << setfill('=') << setw(115) << "" << setfill(' ') << endl;
         searchClientsByBranch();
         return STATE_CLIENT_SEARCH;
     case 3:
@@ -833,16 +829,16 @@ MenuState displayClientDeleteMenu() {
 
     switch (option) {
     case 1:
-        cout << "\n=======================================================\n";
+        cout << setfill('=') << setw(115) << "" << setfill(' ') << endl;
         cout << "         MENU -> Clients -> Delete by Name\n";
-        cout << "=======================================================\n";
+        cout << setfill('=') << setw(115) << "" << setfill(' ') << endl;
         searchClientsByName();
         deleteClients();
         return STATE_CLIENT_DELETE;
     case 2:
-        cout << "\n=======================================================\n";
+        cout << setfill('=') << setw(115) << "" << setfill(' ') << endl;
         cout << "         MENU -> Clients -> Delete by Branch\n";
-        cout << "=======================================================\n";
+        cout << setfill('=') << setw(115) << "" << setfill(' ') << endl;
         searchClientsByBranch();
         deleteClients();
         return STATE_CLIENT_DELETE;
@@ -861,7 +857,6 @@ MenuState sortClientsMenu() {
     cout << "Your choice: ";
 
     inputManager(option, 1, 3);
-    //clearScreenWithDelay(0);
 
     switch (option) {
     case 1:
@@ -873,15 +868,15 @@ MenuState sortClientsMenu() {
         clearScreenWithDelay(0);
         switch (option) {
         case 1:
-            cout << "\n=======================================================\n";
+            cout << setfill('=') << setw(115) << "" << setfill(' ') << endl;
             cout << "                  MENU -> Clients -> View -> Sort by Name(ascending)\n";
-            cout << "=======================================================\n";
+            cout << setfill('=') << setw(115) << "" << setfill(' ') << endl;
             sortClientsByName(true);
             break;
         case 2:
-            cout << "\n=======================================================\n";
+            cout << setfill('=') << setw(115) << "" << setfill(' ') << endl;
             cout << "                  MENU -> Clients -> View -> Sort by Name(descending)\n";
-            cout << "=======================================================\n";
+            cout << setfill('=') << setw(115) << "" << setfill(' ') << endl;
             sortClientsByName(false);
             break;
         case 3:
@@ -898,15 +893,15 @@ MenuState sortClientsMenu() {
         clearScreenWithDelay(0);
         switch (option) {
         case 1:
-            cout << "\n=======================================================\n";
+            cout << setfill('=') << setw(115) << "" << setfill(' ') << endl;
             cout << "                  MENU -> Clients -> View -> Sort by Type(corporate firs)\n";
-            cout << "=======================================================\n";
+            cout << setfill('=') << setw(115) << "" << setfill(' ') << endl;
             sortClientsByType(true);
             break;
         case 2:
-            cout << "\n=======================================================\n";
+            cout << setfill('=') << setw(115) << "" << setfill(' ') << endl;
             cout << "                  MENU -> Clients -> View -> Sort by Type(private first)\n";
-            cout << "=======================================================\n";
+            cout << setfill('=') << setw(115) << "" << setfill(' ') << endl;
             sortClientsByType(false);
             break;
         case 3:
@@ -924,9 +919,9 @@ MenuState sortClientsMenu() {
 MenuState displayAccountManagement() {
     int option;
 
-    cout << "\n=======================================================\n";
+    cout << setfill('=') << setw(115) << "" << setfill(' ') << endl;
     cout << "                  MENU -> Accounts\n";
-    cout << "=======================================================\n";
+    cout << setfill('=') << setw(115) << "" << setfill(' ') << endl;
     cout << "1. Add\n";
     cout << "2. Edit\n";
     cout << "3. Search\n";
@@ -940,34 +935,34 @@ MenuState displayAccountManagement() {
 
     switch (option) {
     case 1:
-        cout << "\n=======================================================\n";
+        cout << setfill('=') << setw(115) << "" << setfill(' ') << endl;
         cout << "                  MENU -> Accounts -> Add\n";
-        cout << "=======================================================\n";
+        cout << setfill('=') << setw(115) << "" << setfill(' ') << endl;
         addAccount();
         clearScreenWithDelay(1);
         return STATE_ACCOUNT_MGMT;
     case 2:
-        cout << "\n=======================================================\n";
+        cout << setfill('=') << setw(115) << "" << setfill(' ') << endl;
         cout << "                  MENU -> Accounts -> Edit\n";
-        cout << "=======================================================\n";
+        cout << setfill('=') << setw(115) << "" << setfill(' ') << endl;
         editAccount();
         clearScreenWithDelay(1);
         return STATE_ACCOUNT_MGMT;
     case 3:
-        cout << "\n=======================================================\n";
+        cout << setfill('=') << setw(115) << "" << setfill(' ') << endl;
         cout << "                  MENU -> Accounts -> Search\n";
-        cout << "=======================================================\n";
+        cout << setfill('=') << setw(115) << "" << setfill(' ') << endl;
         return STATE_ACCOUNT_SEARCH;
     case 4:
-        cout << "\n=======================================================\n";
+        cout << setfill('=') << setw(115) << "" << setfill(' ') << endl;
         cout << "                  MENU -> Accounts -> Delete\n";
-        cout << "=======================================================\n";
+        cout << setfill('=') << setw(115) << "" << setfill(' ') << endl;
         cout << "Pagaidam neimplementeta: dzest kontu\n";
         return STATE_ACCOUNT_DELETE;
     case 5:
-        cout << "\n=======================================================\n";
+        cout << setfill('=') << setw(115) << "" << setfill(' ') << endl;
         cout << "                  MENU -> Accounts -> View\n";
-        cout << "=======================================================\n";
+        cout << setfill('=') << setw(115) << "" << setfill(' ') << endl;
         displayAccounts(false);
         return STATE_ACCOUNT_SORT;
     case 6:
@@ -990,21 +985,21 @@ MenuState displayAccountSearchMenu() {
 
     switch (option) {
     case 1:
-        cout << "\n=======================================================\n";
+        cout << setfill('=') << setw(115) << "" << setfill(' ') << endl;
         cout << "         MENU -> Accounts -> Search by account Number\n";
-        cout << "=======================================================\n";
+        cout << setfill('=') << setw(115) << "" << setfill(' ') << endl;
         searchAccountByNumber();
         return STATE_ACCOUNT_SEARCH;
     case 2:
-        cout << "\n=======================================================\n";
+        cout << setfill('=') << setw(115) << "" << setfill(' ') << endl;
         cout << "         MENU -> Accounts -> Search by owner Name\n";
-        cout << "=======================================================\n";
+        cout << setfill('=') << setw(115) << "" << setfill(' ') << endl;
         searchAccountByOwner();
         return STATE_ACCOUNT_SEARCH;
     case 3:
-        cout << "\n=======================================================\n";
+        cout << setfill('=') << setw(115) << "" << setfill(' ') << endl;
         cout << "         MENU -> Accounts -> Search by Balance\n";
-        cout << "=======================================================\n";
+        cout << setfill('=') << setw(115) << "" << setfill(' ') << endl;
         cout << "no implementation for now";
         return STATE_ACCOUNT_SEARCH;
     case 4:
@@ -1026,16 +1021,16 @@ MenuState displayAccountDeleteMenu() {
 
     switch (option) {
     case 1:
-        cout << "\n=======================================================\n";
+        cout << setfill('=') << setw(115) << "" << setfill(' ') << endl;
         cout << "                  MENU -> Accounts -> Delete by account Number\n";
-        cout << "=======================================================\n";
-        //searchAccountByNumber();
-        //deleteBranches();
+        cout << setfill('=') << setw(115) << "" << setfill(' ') << endl;
+        searchAccountByNumber();
+        deleteBranches();
         return STATE_ACCOUNT_DELETE;
     case 2:
-        cout << "\n=======================================================\n";
+        cout << setfill('=') << setw(115) << "" << setfill(' ') << endl;
         cout << "                  MENU -> Branches -> Delete by Owner\n";
-        cout << "=======================================================\n";
+        cout << setfill('=') << setw(115) << "" << setfill(' ') << endl;
         searchAccountByOwner();
         deleteAccounts();
         return STATE_ACCOUNT_DELETE;
@@ -1054,7 +1049,6 @@ MenuState sortAccountsMenu() {
     cout << "Your choice: ";
 
     inputManager(option, 1, 3);
-    //clearScreenWithDelay(0);
 
     switch (option) {
     case 1:
@@ -1066,15 +1060,15 @@ MenuState sortAccountsMenu() {
         clearScreenWithDelay(0);
         switch (option) {
         case 1:
-            cout << "\n=======================================================\n";
+            cout << setfill('=') << setw(115) << "" << setfill(' ') << endl;
             cout << "                  MENU -> Accounts -> View -> Sort by Balance(ascending)\n";
-            cout << "=======================================================\n";
+            cout << setfill('=') << setw(115) << "" << setfill(' ') << endl;
             sortAccountsByBalance(true);
             break;
         case 2:
-            cout << "\n=======================================================\n";
+            cout << setfill('=') << setw(115) << "" << setfill(' ') << endl;
             cout << "                  MENU -> Accounts -> View -> Sort by Balance(descending)\n";
-            cout << "=======================================================\n";
+            cout << setfill('=') << setw(115) << "" << setfill(' ') << endl;
             sortAccountsByBalance(false);
             break;
         case 3:
@@ -1091,15 +1085,15 @@ MenuState sortAccountsMenu() {
         clearScreenWithDelay(0);
         switch (option) {
         case 1:
-            cout << "\n=======================================================\n";
+            cout << setfill('=') << setw(115) << "" << setfill(' ') << endl;
             cout << "                  MENU -> Accounts -> View -> Sort by Owner(ascending)\n";
-            cout << "=======================================================\n";
+            cout << setfill('=') << setw(115) << "" << setfill(' ') << endl;
             sortAccountsByOwner(true);
             break;
         case 2:
-            cout << "\n=======================================================\n";
+            cout << setfill('=') << setw(115) << "" << setfill(' ') << endl;
             cout << "                  MENU -> Accounts -> View -> Sort by Owner(descending)\n";
-            cout << "=======================================================\n";
+            cout << setfill('=') << setw(115) << "" << setfill(' ') << endl;
             sortAccountsByOwner(false);
             break;
         case 3:
@@ -1117,9 +1111,9 @@ MenuState sortAccountsMenu() {
 MenuState displayBranchStatisticsMenu() {
     int option;
 
-    cout << "\n=======================================================\n";
+    cout << setfill('=') << setw(115) << "" << setfill(' ') << endl;
     cout << "                  MENU -> Branch Statistics\n";
-    cout << "=======================================================\n";
+    cout << setfill('=') << setw(115) << "" << setfill(' ') << endl;
     displayBranchStatistics();
     cout << "1. Back to Main Menu\n";
     cout << "Your choice: ";
