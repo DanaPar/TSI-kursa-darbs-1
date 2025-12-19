@@ -1,4 +1,3 @@
-
 #ifndef FUNCTIONS_H
 #define FUNCTIONS_H
 
@@ -24,6 +23,7 @@ void displayDepartments(bool useSearchResults);
 void displayEmployees(bool useSearchResults);
 void displayClients(bool useSearchResults);
 void displayAccounts(bool useSearchResults);
+void displayBranchStatistics();
 
 //datu labosanas funckijas
 void editBranch();

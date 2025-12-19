@@ -100,7 +100,7 @@ void runProgram() {
             break;
         case STATE_STATISTICS_MGMT:
             // Neimplementetas izvelnes atgriezas uz sakumu
-            currentState = STATE_MAIN_MENU;
+            currentState = displayBranchStatisticsMenu();
             break;
         default:
             currentState = STATE_EXIT;
@@ -125,7 +125,7 @@ MenuState displayMainMenu() {
     cout << "3. Employee management\n";
     cout << "4. Client management\n";
     cout << "5. Account management\n";
-    cout << "6. Payment management\n";
+    cout << "6. Branch Statistics\n";
     cout << "7. Save and exit\n";
     cout << "Your choice: ";
 
@@ -138,9 +138,7 @@ MenuState displayMainMenu() {
     case 3: return STATE_EMPLOYEE_MGMT;
     case 4: return STATE_CLIENT_MGMT;
     case 5: return STATE_ACCOUNT_MGMT;
-    case 6: 
-        cout << "Pagaidam neimplementeta: Maksajumu parvaldiba. Atgriesanas uz Galveno izvelni.\n";
-        return STATE_MAIN_MENU;
+    case 6:  return STATE_STATISTICS_MGMT;
     case 7: return STATE_EXIT;
     }
     return STATE_MAIN_MENU;
@@ -1114,4 +1112,23 @@ MenuState sortAccountsMenu() {
         return STATE_ACCOUNT_MGMT;
     }
     return STATE_ACCOUNT_SORT;
+}
+
+MenuState displayBranchStatisticsMenu() {
+    int option;
+
+    cout << "\n=======================================================\n";
+    cout << "                  MENU -> Branch Statistics\n";
+    cout << "=======================================================\n";
+    displayBranchStatistics();
+    cout << "1. Back to Main Menu\n";
+    cout << "Your choice: ";
+
+    inputManager(option, 1, 1);
+    clearScreenWithDelay(0);
+    if (option == 1){
+        return STATE_MAIN_MENU;
+    }
+    
+    return STATE_MAIN_MENU;
 }

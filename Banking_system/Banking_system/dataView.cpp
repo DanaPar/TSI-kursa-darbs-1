@@ -1,5 +1,6 @@
 #include "dataTypes.h"
 #include "functions.h"
+#include "statistics.h"
 #include <iostream>
 #include <iomanip>
 #include <string>
@@ -275,4 +276,59 @@ void displayAccounts(bool useSearchResults) {
 	}
 	cout << setfill('-') << setw(100) << "" << endl;
 	cout << setfill(' ');
+}
+
+void displayBranchStatistics() {
+	loadBranches();
+	loadDepartments();
+	loadEmployees();
+	loadClients();
+	loadAccounts();
+
+	if (branchCount == 0) {
+		cout << "No branches has been found!" << endl;
+		return;
+	}
+	cout << setfill('-') << setw(115) << "" << endl;
+	cout << setfill(' ');
+	cout << left << setw(20) << ""               
+		<< "| " << setw(10) << "Total"
+		<< "| " << setw(10) << "Total"
+		<< "| " << setw(10) << "Total"
+		<< "| " << setw(29) << "     PRIVATE CLIENTS"
+		<< "| " << setw(29) << "    CORPORATE CLIENTS"
+		<< endl;
+
+	cout << left << setw(20) << "Branch"
+		<< "| " << setw(10) << "Assets"
+		<< "| " << setw(10) << "Employees"
+		<< "| " << setw(10) << "Clients"
+		<< "| " << setw(10) << "Count" << "| " << setw(17) << "Avg. Balance"
+		<< "| " << setw(10) << "Count" << "| " << setw(17) << "Avg. Balance"
+		<< endl;
+	cout << setfill('-') << setw(115) << "" << endl;
+	cout << setfill(' ');
+	
+	for (int i = 0; i < branchCount; i++) {
+		const Branch& currentBranch = branchArray[i];
+		int branchId = currentBranch.id;
+
+		double totalAssets = getBranchAssets(branchId);
+		int totalEmployees = getBranchEmployeeCount(branchId);
+		int totalClients = getBranchClientCount(branchId);
+		int clientsPrivate = getClientCountByType(branchId, PRIVATE);
+		int clientsCorporate = getClientCountByType(branchId, CORPORATE);
+		double privateAvgBalance = getAverageBalance(branchId, PRIVATE);
+		double corporateAvgBalance = getAverageBalance(branchId, CORPORATE);
+		
+		cout << left << setw(20) << currentBranch.name
+			<< "| " << setw(10) << totalAssets
+			<< "| " << setw(10) << totalEmployees
+			<< "| " << setw(10) << totalClients
+			<< "| " << setw(10) << clientsPrivate
+			<< "| " << setw(17) << privateAvgBalance
+			<< "| " << setw(10) << clientsCorporate
+			<< "| " << setw(17) << corporateAvgBalance << endl;
+	}
+	cout << setfill('-') << setw(115) << "" << endl;
 }
