@@ -1,10 +1,8 @@
 #include "dataTypes.h"
 #include "functions.h"
 #include <iostream>
-#include <iomanip>
 #include <string>
 #include <fstream>
-#include <sstream>
 
 using namespace std;
 
@@ -374,8 +372,8 @@ void deleteClients() {
         if (shouldDeleteClient) {
             int targetClientId = clientArray[i].id;
 
-            // --- KASK?DES DZ?ŠANA: Kontu t?r?šana ---
-            // Ejam cauri kontu mas?vam un dz?šam tos, kas pieder šim klientam
+            // --- KASK?DES DZ?ï¿½ANA: Kontu t?r?ï¿½ana ---
+            // Ejam cauri kontu mas?vam un dz?ï¿½am tos, kas pieder ï¿½im klientam
             for (int a = accountCount - 1; a >= 0; --a) {
                 if (accountArray[a].owner_id == targetClientId) {
                     // Nob?d?m kontu mas?vu
@@ -387,7 +385,7 @@ void deleteClients() {
                 }
             }
 
-            // --- Klienta dz?šana ---
+            // --- Klienta dz?ï¿½ana ---
             cout << "Deleted Client ID: " << targetClientId
                 << " (" << clientArray[i].name << " " << clientArray[i].surname << ")" << endl;
 

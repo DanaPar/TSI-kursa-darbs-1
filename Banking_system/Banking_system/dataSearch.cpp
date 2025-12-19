@@ -1,10 +1,7 @@
 #include "dataTypes.h"
 #include "functions.h"
 #include <iostream>
-#include <iomanip>
 #include <string>
-#include <fstream>
-#include <sstream>
 #include <limits>
 
 using namespace std;
