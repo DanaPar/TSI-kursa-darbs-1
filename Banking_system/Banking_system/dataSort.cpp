@@ -5,9 +5,7 @@
 using namespace std;
 
 void sortBranchesById(bool ascending) {
-    if (branchCount == 0) {
-        return;
-    }
+    if (branchCount == 0) return;
 
     searchResultCount = branchCount;
     for (int i = 0; i < branchCount; ++i) {
@@ -20,23 +18,7 @@ void sortBranchesById(bool ascending) {
             int indexA = searchResultIndexes[j];
             int indexB = searchResultIndexes[bestIndex];
 
-            const int& nameA = branchArray[indexA].id;
-            const int& nameB = branchArray[indexB].id;
-
-            bool isJBetter = false;
-
-            if (ascending) {
-                if (nameA < nameB) {
-                    isJBetter = true;
-                }
-            }
-            else {
-                if (nameA > nameB) {
-                    isJBetter = true;
-                }
-            }
-
-            if (isJBetter) {
+            if (isOrderedCorrect(branchArray[indexA].id, branchArray[indexB].id, ascending)) {
                 bestIndex = j;
             }
         }
@@ -51,9 +33,7 @@ void sortBranchesById(bool ascending) {
 }
 
 void sortBranchesByName(bool ascending) {
-    if (branchCount == 0) {
-        return;
-    }
+    if (branchCount == 0) return;
 
     searchResultCount = branchCount;
     for (int i = 0; i < branchCount; ++i) {
@@ -66,23 +46,7 @@ void sortBranchesByName(bool ascending) {
             int indexA = searchResultIndexes[j];
             int indexB = searchResultIndexes[bestIndex];
 
-            const string& nameA = branchArray[indexA].name;
-            const string& nameB = branchArray[indexB].name;
-
-            bool isJBetter = false;
-
-            if (ascending) {
-                if (nameA < nameB) {
-                    isJBetter = true;
-                }
-            }
-            else {
-                if (nameA > nameB) {
-                    isJBetter = true;
-                }
-            }
-
-            if (isJBetter) {
+            if (isOrderedCorrect(branchArray[indexA].name, branchArray[indexB].name, ascending)) {
                 bestIndex = j;
             }
         }
@@ -97,9 +61,7 @@ void sortBranchesByName(bool ascending) {
 }
 
 void sortDepartmentsByName(bool ascending) {
-    if (departmentCount == 0) {
-        return;
-    }
+    if (departmentCount == 0) return;
 
     searchResultCount = departmentCount;
     for (int i = 0; i < departmentCount; ++i) {
@@ -112,23 +74,7 @@ void sortDepartmentsByName(bool ascending) {
             int indexA = searchResultIndexes[j];
             int indexB = searchResultIndexes[bestIndex];
 
-            const string& nameA = departmentArray[indexA].name;
-            const string& nameB = departmentArray[indexB].name;
-
-            bool isJBetter = false;
-
-            if (ascending) {
-                if (nameA < nameB) {
-                    isJBetter = true;
-                }
-            }
-            else {
-                if (nameA > nameB) {
-                    isJBetter = true;
-                }
-            }
-
-            if (isJBetter) {
+            if (isOrderedCorrect(departmentArray[indexA].name, departmentArray[indexB].name, ascending)) {
                 bestIndex = j;
             }
         }
@@ -143,9 +89,7 @@ void sortDepartmentsByName(bool ascending) {
 }
 
 void sortEmployeesByName(bool ascending) {
-    if (employeeCount == 0) {
-        return;
-    }
+    if (employeeCount == 0) return;
 
     searchResultCount = employeeCount;
     for (int i = 0; i < employeeCount; ++i) {
@@ -157,24 +101,10 @@ void sortEmployeesByName(bool ascending) {
         for (int j = i + 1; j < searchResultCount; j++) {
             int indexA = searchResultIndexes[j];
             int indexB = searchResultIndexes[bestIndex];
+            string fullNameA = employeeArray[indexA].name + " " + employeeArray[indexA].surname;
+            string fullNameB = employeeArray[indexB].name + " " + employeeArray[indexB].surname;
 
-            string nameA = employeeArray[indexA].name + " " + employeeArray[indexA].surname;
-            string nameB = employeeArray[indexB].name + " " + employeeArray[indexB].surname;
-
-            bool isJBetter = false;
-
-            if (ascending) {
-                if (nameA < nameB) {
-                    isJBetter = true;
-                }
-            }
-            else {
-                if (nameA > nameB) {
-                    isJBetter = true;
-                }
-            }
-
-            if (isJBetter) {
+            if (isOrderedCorrect(fullNameA, fullNameB, ascending)) {
                 bestIndex = j;
             }
         }
@@ -185,14 +115,11 @@ void sortEmployeesByName(bool ascending) {
             searchResultIndexes[bestIndex] = temp;
         }
     }
-
     displayEmployees(true);
 }
 
 void sortEmployeesByAccessLevel(bool ascending) {
-    if (employeeCount == 0) {
-        return;
-    }
+    if (employeeCount == 0) return;
 
     searchResultCount = employeeCount;
     for (int i = 0; i < employeeCount; ++i) {
@@ -204,24 +131,10 @@ void sortEmployeesByAccessLevel(bool ascending) {
         for (int j = i + 1; j < searchResultCount; j++) {
             int indexA = searchResultIndexes[j];
             int indexB = searchResultIndexes[bestIndex];
-
             int levelA = (int)employeeArray[indexA].access_level;
             int levelB = (int)employeeArray[indexB].access_level;
 
-            bool isJBetter = false;
-
-            if (ascending) {
-                if (levelA < levelB) {
-                    isJBetter = true;
-                }
-            }
-            else {
-                if (levelA > levelB) {
-                    isJBetter = true;
-                }
-            }
-
-            if (isJBetter) {
+            if (isOrderedCorrect(levelA, levelB, ascending)) {
                 bestIndex = j;
             }
         }
@@ -236,9 +149,7 @@ void sortEmployeesByAccessLevel(bool ascending) {
 }
 
 void sortClientsByName(bool ascending) {
-    if (clientCount == 0) {
-        return;
-    }
+    if (clientCount == 0) return;
 
     searchResultCount = clientCount;
     for (int i = 0; i < clientCount; ++i) {
@@ -251,23 +162,10 @@ void sortClientsByName(bool ascending) {
             int indexA = searchResultIndexes[j];
             int indexB = searchResultIndexes[bestIndex];
 
-            string nameA = clientArray[indexA].name + " " + clientArray[indexA].surname;
-            string nameB = clientArray[indexB].name + " " + clientArray[indexB].surname;
+            string fullNameA = clientArray[indexA].name + " " + clientArray[indexA].surname;
+            string fullNameB = clientArray[indexB].name + " " + clientArray[indexB].surname;
 
-            bool isJBetter = false;
-
-            if (ascending) {
-                if (nameA < nameB) {
-                    isJBetter = true;
-                }
-            }
-            else {
-                if (nameA > nameB) {
-                    isJBetter = true;
-                }
-            }
-
-            if (isJBetter) {
+            if (isOrderedCorrect(fullNameA, fullNameB, ascending)) {
                 bestIndex = j;
             }
         }
@@ -300,21 +198,7 @@ void sortClientsByType(bool ascending) {
             int typeA = (int)clientArray[indexA].type;
             int typeB = (int)clientArray[indexB].type;
 
-            bool isJBetter = false;
-
-            if (ascending) {
-                if (typeA < typeB) {
-                    isJBetter = true;
-                }
-            }
-            else {
-
-                if (typeA > typeB) {
-                    isJBetter = true;
-                }
-            }
-
-            if (isJBetter) {
+            if (isOrderedCorrect(typeA, typeB, ascending)) {
                 bestIndex = j;
             }
         }
@@ -329,9 +213,7 @@ void sortClientsByType(bool ascending) {
 }
 
 void sortAccountsByBalance(bool ascending) {
-    if (accountCount == 0) {
-        return;
-    }
+    if (accountCount == 0) return;
 
     searchResultCount = accountCount;
     for (int i = 0; i < accountCount; ++i) {
@@ -348,20 +230,7 @@ void sortAccountsByBalance(bool ascending) {
             double balanceA = accountArray[indexA].balance;
             double balanceB = accountArray[indexB].balance;
 
-            bool isJBetter = false;
-
-            if (ascending) {
-                if (balanceA < balanceB) {
-                    isJBetter = true;
-                }
-            }
-            else {
-                if (balanceA > balanceB) {
-                    isJBetter = true;
-                }
-            }
-
-            if (isJBetter) {
+            if (isOrderedCorrect(balanceA, balanceB, ascending)) {
                 bestIndex = j;
             }
         }
@@ -387,34 +256,26 @@ void sortAccountsByOwner(bool ascending) {
         int bestIndex = i;
 
         for (int j = i + 1; j < searchResultCount; j++) {
-            int accIdxA = searchResultIndexes[j];
-            int accIdxB = searchResultIndexes[bestIndex];
+            int accIdA = searchResultIndexes[j];
+            int accIdB = searchResultIndexes[bestIndex];
 
             string nameA = "", nameB = "";
 
             for (int k = 0; k < clientCount; k++) {
-                if (clientArray[k].id == accountArray[accIdxA].owner_id) {
+                if (clientArray[k].id == accountArray[accIdA].owner_id) {
                     nameA = clientArray[k].name + " " + clientArray[k].surname;
                     break;
                 }
             }
 
             for (int k = 0; k < clientCount; k++) {
-                if (clientArray[k].id == accountArray[accIdxB].owner_id) {
+                if (clientArray[k].id == accountArray[accIdB].owner_id) {
                     nameB = clientArray[k].name + " " + clientArray[k].surname;
                     break;
                 }
             }
 
-            bool isJBetter = false;
-            if (ascending) {
-                if (nameA < nameB) isJBetter = true;
-            }
-            else {
-                if (nameA > nameB) isJBetter = true;
-            }
-
-            if (isJBetter) {
+            if (isOrderedCorrect(nameA, nameB, ascending)) {
                 bestIndex = j;
             }
         }
@@ -425,6 +286,64 @@ void sortAccountsByOwner(bool ascending) {
             searchResultIndexes[bestIndex] = temp;
         }
     }
-
     displayAccounts(true);
+}
+
+bool isOrderedCorrect(const string& a, const string& b, bool ascending) {
+    string lowerA = toLower(a);
+    string lowerB = toLower(b);
+    if (ascending) {
+        if (lowerA < lowerB) {
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+    else {
+        if (lowerA > lowerB) {
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+}
+
+bool isOrderedCorrect(int a, int b, bool ascending) {
+    if (ascending) {
+        if (a < b) {
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+    else {
+        if (a > b) {
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+}
+
+bool isOrderedCorrect(double a, double b, bool ascending) {
+    if (ascending) {
+        if (a < b) {
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+    else {
+        if (a > b) {
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
 }

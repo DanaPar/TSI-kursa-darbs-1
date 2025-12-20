@@ -37,6 +37,9 @@ void sortClientsByName(bool ascending);
 void sortClientsByType(bool ascendig);
 void sortAccountsByBalance(bool ascending);
 void sortAccountsByOwner(bool ascending);
+bool isOrderedCorrect(const string& a, const string& b, bool ascending);
+bool isOrderedCorrect(int a, int b, bool ascending);
+bool isOrderedCorrect(double a, double b, bool ascending);
 
 void searchBranchesById();
 void searchBranchesByName();

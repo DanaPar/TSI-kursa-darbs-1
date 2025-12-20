@@ -649,4 +649,53 @@ void searchAccountByNumber() {
     }
 }
 
-//void searchAccountByRange();
+void searchAccountByBalance() {
+    loadAccounts();
+    searchResultCount = 0;
+    double minBalance, maxBalance;
+
+    cout << "Enter minimum balance: ";
+    while (!(cin >> minBalance)) {
+        cout << "Invalid input. Please enter a numeric value: ";
+        cin.clear();
+        cin.ignore(numeric_limits<streamsize>::max(), '\n');
+    }
+
+    cout << "Enter maximum balance: ";
+    while (!(cin >> maxBalance)) {
+        cout << "Invalid input. Please enter a numeric value: ";
+        cin.clear();
+        cin.ignore(numeric_limits<streamsize>::max(), '\n');
+    }
+    cin.ignore();
+
+    if (minBalance > maxBalance) {
+        cout << "Note: Minimum was higher than maximum. Swapping values..." << endl;
+        double temp = minBalance;
+        minBalance = maxBalance;
+        maxBalance = temp;
+    }
+
+    for (int i = 0; i < accountCount; ++i) {
+        double currentBalance = accountArray[i].balance;
+
+        if (currentBalance >= minBalance && currentBalance <= maxBalance) {
+            if (searchResultCount < MAX_COUNT) {
+                searchResultIndexes[searchResultCount] = i;
+                searchResultCount++;
+            }
+            else {
+                cout << "Warning: Maximum search results limit reached.\n";
+                break;
+            }
+        }
+    }
+
+    if (searchResultCount > 0) {
+        displayAccounts(true);
+    }
+    else {
+        cout << "--- Search Complete: No accounts found with balance between "
+            << minBalance << " and " << maxBalance << " ---\n" << endl;
+    }
+}

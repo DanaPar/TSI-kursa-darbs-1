@@ -881,8 +881,8 @@ MenuState sortClientsMenu() {
         }
         return STATE_CLIENT_SORT;
     case 2:
-        cout << "1. Sort ascending order\n";
-        cout << "2. Sort descending order\n";
+        cout << "1. Sort ascending order (corporate first)\n";
+        cout << "2. Sort descending order (private first)\n";
         cout << "3. Back to Branch Management Menu\n";
         cout << "Your choice: ";
         inputManager(option, 1, 3);
@@ -890,13 +890,13 @@ MenuState sortClientsMenu() {
         switch (option) {
         case 1:
             cout << setfill('=') << setw(115) << "" << setfill(' ') << endl;
-            cout << "                  MENU -> Clients -> View -> Sort by Type(corporate firs)\n";
+            cout << "                  MENU -> Clients -> View -> Sort by Type (corporate first)\n";
             cout << setfill('=') << setw(115) << "" << setfill(' ') << endl;
             sortClientsByType(true);
             break;
         case 2:
             cout << setfill('=') << setw(115) << "" << setfill(' ') << endl;
-            cout << "                  MENU -> Clients -> View -> Sort by Type(private first)\n";
+            cout << "                  MENU -> Clients -> View -> Sort by Type (private first)\n";
             cout << setfill('=') << setw(115) << "" << setfill(' ') << endl;
             sortClientsByType(false);
             break;
@@ -996,7 +996,7 @@ MenuState displayAccountSearchMenu() {
         cout << setfill('=') << setw(115) << "" << setfill(' ') << endl;
         cout << "         MENU -> Accounts -> Search by Balance\n";
         cout << setfill('=') << setw(115) << "" << setfill(' ') << endl;
-        cout << "no implementation for now";
+        searchAccountByBalance();
         return STATE_ACCOUNT_SEARCH;
     case 4:
         return STATE_ACCOUNT_MGMT;
