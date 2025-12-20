@@ -17,10 +17,10 @@ void deleteBranches() {
     for (int i = 0; i < searchResultCount; i++) {
         int targetBranchId = branchArray[searchResultIndexes[i]].id;
 
-        for (int d = 0; d < departmentCount; d++) {
-            if (departmentArray[d].branch_id == targetBranchId) {
-                for (int e = 0; e < employeeCount; e++) {
-                    if (employeeArray[e].department_id == departmentArray[d].id) {
+        for (int j = 0; j < departmentCount; j++) {
+            if (departmentArray[j].branch_id == targetBranchId) {
+                for (int k = 0; k < employeeCount; k++) {
+                    if (employeeArray[k].department_id == departmentArray[j].id) {
                         totalEmployees++;
                     }
                 }
@@ -39,8 +39,8 @@ void deleteBranches() {
     int clientsToMove = 0;
     for (int i = 0; i < searchResultCount; i++) {
         int targetBranchId = branchArray[searchResultIndexes[i]].id;
-        for (int c = 0; c < clientCount; c++) {
-            if (clientArray[c].branch_id == targetBranchId) {
+        for (int j = 0; j < clientCount; j++) {
+            if (clientArray[j].branch_id == targetBranchId) {
                 clientsToMove++;
             }
         }
@@ -100,22 +100,26 @@ void deleteBranches() {
         if (shouldDelete) {
             int targetBranchId = branchArray[i].id;
 
-            for (int c = 0; c < clientCount; c++) {
-                if (clientArray[c].branch_id == targetBranchId) {
-                    clientArray[c].branch_id = newBranchId;
+            for (int i = 0; i < clientCount; i++) {
+                if (clientArray[i].branch_id == targetBranchId) {
+                    clientArray[i].branch_id = newBranchId;
                 }
             }
 
-            for (int d = departmentCount - 1; d >= 0; --d) {
-                if (departmentArray[d].branch_id == targetBranchId) {
-                    for (int k = d; k < departmentCount - 1; k++) departmentArray[k] = departmentArray[k + 1];
+            for (int i = departmentCount - 1; i >= 0; --i) {
+                if (departmentArray[i].branch_id == targetBranchId) {
+                    for (int j = i; j < departmentCount - 1; j++) { 
+                        departmentArray[j] = departmentArray[j + 1]; 
+                    }
                     departmentCount--;
                     deptartmentsDeleted++;
                 }
             }
 
             cout << "Deleted Branch: " << branchArray[i].name << endl;
-            for (int k = i; k < branchCount - 1; k++) branchArray[k] = branchArray[k + 1];
+            for (int k = i; k < branchCount - 1; k++) { 
+                branchArray[k] = branchArray[k + 1]; 
+            }
             branchCount--;
             branchesDeleted++;
         }
@@ -164,8 +168,8 @@ void deleteDepartments() {
     int employeesToBeDeletedCount = 0;
     for (int i = 0; i < searchResultCount; i++) {
         int targetDepartmentId = departmentArray[searchResultIndexes[i]].id;
-        for (int e = 0; e < employeeCount; e++) {
-            if (employeeArray[e].department_id == targetDepartmentId) {
+        for (int j = 0; j < employeeCount; j++) {
+            if (employeeArray[j].department_id == targetDepartmentId) {
                 employeesToBeDeletedCount++;
             }
         }
@@ -201,10 +205,10 @@ void deleteDepartments() {
         if (shouldDeleteDepartment) {
             int targetDepartmentId = departmentArray[i].id;
 
-            for (int e = employeeCount - 1; e >= 0; --e) {
-                if (employeeArray[e].department_id == targetDepartmentId) {
-                    for (int k = e; k < employeeCount - 1; ++k) {
-                        employeeArray[k] = employeeArray[k + 1];
+            for (int i = employeeCount - 1; i >= 0; --i) {
+                if (employeeArray[i].department_id == targetDepartmentId) {
+                    for (int j = i; j < employeeCount - 1; ++j) {
+                        employeeArray[j] = employeeArray[j + 1];
                     }
                     employeeCount--;
                     actualEmployeesDeleted++;
@@ -212,8 +216,8 @@ void deleteDepartments() {
             }
 
             cout << "Deleted Department ID: " << targetDepartmentId << " (" << departmentArray[i].name << ")" << endl;
-            for (int k = i; k < departmentCount - 1; ++k) {
-                departmentArray[k] = departmentArray[k + 1];
+            for (int j = i; j < departmentCount - 1; ++j) {
+                departmentArray[j] = departmentArray[j + 1];
             }
             departmentCount--;
             successfulDepartmentsDeleted++;
@@ -385,9 +389,7 @@ void deleteClients() {
 }
 
 void deleteAccounts() {
-    if (searchResultCount == 0) {
-        return;
-    }
+    if (searchResultCount == 0) return;
 
     cout << "\n--- WARNING: BATCH DELETION ---\n";
     cout << "Do you want to delete ALL " << searchResultCount

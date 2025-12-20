@@ -17,8 +17,10 @@ void sortBranchesById(bool ascending) {
         for (int j = i + 1; j < searchResultCount; j++) {
             int indexA = searchResultIndexes[j];
             int indexB = searchResultIndexes[bestIndex];
+            int idA = branchArray[indexA].id;
+            int idB = branchArray[indexB].id;
 
-            if (isOrderedCorrect(branchArray[indexA].id, branchArray[indexB].id, ascending)) {
+            if (isOrderedCorrect(idA, idB, ascending)) {
                 bestIndex = j;
             }
         }
