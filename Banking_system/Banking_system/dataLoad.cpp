@@ -20,21 +20,9 @@ void loadBranches() {
 		string temp_address;
 		char seperator;
 
-		if (!(ss >> temp_id)) {
-			continue;
-		}
-
-		if (!(ss >> seperator) || seperator != '|') {
-			continue;
-		}
-
-		if (!getline(ss, temp_name, '|')) {
-			continue;
-		}
-
-		if (!getline(ss, temp_address)) {
-			continue;
-		}
+		if (!(ss >> temp_id) || !(ss >> seperator) || seperator != '|') continue;
+		if (!getline(ss, temp_name, '|')) continue;
+		if (!getline(ss, temp_address))	continue;
 
 		branchArray[branchCount].id = temp_id;
 		branchArray[branchCount].name = temp_name;
@@ -61,21 +49,9 @@ void loadDepartments() {
 		int temp_branch_id;
 		char seperator;
 
-		if (!(ss >> temp_id)) {
-			continue;
-		}
-
-		if (!(ss >> seperator) || seperator != '|') {
-			continue;
-		}
-
-		if (!getline(ss, temp_name, '|')) {
-			continue;
-		}
-
-		if (!(ss >> temp_branch_id)) {
-			continue;
-		}
+		if (!(ss >> temp_id) || !(ss >> seperator) || seperator != '|') continue;
+		if (!getline(ss, temp_name, '|')) continue;
+		if (!(ss >> temp_branch_id)) continue;
 
 		departmentArray[departmentCount].id = temp_id;
 		departmentArray[departmentCount].name = temp_name;
@@ -139,25 +115,11 @@ void loadClients() {
 		int temp_type;
 		char seperator;
 
-		if (!(ss >> temp_id) || !(ss >> seperator) || seperator != '|') {
-			continue;
-		}
-
-		if (!getline(ss, temp_name, '|')) {
-			continue;
-		}
-
-		if (!getline(ss, temp_surname, '|')) {
-			continue;
-		}
-
-		if (!(ss >> temp_branch_id) || !(ss >> seperator) || seperator != '|') {
-			continue;
-		}
-
-		if (!(ss >> temp_type)) {
-			continue;
-		}
+		if (!(ss >> temp_id) || !(ss >> seperator) || seperator != '|') continue;
+		if (!getline(ss, temp_name, '|')) continue;
+		if (!getline(ss, temp_surname, '|')) continue;
+		if (!(ss >> temp_branch_id) || !(ss >> seperator) || seperator != '|') continue;
+		if (!(ss >> temp_type)) continue;
 
 		clientArray[clientCount].id = temp_id;
 		clientArray[clientCount].name = temp_name;

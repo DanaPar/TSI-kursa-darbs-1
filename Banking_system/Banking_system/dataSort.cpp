@@ -1,5 +1,5 @@
-#include "dataTypes.h"
 #include "functions.h"
+#include "dataTypes.h"
 #include <string>
 
 using namespace std;

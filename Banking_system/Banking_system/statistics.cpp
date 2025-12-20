@@ -1,5 +1,6 @@
-#include "statistics.h"
 #include "dataTypes.h"
+#include "statistics.h"
+
 
 double getBranchAssets(int branchId) {
 	double total = 0;
@@ -63,7 +64,6 @@ double getAverageBalance(int branchId, ClientType type) {
             count++;
         }
     }
-
     if (count == 0) return 0.0;
     return totalBalance / count;
 }

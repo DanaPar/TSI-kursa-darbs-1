@@ -19,7 +19,6 @@ void displayBranches(bool useSearchResults) {
 		cout << (useSearchResults ? "No brances found!" : "No branch has been loaded") << endl;
 		return;
 	}
-
 	cout << setfill('-') << setw(70) << "" << endl;
 	cout << setfill(' ');
 	cout << left << setw(5) << "#" << "|"
@@ -39,7 +38,6 @@ void displayBranches(bool useSearchResults) {
 		}
 
 		const Branch& currentBranch = branchArray[indexInBranchArray];
-
 		cout << left << setw(5) << (i + 1) << "|"
 			<<left << setw(5) << currentBranch.id << "|"
 			<< left << setw(25) << currentBranch.name << "|"
@@ -111,7 +109,6 @@ void displayEmployees(bool useSearchResults) {
 		cout << (useSearchResults ? "No employees found!" : "No employee has been loaded") << endl;
 		return;
 	}
-
 	cout << setfill('-') << setw(100) << "" << endl;
 	cout << setfill(' ');
 	cout << left << setw(5) << "#" << "|"
@@ -135,7 +132,6 @@ void displayEmployees(bool useSearchResults) {
 
 		const Employee& currentEmployee = employeeArray[indexInEmployeeArray];
 
-		// Konverte enum uz lasamu tekstu
 		string accessLevelStr;
 		switch (currentEmployee.access_level) {
 		case GUEST: accessLevelStr = "GUEST"; break;
@@ -153,7 +149,6 @@ void displayEmployees(bool useSearchResults) {
 				break;
 			}
 		}
-
 		cout << left << setw(5) << (i + 1) << "|"
 			<< left << setw(5) << currentEmployee.id << "|"
 			<< left << setw(15) << currentEmployee.name << "|"
@@ -179,7 +174,6 @@ void displayClients(bool useSearchResults) {
 		cout << (useSearchResults ? "No clients found!" : "No client has been loaded") << endl;
 		return;
 	}
-
 	cout << setfill('-') << setw(100) << "" << endl;
 	cout << setfill(' ');
 	cout << left << setw(5) << "#" << "|"
@@ -268,7 +262,6 @@ void displayAccounts(bool useSearchResults) {
 				break;
 			}
 		}
-
 		cout << left << setw(5) << (i + 1) << "|"
 		<< left << setw(30) << currentAccount.account_number << "|"
 		<< left << setw(20) << clientName << "|"
@@ -298,7 +291,6 @@ void displayBranchStatistics() {
 		<< "| " << setw(29) << "     PRIVATE CLIENTS"
 		<< "| " << setw(29) << "    CORPORATE CLIENTS"
 		<< endl;
-
 	cout << left << setw(20) << "Branch"
 		<< "| " << setw(10) << "Assets"
 		<< "| " << setw(10) << "Employees"

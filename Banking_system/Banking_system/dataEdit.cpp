@@ -25,7 +25,7 @@ void editBranch() {
 	}
 	cin.ignore();
 
-	Branch& branch = branchArray[option - 1]; // Atsauce uz elementu
+	Branch& branch = branchArray[option - 1];
 	string newName, newAddress;
 
 	cout << "\nEdit Branch: " << branch.name << " (ID: " << branch.id << ")" << endl;
@@ -39,7 +39,7 @@ void editBranch() {
 	if (!newAddress.empty()) {
 		branch.address = newAddress;
 	}
-	// Parraksta visu failu
+
 	ofstream file(branchesDB, ios::trunc);
 	if (!file) {
 		cout << "Error opening file for writing!" << endl;
@@ -82,7 +82,6 @@ void editDepartment() {
 		department.name = newName;
 	}
 
-	// Filiales izveles atjaunosana (ja nepieciesams)
 	if (branchCount > 0) {
 		displayBranches(false);
 		string newBranch;
@@ -93,11 +92,8 @@ void editDepartment() {
 		if (!newBranch.empty()) {
 			int branch_option;
 
-			// Izmantojam stringstream, lai meginatu nolasit int no virknes
 			stringstream ss(newBranch);
 
-			// Parbaude, vai ss var pilniba nolasit skaitli 'branch_option'?
-			// Un vai pec skaitla nav palikusas vel kadas rakstzimes (kas noraditu uz nederigu ievadi, piemeram, "12a")?
 			if (ss >> branch_option && ss.eof()) {
 
 				if (branch_option >= 1 && branch_option <= branchCount) {
@@ -108,17 +104,14 @@ void editDepartment() {
 				}
 			}
 			else {
-				// Konvertesana neizdevas (ievade nebija skaitlis)
 				cout << "Wrong input! Current branch saved." << endl;
 			}
 		}
 		else {
-			// Tuksa ievade
 			cout << "Current branch saved!" << endl;
 		}
 	}
 
-	// Parraksta visu failu
 	ofstream file(departmentsDB, ios::trunc);
 	if (!file) {
 		cout << "Error opening file for writing!" << endl;
@@ -171,7 +164,6 @@ void editEmployee() {
 		employee.position = newPosition;
 	}
 
-	// Nodalas izveles atjaunosana
 	if (departmentCount > 0) {
 		displayDepartments(false);
 		string newDepartment;
@@ -198,12 +190,10 @@ void editEmployee() {
 			}
 		}
 		else {
-			// Tuksa ievade
 			cout << "Current department saved" << endl;
 		}
 	}
 
-	// Piekluves limena atjaunosana
 	string newAccessLevel;
 	cout << "Choose new Access Level (current: " << employee.access_level << ") or leave blank to keep current one:" << endl
 		<< "0: GUEST, 1: BASIC_USER, 2: ADMIN, 3: SUPER_ADMIN" << endl;
@@ -228,11 +218,9 @@ void editEmployee() {
 		}
 	}
 	else {
-		// Tuksa ievade
 		cout << "Current Access level saved!" << endl;
 	}
 
-	// Parraksta visu failu
 	ofstream file(employeesDB, ios::trunc);
 	if (!file) {
 		cout << "Error opening file for writing!" << endl;
@@ -282,7 +270,6 @@ void editClient() {
 		client.surname = newSurname;
 	}
 
-	// Filiales izveles atjaunosana
 	if (branchCount > 0) {
 		displayBranches(false);
 		string newBranch;
@@ -305,17 +292,14 @@ void editClient() {
 				}
 			}
 			else {
-				// Konvertesana neizdevas (ievade nebija skaitlis)
 				cout << "Wrong input! Current branch saved." << endl;
 			}
 		}
 		else {
-			// Tuksa ievade
 			cout << "Current branch saved." << endl;
 		}
 	}
 
-	// Klienta tipa atjauno�ana
 	string newClientType;
 	cout << "Choose new client type (current: " << client.type << "):" << endl << "0: PRIVATE, 1: CORPORATE, or leave blank to keep current one:" << endl;
 	getline(cin, newClientType);
@@ -338,11 +322,9 @@ void editClient() {
 		}
 	}
 	else {
-		// Tuksa ievade
 		cout << "Current type saved." << endl;
 	}
 
-	// Parraksta visu failu
 	ofstream file(clientsDB, ios::trunc);
 	if (!file) {
 		cout << "Error opening file for writing!" << endl;
@@ -375,7 +357,7 @@ void editAccount() {
 	}
 	cin.ignore();
 
-	Account& account = accountArray[option - 1]; // Atsauce uz elementu
+	Account& account = accountArray[option - 1];
 	double newBalance;
 	cout << "Enter new balance (current: " << account.balance << "): ";
 	if (!(cin >> newBalance)) {
@@ -385,6 +367,7 @@ void editAccount() {
 		return;
 	}
 	account.balance = newBalance;
+
 	ofstream file(accountsDB, ios::trunc);
 	if (!file) {
 		cout << "Could not open file" << endl;

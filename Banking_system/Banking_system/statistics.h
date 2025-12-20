@@ -9,6 +9,5 @@ int getBranchClientCount(int branchId);
 int getClientCountByType(int branchId, ClientType type);
 double getAverageBalance(int branchId, ClientType type);
 
-
 #endif 
 

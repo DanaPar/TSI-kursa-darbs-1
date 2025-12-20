@@ -8,9 +8,6 @@
 #include <chrono>
 #include <thread>
 
-using namespace std;
-
-
 void inputManager(int& option, int min, int max) {
     while (!(cin >> option) || option < min || option > max) {
         cout << "Wrong input! Enter number from " << min << " to " << max << ": ";
@@ -34,7 +31,6 @@ void runProgram() {
     MenuState currentState = STATE_MAIN_MENU;
 
     while (currentState != STATE_EXIT) {
-
         switch (currentState) {
         case STATE_MAIN_MENU:
             currentState = displayMainMenu();

@@ -1,6 +1,7 @@
 #ifndef DATATYPES_H
 #define DATATYPES_H
 #include <string>
+
 using namespace std;
 
 #define MAX_COUNT 1000
@@ -22,8 +23,6 @@ enum ClientType {
 	PRIVATE = 0,
 	CORPORATE = 1
 };
-
-//-----objektu strukturas -----//
 
 struct Branch {
 	int id;
@@ -78,7 +77,6 @@ extern int accountCount;
 extern int searchResultIndexes[MAX_COUNT];
 extern int searchResultCount;
 
-//menu stavoklu enumeracija
 enum MenuState {
 	STATE_MAIN_MENU,
 	STATE_BRANCH_MGMT,

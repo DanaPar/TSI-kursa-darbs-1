@@ -1,16 +1,12 @@
 #include "dataTypes.h"
 #include <string>
 
-using namespace std;
-
-//visi faili, kas glaba datus
 const string branchesDB = "DataBase/branchesDB.txt";
 const string departmentsDB = "DataBase/departmentsDB.txt";
 const string employeesDB = "DataBase/employeesDB.txt";
 const string clientsDB = "DataBase/clientsDB.txt";
 const string accountsDB = "DataBase/accountsDB.txt";
 
-//globalie datu glabataji (masivi un skaititaji)
 Branch branchArray[MAX_COUNT];
 int branchCount = 0;
 Department departmentArray[MAX_COUNT];

@@ -1,5 +1,5 @@
-#include "dataTypes.h"
 #include "functions.h"
+#include "dataTypes.h"
 #include <string>
 #include <fstream>
 #include <sstream>
@@ -62,9 +62,7 @@ string generateAccountNumber() {
 	const string bankCode = "TSI";
 	string newAccountNumber;
 
-	//sakas cikls, kas turpinas lidz numurs ir unikals
 	do {
-		//genere kontroles skaitli
 		int controlDigitsInt = (rand() % 90) + 10;
 		string controlDigits = to_string(controlDigitsInt);
 
@@ -81,7 +79,6 @@ string generateAccountNumber() {
 
 bool isAccountNumberUnique(const string& accountNumber) {
 	ifstream file(accountsDB);
-	//ja failu nevar atvert pienemam ka tas ir tukss un pievienojam pirmo kontu
 	if (!file) {
 		return true;
 	}
@@ -91,11 +88,10 @@ bool isAccountNumberUnique(const string& accountNumber) {
 		stringstream ss(line);
 		string fileAccountNumber;
 
-		// Meginam nolasit konta numuru lidz pirmajam atdalitajam '|'
 		if (getline(ss, fileAccountNumber, '|')) {
 			if (fileAccountNumber == accountNumber) {
 				file.close();
-				return false; // Konta numurs NAV unikals (atrasts faila)
+				return false;
 			}
 		}
 	}
@@ -107,12 +103,9 @@ string toLower(const string& str) {
 	string lowerStr = str;
 
 	for (int i = 0; i < lowerStr.length(); i++) {
-		// Check if the character is currently uppercase
 		if (lowerStr[i] >= 'A' && lowerStr[i] <= 'Z') {
-			// Add 32 to shift it to the lowercase range
 			lowerStr[i] = lowerStr[i] + 32;
 		}
 	}
-
 	return lowerStr;
 }

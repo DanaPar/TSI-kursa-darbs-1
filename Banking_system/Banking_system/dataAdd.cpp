@@ -14,7 +14,6 @@ void addBranch() {
 	}
 
 	Branch branch;
-
 	branch.id = generateBranchId();
 	cout << "New Branch ID: " << branch.id << endl;
 
@@ -43,7 +42,7 @@ void addDepartment() {
 	loadBranches();
 
 	if (branchCount == 0) {
-		cout << "No Branch has been added! Firstly, add the Branch!";
+		cout << "No Branch has been added! Firstly, add the Branch!" << endl;
 		return;
 	}
 
@@ -54,7 +53,6 @@ void addDepartment() {
 	}
 
 	Department department;
-
 	department.id = generateDepartmentId();
 	cout << "New Department ID: " << department.id << endl;
 
@@ -92,7 +90,7 @@ void addEmployee() {
 	loadDepartments();
 
 	if (departmentCount == 0) {
-		cout << "No Department has been added! Firstly, add the Department!";
+		cout << "No Department has been added! Firstly, add the Department!" << endl;
 		return;
 	}
 
@@ -119,7 +117,7 @@ void addEmployee() {
 		cout << "Enter employee surname: ";
 		getline(cin, employee.surname);
 		if (employee.surname.empty()) {
-			cout << "Employee surnname cant be left blank! Please try again!\n";
+			cout << "Employee surname cant be left blank! Please try again!\n";
 		}
 	} while (employee.surname.empty());
 
@@ -177,7 +175,7 @@ void addEmployee() {
 void addClient() {
 	loadBranches();
 	if (branchCount == 0) {
-		cout << "No Branch has been added! Firstly, add the Branch!";
+		cout << "No Branch has been added! Firstly, add the Branch!" << endl;
 		return;
 	}
 
@@ -188,7 +186,6 @@ void addClient() {
 	}
 
 	Client client;
-
 	client.id = generateClientId();
 	cout << "New Client ID: " << client.id << endl;
 
@@ -250,7 +247,7 @@ void addClient() {
 void addAccount() {
 	loadClients();
 	if (clientCount == 0) {
-		cout << "No Client has been added! Firstly, add the Client!";
+		cout << "No Client has been added! Firstly, add the Client!" << endl;
 		return;
 	}
 
@@ -261,7 +258,6 @@ void addAccount() {
 	}
 
 	Account account;
-
 	account.account_number = generateAccountNumber();
 	cout << "New account number: " << account.account_number << endl;
 	displayClients(false);
